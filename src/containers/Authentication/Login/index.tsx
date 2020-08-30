@@ -12,7 +12,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import Footer from '../components/Footer';
 import {
-  Routes,
+  AuthRoutes,
   StackNavigationProps,
 } from '../../../lib/navigation/rootNavigation';
 
@@ -22,7 +22,7 @@ const LoginSchema = Yup.object().shape({
   remember: Yup.boolean(),
 });
 
-const Login = ({navigation}: StackNavigationProps<Routes, 'Login'>) => {
+const Login = ({navigation}: StackNavigationProps<AuthRoutes, 'Login'>) => {
   const theme = useTheme();
   const {
     handleChange,
@@ -34,7 +34,7 @@ const Login = ({navigation}: StackNavigationProps<Routes, 'Login'>) => {
     setFieldValue,
   } = useFormik({
     initialValues: {email: '', password: '', remember: false},
-    onSubmit: (values) => console.log(values),
+    onSubmit: () => navigation.navigate('Home'),
     validationSchema: LoginSchema,
   });
 

@@ -9,10 +9,21 @@ import {
   createStackNavigator,
   StackNavigationProp,
 } from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+
 import {Login, Onboarding, Welcome} from '../../containers/Authentication';
 import SignUp from '../../containers/Authentication/SignUp';
 import ForgetPassword from '../../containers/Authentication/ForgetPassword';
 import PasswordChanged from '../../containers/Authentication/PasswordChanged';
+import OutfitIdeas from '../../containers/Home/OutfitIdeas';
+
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+
+// export interface = CompositeNavigationProp<
+//   StackNavigationProp<AuthRoutes>,
+//   DrawerNavigationProp<HomeRoutes>
+// >;
 
 export interface StackNavigationProps<
   ParamList extends ParamListBase,
@@ -22,7 +33,7 @@ export interface StackNavigationProps<
   route: RouteProp<ParamList, RouteName>;
 }
 
-type RouteName =
+type AuthRouteName =
   | 'Onboarding'
   | 'Welcome'
   | 'Login'
@@ -30,12 +41,26 @@ type RouteName =
   | 'ForgetPassword'
   | 'PasswordChanged';
 
-type Route = {
-  name: RouteName;
+type AppRouteName = 'Home' | 'Auth';
+
+type HomeRouteName = 'OutfitIdeas';
+
+type AuthRoute = {
+  name: AuthRouteName;
   component: React.FunctionComponent<any>;
 };
 
-export type Routes = {
+type AppRoute = {
+  name: AppRouteName;
+  component: React.FunctionComponent<any>;
+};
+
+type HomeRoute = {
+  name: HomeRouteName;
+  component: React.FunctionComponent<any>;
+};
+
+export type AuthRoutes = {
   Onboarding: undefined;
   Welcome: undefined;
   Login: undefined;
@@ -44,7 +69,59 @@ export type Routes = {
   PasswordChanged: undefined;
 };
 
-const StackRoutes: Array<Route> = [
+type AppRoutes = {
+  Home: undefined;
+  Auth: undefined;
+};
+
+type HomeRoutes = {
+  OutfitIdeas: undefined;
+};
+
+export type AllRoutes = HomeRoutes | AuthRoutes;
+
+const AuthStack = createStackNavigator<AuthRoutes>();
+
+const AppStack = createStackNavigator<AppRoutes>();
+
+const HomeDrawer = createDrawerNavigator<HomeRoutes>();
+
+const HomeDrawerScreens = () => {
+  return (
+    <HomeDrawer.Navigator initialRouteName="OutfitIdeas">
+      {HomeDrawerRoutes.map(({name, component}, index) => {
+        return (
+          <HomeDrawer.Screen name={name} component={component} key={index} />
+        );
+      })}
+    </HomeDrawer.Navigator>
+  );
+};
+
+const AuthStackScreens = () => {
+  return (
+    <AuthStack.Navigator headerMode="none">
+      {StackRoutes.map(({name, component}, index) => {
+        return (
+          <AuthStack.Screen name={name} component={component} key={index} />
+        );
+      })}
+    </AuthStack.Navigator>
+  );
+};
+
+const AppStackRoutes: Array<AppRoute> = [
+  {
+    name: 'Home',
+    component: HomeDrawerScreens,
+  },
+  {
+    name: 'Auth',
+    component: AuthStackScreens,
+  },
+];
+
+const StackRoutes: Array<AuthRoute> = [
   {
     name: 'Onboarding',
     component: Onboarding,
@@ -71,16 +148,27 @@ const StackRoutes: Array<Route> = [
   },
 ];
 
-const Stack = createStackNavigator<Routes>();
+const HomeDrawerRoutes: HomeRoute[] = [
+  {
+    name: 'OutfitIdeas',
+    component: OutfitIdeas,
+  },
+];
 
 const RootNavigator = () => {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {}, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        {StackRoutes.map(({name, component}, index) => {
-          return <Stack.Screen name={name} component={component} key={index} />;
-        })}
-      </Stack.Navigator>
+      <AppStack.Navigator
+        headerMode="none"
+        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+        {AppStackRoutes.map(({name, component}, index) => (
+          <AppStack.Screen name={name} component={component} key={index} />
+        ))}
+      </AppStack.Navigator>
     </NavigationContainer>
   );
 };

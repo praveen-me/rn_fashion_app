@@ -17,14 +17,6 @@ import ForgetPassword from '../../containers/Authentication/ForgetPassword';
 import PasswordChanged from '../../containers/Authentication/PasswordChanged';
 import OutfitIdeas from '../../containers/Home/OutfitIdeas';
 
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {DrawerNavigationProp} from '@react-navigation/drawer';
-
-// export interface = CompositeNavigationProp<
-//   StackNavigationProp<AuthRoutes>,
-//   DrawerNavigationProp<HomeRoutes>
-// >;
-
 export interface StackNavigationProps<
   ParamList extends ParamListBase,
   RouteName extends keyof ParamList = string
@@ -69,12 +61,12 @@ export type AuthRoutes = {
   PasswordChanged: undefined;
 };
 
-type AppRoutes = {
+export type AppRoutes = {
   Home: undefined;
   Auth: undefined;
 };
 
-type HomeRoutes = {
+export type HomeRoutes = {
   OutfitIdeas: undefined;
 };
 

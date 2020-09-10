@@ -4,10 +4,7 @@ import {Box, useTheme} from '../../../contants/theme';
 
 import AppText from '../../../components/Text';
 import Button from '../../../components/Button';
-import {
-  Routes,
-  StackNavigationProps,
-} from '../../../lib/navigation/rootNavigation';
+import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 
 const picture = {
   src: require('./../../../assets/images/5.png'),
@@ -17,7 +14,7 @@ const picture = {
 
 const {width} = Dimensions.get('window');
 
-const Welcome = ({navigation}: StackNavigationProps<Routes, 'Welcome'>) => {
+const Welcome = ({navigation}: AuthNavigationProps<'Welcome'>) => {
   const theme = useTheme();
 
   return (

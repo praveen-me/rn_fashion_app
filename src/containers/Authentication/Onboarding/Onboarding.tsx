@@ -19,10 +19,7 @@ import {interpolateColor, useScrollHandler} from 'react-native-redash';
 import SubSlide from './SubSlide';
 import Dot from '../../../components/Dot';
 import {Theme, useTheme} from '../../../contants/theme';
-import {
-  Routes,
-  StackNavigationProps,
-} from '../../../lib/navigation/rootNavigation';
+import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 
 const {width} = Dimensions.get('window');
 
@@ -124,9 +121,7 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-const Onboarding = ({
-  navigation,
-}: StackNavigationProps<Routes, 'Onboarding'>) => {
+const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
   const scroll = useRef<Animated.ScrollView>(null);
   const {scrollHandler, x} = useScrollHandler();
   const theme = useTheme();

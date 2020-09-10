@@ -2,10 +2,7 @@ import React from 'react';
 import {} from 'react-native';
 import Container from '../../../components/Container';
 import AppText from '../../../components/Text';
-import {
-  Routes,
-  StackNavigationProps,
-} from '../../../lib/navigation/rootNavigation';
+import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 
 import {Box, useTheme} from '../../../contants/theme';
 import Button from '../../../components/Button';
@@ -16,7 +13,7 @@ const SIZE = 80;
 
 const PasswordChanged = ({
   navigation,
-}: StackNavigationProps<Routes, 'PasswordChanged'>) => {
+}: AuthNavigationProps<'PasswordChanged'>) => {
   const theme = useTheme();
 
   const footer = (

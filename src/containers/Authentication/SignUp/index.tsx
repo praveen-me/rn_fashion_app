@@ -10,10 +10,7 @@ import {useFormik} from 'formik';
 
 import * as Yup from 'yup';
 import Footer from '../components/Footer';
-import {
-  Routes,
-  StackNavigationProps,
-} from '../../../lib/navigation/rootNavigation';
+import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -23,7 +20,7 @@ const SignUpSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const SignUp = ({navigation}: StackNavigationProps<Routes, 'SignUp'>) => {
+const SignUp = ({navigation}: AuthNavigationProps<'SignUp'>) => {
   const theme = useTheme();
   const {
     handleChange,

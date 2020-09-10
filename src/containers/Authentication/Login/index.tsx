@@ -11,10 +11,7 @@ import {useFormik} from 'formik';
 
 import * as Yup from 'yup';
 import Footer from '../components/Footer';
-import {AuthRoutes, AppRoutes} from '../../../lib/navigation/rootNavigation';
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -22,14 +19,7 @@ const LoginSchema = Yup.object().shape({
   remember: Yup.boolean(),
 });
 
-interface LoginProps {
-  navigation: CompositeNavigationProp<
-    StackNavigationProp<AuthRoutes, 'Login'>,
-    DrawerNavigationProp<AppRoutes, 'Home'>
-  >;
-}
-
-const Login = ({navigation}: LoginProps) => {
+const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
   const theme = useTheme();
   const {
     handleChange,

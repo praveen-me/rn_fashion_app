@@ -1,28 +1,34 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
+import {Dimensions} from 'react-native';
+
 import {
+  CompositeNavigationProp,
   NavigationContainer,
-  ParamListBase,
   RouteProp,
 } from '@react-navigation/native';
 import {
   createStackNavigator,
   StackNavigationProp,
 } from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerNavigationProp,
+} from '@react-navigation/drawer';
 
 import {Login, Onboarding, Welcome} from '../../containers/Authentication';
 import SignUp from '../../containers/Authentication/SignUp';
 import ForgetPassword from '../../containers/Authentication/ForgetPassword';
 import PasswordChanged from '../../containers/Authentication/PasswordChanged';
 import OutfitIdeas from '../../containers/Home/OutfitIdeas';
+import Drawer, {DRAWER_WIDTH} from '../../containers/Home/Drawer';
 
-export interface StackNavigationProps<
-  ParamList extends ParamListBase,
-  RouteName extends keyof ParamList = string
-> {
-  navigation: StackNavigationProp<ParamList, RouteName>;
-  route: RouteProp<ParamList, RouteName>;
+export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
+  navigation: CompositeNavigationProp<
+    StackNavigationProp<AuthRoutes, RouteName>,
+    DrawerNavigationProp<AppRoutes, 'Home'>
+  >;
+  route: RouteProp<AuthRoutes, RouteName>;
 }
 
 type AuthRouteName =
@@ -80,7 +86,10 @@ const HomeDrawer = createDrawerNavigator<HomeRoutes>();
 
 const HomeDrawerScreens = () => {
   return (
-    <HomeDrawer.Navigator initialRouteName="OutfitIdeas">
+    <HomeDrawer.Navigator
+      initialRouteName="OutfitIdeas"
+      drawerContent={(props) => <Drawer {...props} />}
+      drawerStyle={{width: DRAWER_WIDTH}}>
       {HomeDrawerRoutes.map(({name, component}, index) => {
         return (
           <HomeDrawer.Screen name={name} component={component} key={index} />
@@ -156,7 +165,7 @@ const RootNavigator = () => {
     <NavigationContainer>
       <AppStack.Navigator
         headerMode="none"
-        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+        initialRouteName={!isLoggedIn ? 'Home' : 'Auth'}>
         {AppStackRoutes.map(({name, component}, index) => (
           <AppStack.Screen name={name} component={component} key={index} />
         ))}

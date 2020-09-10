@@ -8,4 +8,9 @@ export default {
   danger: '#FF0058',
   darkGrey: '#8A8D90',
   primaryLight: '#E7F9F7',
+  transparent: 'transparent',
+  orange: 'orange',
+  yellow: '#a09c00',
+  pink: 'pink',
+  violet: 'violet',
 };

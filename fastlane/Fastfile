@@ -28,10 +28,18 @@ platform :android do
 
   desc "Build the application"
   lane :beta do
-    gradle(task: "clean assembleRelease", project_dir: "./android/")
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    versioncode = increment_version_code
+    versionname = increment_version_name(
+      gradle_file_path: "./android/app/build.gradle",
+      version_name: ENV["VERSION"]
+    )
+    version_name = get_version_name(
+      gradle_file_path: "./android/app/build.gradle",
+      ext_constant_name:"versionName"
+    )
+    gradle(task: "app:assembleRelease", project_dir: "android/")
+    puts versioncode
+    puts version_name
   end
 
   desc "Deploy a new version to the Google Play"

@@ -1,0 +1,57 @@
+---
+format_version: '8'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: react-native
+app:
+  envs:
+    - FASTLANE_XCODE_LIST_TIMEOUT: '120'
+    - FASTLANE_WORK_DIR: '.'
+    - FASTLANE_LANE: android beta
+trigger_map:
+  - push_branch: '*'
+    workflow: primary
+  - pull_request_source_branch: '*'
+    workflow: primary
+workflows:
+  primary:
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4.0.17: {}
+      - script@1.1.5:
+          title: Do anything with Script step
+      - file-downloader@1:
+          inputs:
+            - destination: './android/my-upload-key.keystore'
+            - source: '$BITRISEIO_ANDROID_KEYSTORE_URL'
+      - npm@1:
+          inputs:
+            - command: install
+      - script@1:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                # write your script here
+                echo "Hello World!"
+
+                # or run a script from your repository, like:
+                # bash ./path/to/script.sh
+                # not just bash, e.g.:
+                # ruby ./path/to/script.rb
+
+                npx jetify
+      - fastlane@2.6.0:
+          inputs:
+            - lane: '$FASTLANE_LANE'
+            - work_dir: '$FASTLANE_WORK_DIR'
+      - firebase-app-distribution@0:
+          inputs:
+            - service_credentials_file: './android/app/google-services.json'
+            - app_path: './android/app/build/outputs/apk/release/app-release.apk'
+            - firebase_token: '$FIREBASE_TOKEN'
+            - app: 1:383620677539:android:0ffc23c1aba8ac20fba416

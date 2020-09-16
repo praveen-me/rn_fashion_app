@@ -39,11 +39,6 @@ workflows:
                 # write your script here
                 echo "Hello World!"
 
-                # or run a script from your repository, like:
-                # bash ./path/to/script.sh
-                # not just bash, e.g.:
-                # ruby ./path/to/script.rb
-
                 npx jetify
       - fastlane@2.6.0:
           inputs:

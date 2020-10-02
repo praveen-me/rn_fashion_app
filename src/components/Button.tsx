@@ -55,9 +55,13 @@ const Button = ({
       style={[styles.container, inlineStyles]}
       onPress={onPress}
       activeOpacity={variant !== 'transparent' ? 0.3 : 0}>
-      <AppText medium style={[{color}]} variant="button">
-        {label || children}
-      </AppText>
+      {typeof children === 'string' || label ? (
+        <AppText medium style={[{color}]} variant="button">
+          {label || children}
+        </AppText>
+      ) : (
+        children
+      )}
     </RectButton>
   );
 };

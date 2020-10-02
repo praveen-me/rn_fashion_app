@@ -6,6 +6,7 @@ import {Box} from '../../../contants/theme';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Background from './Background';
 import Card from './Card';
+import Categories from './Categories';
 
 const cards = [
   {
@@ -47,6 +48,7 @@ const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
           onPress: () => {},
         }}
       />
+      <Categories />
       <Box flex={1}>
         <Background />
         {cards.map(

@@ -1,10 +1,8 @@
-import {DrawerActions} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import {interpolate, sub} from 'react-native-reanimated';
+import {sub} from 'react-native-reanimated';
 import {useTransition} from 'react-native-redash';
 import Header from '../../../components/Header';
-import {Box, useTheme} from '../../../contants/theme';
+import {Box} from '../../../contants/theme';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Background from './Background';
 import Card from './Card';

@@ -1,13 +1,34 @@
 import {DrawerActions} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text} from 'react-native';
+import {interpolate, sub} from 'react-native-reanimated';
+import {useTransition} from 'react-native-redash';
 import Header from '../../../components/Header';
 import {Box, useTheme} from '../../../contants/theme';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Background from './Background';
 import Card from './Card';
 
+const cards = [
+  {
+    index: 3,
+  },
+  {
+    index: 2,
+  },
+  {
+    index: 1,
+  },
+  {
+    index: 0,
+  },
+];
+
+const step = 1 / (cards.length - 1);
+
 const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const aIndex = useTransition(currentIndex);
   return (
     <Box flex={1} backgroundColor="white">
       <Header
@@ -26,9 +47,16 @@ const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
       />
       <Box flex={1}>
         <Background />
-        <Card position={1} />
-        <Card position={0.5} />
-        <Card position={0} />
+        {cards.map(
+          ({index}) =>
+            currentIndex < index * step + step && (
+              <Card
+                key={index}
+                position={sub(index * step, aIndex)}
+                onSwipe={() => setCurrentIndex((prev) => prev + step)}
+              />
+            ),
+        )}
       </Box>
     </Box>
   );

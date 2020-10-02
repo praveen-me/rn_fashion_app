@@ -2,37 +2,35 @@ import React from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import Animated, {add} from 'react-native-reanimated';
-import {
-  mix,
-  mixColor,
-  usePanGestureHandler,
-  withSpring,
-} from 'react-native-redash';
+import {mix, mixColor, usePanGestureHandler} from 'react-native-redash';
 import {Box} from '../../../contants/theme';
+import {useSpring} from './Animations';
 
 interface CardProps {
   position: Animated.Adaptable<number>;
+  onSwipe: () => void;
 }
 
 const {width: wWidth} = Dimensions.get('screen');
-const width = wWidth * 0.75;
+const width = wWidth * 0.8;
 const height = width * (425 / 294);
 const borderRadius = 24;
-const Card = ({position}: CardProps) => {
+const Card = ({position, onSwipe}: CardProps) => {
   const {gestureHandler, translation, velocity, state} = usePanGestureHandler();
 
   const backgroundColor = mixColor(position, '#c9e9e7', '#74bcb8');
-  const translateYOffset = mix(position, 0, -50);
+  const translateYOffset = mix(position, 0, -60);
   const scale = mix(position, 1, 0.9);
-  const translateX = withSpring({
+  const translateX = useSpring({
     value: translation.x,
     velocity: velocity.x,
     state,
-    snapPoints: [-width, 0, width],
+    snapPoints: [-wWidth, 0, wWidth],
+    onSnap: ([x]) => x !== 0 && onSwipe(),
   });
   const translateY = add(
     translateYOffset,
-    withSpring({
+    useSpring({
       value: translation.y,
       velocity: velocity.y,
       state,

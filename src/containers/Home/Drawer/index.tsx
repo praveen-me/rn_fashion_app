@@ -15,7 +15,7 @@ import theme, {Box, useTheme} from '../../../contants/theme';
 import DrawerItem from './DrawerItem';
 
 const {width: wWidth, height: hHeight} = Dimensions.get('screen');
-export const DRAWER_WIDTH = wWidth * 0.8;
+export const DRAWER_WIDTH = wWidth;
 const aspectRatio = hHeight / 1125;
 const height = DRAWER_WIDTH * aspectRatio;
 

@@ -31,6 +31,11 @@ export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   route: RouteProp<AuthRoutes, RouteName>;
 }
 
+export interface HomeNavigationProps<RouteName extends keyof HomeRoutes> {
+  navigation: DrawerNavigationProp<HomeRoutes, RouteName>;
+  route: RouteProp<HomeRoutes, RouteName>;
+}
+
 type AuthRouteName =
   | 'Onboarding'
   | 'Welcome'

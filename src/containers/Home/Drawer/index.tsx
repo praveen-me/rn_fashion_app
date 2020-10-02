@@ -2,9 +2,11 @@ import {
   DrawerContentComponentProps,
   DrawerContentOptions,
 } from '@react-navigation/drawer';
+import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, Dimensions} from 'react-native';
+import {Image, StyleSheet, Dimensions, DeviceEventEmitter} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Header from '../../../components/Header';
 import RoundedIcon from '../../../components/RoundedIcon';
 import RoundedIconButton from '../../../components/RoundedIconButton';
 import AppText from '../../../components/Text';
@@ -59,8 +61,6 @@ const drawerItems = [
 ];
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
-  const insets = useSafeAreaInsets();
-
   return (
     <Box flex={1} overflow="hidden">
       <Image
@@ -75,25 +75,17 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
           right={0}
           bottom={0}
           borderBottomRightRadius="xl"
-          backgroundColor="textPrimaryColor"
-          flexDirection="row"
-          padding="m"
-          style={{paddingTop: insets.top}}
-          justifyContent="space-between">
-          <RoundedIconButton
-            name="x"
-            color="white"
-            size={30}
-            backgroundColor="textPrimaryColor"
-            onPress={() => {}}
-          />
-          <AppText style={{color: '#fff'}}>My Profile</AppText>
-          <RoundedIconButton
-            name="shopping-bag"
-            color="white"
-            size={30}
-            backgroundColor="textPrimaryColor"
-            onPress={() => {}}
+          backgroundColor="textPrimaryColor">
+          <Header
+            left={{
+              icon: 'x',
+              onPress: () => {
+                props.navigation.dispatch(DrawerActions.closeDrawer());
+              },
+            }}
+            right={{icon: 'shopping-bag', onPress: () => {}}}
+            title="My Profile"
+            dark
           />
         </Box>
       </Box>

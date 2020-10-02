@@ -13,4 +13,6 @@ export default {
   yellow: '#a09c00',
   pink: 'pink',
   violet: 'violet',
+  lightGrey: '#fafafa',
+  lightBlue: '#5ea3c6',
 };

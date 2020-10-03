@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {Box, Theme, useTheme} from '../contants/theme';
+import {Box, useTheme} from '../contants/theme';
 import RoundedIconButton from './RoundedIconButton';
 import AppText from './Text';
 
@@ -26,8 +26,6 @@ const Header = ({title, left, right, dark}: HeaderProps) => {
 
   const color = dark ? 'white' : 'textPrimaryColor';
   const backgroundColor = dark ? 'textPrimaryColor' : 'lightGrey';
-
-  console.log(theme.colors[color], 'cokor');
 
   return (
     <Box

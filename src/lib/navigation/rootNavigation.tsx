@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {Dimensions} from 'react-native';
 
 import {
   CompositeNavigationProp,
@@ -22,6 +21,7 @@ import ForgetPassword from '../../containers/Authentication/ForgetPassword';
 import PasswordChanged from '../../containers/Authentication/PasswordChanged';
 import OutfitIdeas from '../../containers/Home/OutfitIdeas';
 import Drawer, {DRAWER_WIDTH} from '../../containers/Home/Drawer';
+import FavouriteOutfits from '../../containers/Home/FavouriteOutfits';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -46,7 +46,7 @@ type AuthRouteName =
 
 type AppRouteName = 'Home' | 'Auth';
 
-type HomeRouteName = 'OutfitIdeas';
+type HomeRouteName = 'OutfitIdeas' | 'FavouriteOutfits';
 
 type AuthRoute = {
   name: AuthRouteName;
@@ -79,6 +79,7 @@ export type AppRoutes = {
 
 export type HomeRoutes = {
   OutfitIdeas: undefined;
+  FavouriteOutfits: undefined;
 };
 
 export type AllRoutes = HomeRoutes | AuthRoutes;
@@ -158,6 +159,10 @@ const HomeDrawerRoutes: HomeRoute[] = [
   {
     name: 'OutfitIdeas',
     component: OutfitIdeas,
+  },
+  {
+    name: 'FavouriteOutfits',
+    component: FavouriteOutfits,
   },
 ];
 

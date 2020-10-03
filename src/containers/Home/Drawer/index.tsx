@@ -4,13 +4,10 @@ import {
 } from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, Dimensions, DeviceEventEmitter} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Image, StyleSheet, Dimensions} from 'react-native';
 import Header from '../../../components/Header';
-import RoundedIcon from '../../../components/RoundedIcon';
-import RoundedIconButton from '../../../components/RoundedIconButton';
 import AppText from '../../../components/Text';
-import theme, {Box, useTheme} from '../../../contants/theme';
+import theme, {Box} from '../../../contants/theme';
 
 import DrawerItem from './DrawerItem';
 
@@ -137,15 +134,19 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
         height={height}>
         <Image
           source={require('../../../assets/images/patterns/1.jpeg')}
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            backgroundColor: 'red',
-            borderTopLeftRadius: 75,
-          }}
+          style={styles.bg}
         />
       </Box>
     </Box>
   );
 };
+
+const styles = StyleSheet.create({
+  bg: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'red',
+    borderTopLeftRadius: 75,
+  },
+});
 
 export default Drawer;

@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {RectButton} from 'react-native-gesture-handler';
 import RoundedIcon from '../../../components/RoundedIcon';
@@ -8,14 +9,18 @@ interface DrawerItemProps {
   icon: string;
   color: keyof Theme['colors'];
   label: string;
-  key: string;
+  screen: string;
 }
 
-const DrawerItem = ({icon, color, label}: DrawerItemProps) => {
+const DrawerItem = ({icon, color, label, screen}: DrawerItemProps) => {
   const theme = useTheme();
+  const navigation = useNavigation();
 
   return (
-    <RectButton activeOpacity={0.1} style={{borderRadius: theme.spacing.m}}>
+    <RectButton
+      activeOpacity={0.1}
+      style={{borderRadius: theme.spacing.m}}
+      onPress={() => navigation.navigate(screen)}>
       <Box flexDirection="row" alignItems="center" padding="m">
         <RoundedIcon
           {...{name: icon}}

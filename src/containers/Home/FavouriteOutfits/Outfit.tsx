@@ -9,12 +9,23 @@ interface OutfitProps {
   id: number;
   width: number;
   onPress: () => void;
+  outfit?: {selected: boolean};
 }
 
-const Outfit = ({color: backgroundColor, aspectRatio, width}: OutfitProps) => {
+const Outfit = ({
+  color: backgroundColor,
+  aspectRatio,
+  width,
+  outfit,
+}: OutfitProps) => {
   const [selected, setSelected] = useState(false);
 
-  const _onSelect = () => setSelected((prevState) => !prevState);
+  const _onSelect = () => {
+    if (outfit) {
+      outfit.selected = !selected;
+    }
+    setSelected((prevState) => !prevState);
+  };
 
   return (
     <TouchableOpacity onPress={_onSelect}>

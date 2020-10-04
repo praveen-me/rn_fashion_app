@@ -22,6 +22,7 @@ import PasswordChanged from '../../containers/Authentication/PasswordChanged';
 import OutfitIdeas from '../../containers/Home/OutfitIdeas';
 import Drawer, {DRAWER_WIDTH} from '../../containers/Home/Drawer';
 import FavouriteOutfits from '../../containers/Home/FavouriteOutfits';
+import TransactionHistory from '../../containers/Home/TransactionHistory';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -46,7 +47,7 @@ type AuthRouteName =
 
 type AppRouteName = 'Home' | 'Auth';
 
-type HomeRouteName = 'OutfitIdeas' | 'FavouriteOutfits';
+type HomeRouteName = 'OutfitIdeas' | 'FavouriteOutfits' | 'TransactionHistory';
 
 type AuthRoute = {
   name: AuthRouteName;
@@ -80,6 +81,7 @@ export type AppRoutes = {
 export type HomeRoutes = {
   OutfitIdeas: undefined;
   FavouriteOutfits: undefined;
+  TransactionHistory: undefined;
 };
 
 export type AllRoutes = HomeRoutes | AuthRoutes;
@@ -163,6 +165,10 @@ const HomeDrawerRoutes: HomeRoute[] = [
   {
     name: 'FavouriteOutfits',
     component: FavouriteOutfits,
+  },
+  {
+    name: 'TransactionHistory',
+    component: TransactionHistory,
   },
 ];
 

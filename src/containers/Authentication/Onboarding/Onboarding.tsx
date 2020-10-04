@@ -1,13 +1,5 @@
 import React, {useRef} from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Image,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
-} from 'react-native';
+import {View, StyleSheet, Dimensions, Image} from 'react-native';
 import Slide, {SLIDE_HEIGHT} from './Slide';
 import Animated, {
   divide,
@@ -20,6 +12,7 @@ import SubSlide from './SubSlide';
 import Dot from '../../../components/Dot';
 import {Theme, useTheme} from '../../../contants/theme';
 import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
+import makeStyles from '../../../lib/makeStyles';
 
 const {width} = Dimensions.get('window');
 
@@ -73,15 +66,6 @@ const slides = [
     },
   },
 ];
-
-type NamedStyles<T> = {[P in keyof T]: ViewStyle | TextStyle | ImageStyle};
-
-const makeStyles = <T extends NamedStyles<T>>(
-  styles: (theme: Theme) => T,
-) => () => {
-  const theme = useTheme();
-  return styles(theme);
-};
 
 const useStyles = makeStyles((theme: Theme) => {
   return {

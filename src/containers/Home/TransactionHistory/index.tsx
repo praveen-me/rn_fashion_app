@@ -4,18 +4,18 @@ import Header from '../../../components/Header';
 import AppText from '../../../components/Text';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
+import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
+import Graph from './Graph';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
     amount: {
-      color: theme.colors.textPrimaryColor,
-      fontSize: 30,
       lineHeight: 38,
     },
     allTime: {
-      backgroundColor: '#2cb9b026',
+      backgroundColor: theme.colors.primaryLight,
       padding: theme.spacing.s * 0.8,
-      borderRadius: theme.borderRadii.m,
+      borderRadius: theme.borderRadii.m * 2,
     },
     head: {
       color: theme.colors.darkGrey,
@@ -24,7 +24,47 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-const TransactionHistory = (props) => {
+const graphData = [
+  {
+    date: new Date('2019-09-01').getTime(),
+    value: 0,
+    color: '#2CB9B0',
+  },
+  {
+    date: new Date('2019-10-01').getTime(),
+    value: 0,
+    color: '#a09c00',
+  },
+  {
+    date: new Date('2019-11-01').getTime(),
+    value: 139.42,
+    color: '#FF0058',
+  },
+  {
+    date: new Date('2019-12-01').getTime(),
+    value: 281.43,
+    color: '#0C0D34',
+  },
+  {
+    date: new Date('2020-01-01').getTime(),
+    value: 0,
+    color: '#FF0058',
+  },
+  {
+    date: new Date('2020-02-01').getTime(),
+    value: 198.54,
+    color: '#a09c00',
+  },
+  {
+    date: new Date('2020-03-01').getTime(),
+    value: 0,
+    color: '#2CB9B0',
+  },
+];
+
+const TransactionHistory = ({
+  navigation,
+}: HomeNavigationProps<'TransactionHistory'>) => {
   const theme = useTheme();
   const styles = useStyles();
 
@@ -35,7 +75,7 @@ const TransactionHistory = (props) => {
         left={{
           icon: 'menu',
           onPress: () => {
-            // navigation.openDrawer();
+            navigation.openDrawer();
           },
           iconColor: '#fafafa',
         }}
@@ -44,20 +84,24 @@ const TransactionHistory = (props) => {
           onPress: () => {},
         }}
       />
-      <Box
-        flexDirection="row"
-        margin="m"
-        justifyContent="space-between"
-        alignItems="flex-end">
-        <Box>
-          <AppText style={styles.head}>TOTAL SPENT</AppText>
-          <AppText style={styles.amount} bold>
-            $619,19
-          </AppText>
+      <Box margin="m">
+        <Box
+          justifyContent="space-between"
+          alignItems="flex-end"
+          flexDirection="row">
+          <Box>
+            <AppText style={styles.head}>TOTAL SPENT</AppText>
+            <AppText style={styles.amount} variant="title1" bold>
+              $619,19
+            </AppText>
+          </Box>
+          <TouchableOpacity style={styles.allTime}>
+            <AppText style={{color: theme.colors.primatyBtnBg}}>
+              All Time
+            </AppText>
+          </TouchableOpacity>
         </Box>
-        <TouchableOpacity style={styles.allTime}>
-          <AppText style={{color: theme.colors.primatyBtnBg}}>All Time</AppText>
-        </TouchableOpacity>
+        <Graph data={graphData} />
       </Box>
     </Box>
   );

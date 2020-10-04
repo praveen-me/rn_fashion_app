@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react';
-import {Text} from '../contants/theme';
+import {Text, Theme} from '../contants/theme';
 import fonts from '../contants/fonts';
 
 interface TextProps {
@@ -7,7 +7,7 @@ interface TextProps {
   bold?: boolean;
   medium?: boolean;
   style?: object | Array<object>;
-  variant?: string;
+  variant?: keyof Theme['textVariants'];
   center?: boolean;
 }
 

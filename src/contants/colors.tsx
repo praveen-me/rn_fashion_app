@@ -7,7 +7,7 @@ export default {
   'slide.grey': '#F4F0EF',
   danger: '#FF0058',
   darkGrey: '#8A8D90',
-  primaryLight: '#E7F9F7',
+  primaryLight: '#E8F9F0',
   transparent: 'transparent',
   orange: 'orange',
   yellow: '#a09c00',

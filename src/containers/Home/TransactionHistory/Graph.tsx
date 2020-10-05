@@ -2,6 +2,7 @@ import React from 'react';
 import {Dimensions, View} from 'react-native';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
+import Underlay from './Underlay';
 
 interface Point {
   date: number;
@@ -44,36 +45,43 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Graph = ({data}: GraphProps) => {
   const theme = useTheme();
-  const width = wWidth - theme.spacing.m * 2;
-  const height = width * apspectRatio;
+  const canvasWidth = wWidth - theme.spacing.m * 2;
+  const canvasHeight = canvasWidth * apspectRatio;
+  const width = canvasWidth - theme.spacing.m;
+  const height = canvasHeight - theme.spacing.m;
 
   const step = width / data.length;
   const values = data.map((d) => d.value);
   const dates = data.map((d) => d.date);
   const maxY = Math.max(...values);
+  const minY = Math.min(...values);
+  const minX = Math.min(...dates);
 
   const styles = useStyles();
 
   return (
-    <Box width={width} height={height} marginTop="m">
-      {data.map((point, index) => {
-        if (point.value === 0) {
-          return null;
-        }
+    <Box paddingBottom="m" paddingLeft="m" marginTop="xl">
+      <Underlay {...{dates, minX, minY}} />
+      <Box width={width} height={height}>
+        {data.map((point, index) => {
+          if (point.value === 0) {
+            return null;
+          }
 
-        return (
-          <Box
-            width={step}
-            key={point.date}
-            position="absolute"
-            bottom={0}
-            left={index * step}
-            height={lerp(0, height, point.value / maxY)}>
-            <View style={[styles.bar, {backgroundColor: point.color}]} />
-            <View style={[styles.tip, {backgroundColor: point.color}]} />
-          </Box>
-        );
-      })}
+          return (
+            <Box
+              width={step}
+              key={point.date}
+              position="absolute"
+              bottom={0}
+              left={index * step}
+              height={lerp(0, height, point.value / maxY)}>
+              <View style={[styles.bar, {backgroundColor: point.color}]} />
+              <View style={[styles.tip, {backgroundColor: point.color}]} />
+            </Box>
+          );
+        })}
+      </Box>
     </Box>
   );
 };

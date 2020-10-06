@@ -47,8 +47,8 @@ const Graph = ({data}: GraphProps) => {
   const theme = useTheme();
   const canvasWidth = wWidth - theme.spacing.m * 2;
   const canvasHeight = canvasWidth * apspectRatio;
-  const width = canvasWidth - theme.spacing.m;
-  const height = canvasHeight - theme.spacing.m;
+  const width = canvasWidth - theme.spacing.l;
+  const height = canvasHeight - theme.spacing.l;
 
   const step = width / data.length;
   const values = data.map((d) => d.value);
@@ -60,8 +60,8 @@ const Graph = ({data}: GraphProps) => {
   const styles = useStyles();
 
   return (
-    <Box paddingBottom="m" paddingLeft="m" marginTop="xl">
-      <Underlay {...{dates, minX, minY}} />
+    <Box paddingBottom="l" paddingLeft="l" marginTop="xl">
+      <Underlay {...{dates, minX, minY, step}} />
       <Box width={width} height={height}>
         {data.map((point, index) => {
           if (point.value === 0) {

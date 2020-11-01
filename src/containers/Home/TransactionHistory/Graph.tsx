@@ -59,10 +59,17 @@ const Graph = ({data}: GraphProps) => {
   const minX = Math.min(...dates);
 
   const styles = useStyles();
-
   return (
-    <Box paddingBottom="l" paddingLeft="l" marginTop="xl">
-      <Underlay {...{dates, minX, minY, step}} />
+    <Box paddingLeft="l" marginTop="xl">
+      <Underlay
+        {...{
+          dates,
+          minY,
+          maxY,
+          step,
+        }}
+        lerp={lerp}
+      />
       <Box width={width} height={height}>
         {data.map((point, index) => {
           if (point.value === 0) {

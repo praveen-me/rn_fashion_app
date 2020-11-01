@@ -47,8 +47,8 @@ const graphData = [
   },
   {
     date: new Date('2020-01-01').getTime(),
-    value: 0,
-    color: '#FF0058',
+    value: 205.97,
+    color: '#2CB9B0',
   },
   {
     date: new Date('2020-02-01').getTime(),
@@ -84,7 +84,7 @@ const TransactionHistory = ({
           onPress: () => {},
         }}
       />
-      <Box margin="m">
+      <Box margin="l">
         <Box
           justifyContent="space-between"
           alignItems="flex-end"

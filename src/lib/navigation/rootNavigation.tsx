@@ -181,7 +181,7 @@ const RootNavigator = () => {
     <NavigationContainer>
       <AppStack.Navigator
         headerMode="none"
-        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+        initialRouteName={true ? 'Home' : 'Auth'}>
         {AppStackRoutes.map(({name, component}, index) => (
           <AppStack.Screen name={name} component={component} key={index} />
         ))}

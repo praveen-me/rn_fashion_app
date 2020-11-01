@@ -17,6 +17,7 @@ interface GraphProps {
 const {width: wWidth} = Dimensions.get('screen');
 const apspectRatio = 195 / 305;
 
+// Functionc for calculation linear interpolation
 const lerp = (v0: number, v1: number, t: number) => {
   return (1 - t) * v0 + t * v1;
 };

@@ -52,7 +52,9 @@ const Underlay = ({dates, maxY, minY, step, lerp}: UnderProps) => {
             style={{top: ROW_HEIGHT}}
             // backgroundColor={index % 2 === 0 ? 'danger' : 'lightBlue'}
           >
-            <AppText center>{formatter.format(date)}</AppText>
+            <AppText center variant="body">
+              {formatter.format(date)}
+            </AppText>
           </Box>
         ))}
       </Box>

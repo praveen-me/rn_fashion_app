@@ -1,11 +1,12 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Header from '../../../components/Header';
 import AppText from '../../../components/Text';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Graph from './Graph';
+import Transaction from './Transaction';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -29,36 +30,43 @@ const graphData = [
     date: new Date('2019-09-01').getTime(),
     value: 0,
     color: '#2CB9B0',
+    id: 24576,
   },
   {
     date: new Date('2019-10-01').getTime(),
     value: 0,
     color: '#a09c00',
+    id: 24577,
   },
   {
     date: new Date('2019-11-01').getTime(),
     value: 139.42,
     color: '#FF0058',
+    id: 24578,
   },
   {
     date: new Date('2019-12-01').getTime(),
     value: 281.43,
     color: '#0C0D34',
+    id: 24579,
   },
   {
     date: new Date('2020-01-01').getTime(),
     value: 205.97,
     color: '#2CB9B0',
+    id: 24580,
   },
   {
     date: new Date('2020-02-01').getTime(),
     value: 198.54,
     color: '#a09c00',
+    id: 24581,
   },
   {
     date: new Date('2020-03-01').getTime(),
     value: 0,
     color: '#2CB9B0',
+    id: 24582,
   },
 ];
 
@@ -102,6 +110,14 @@ const TransactionHistory = ({
           </TouchableOpacity>
         </Box>
         <Graph data={graphData} />
+
+        <ScrollView>
+          {graphData
+            .filter((d) => d.value > 0)
+            .map((data) => (
+              <Transaction transaction={data} key={data.id} />
+            ))}
+        </ScrollView>
       </Box>
     </Box>
   );

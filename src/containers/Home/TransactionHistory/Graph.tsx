@@ -4,10 +4,11 @@ import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import Underlay from './Underlay';
 
-interface Point {
+export interface Point {
   date: number;
   value: number;
   color: string;
+  id: number;
 }
 
 interface GraphProps {
@@ -60,7 +61,7 @@ const Graph = ({data}: GraphProps) => {
 
   const styles = useStyles();
   return (
-    <Box paddingLeft="l" marginTop="xl">
+    <Box paddingLeft="l" marginTop="xl" marginBottom="xl">
       <Underlay
         {...{
           dates,

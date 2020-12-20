@@ -6,6 +6,8 @@ import AppText from '../../../components/Text';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import {Point} from './Graph';
 
+import moment from 'moment';
+
 interface TransactionProps {
   transaction: Point;
 }
@@ -25,13 +27,9 @@ const Transaction = ({transaction}: TransactionProps) => {
           <Box
             height={10}
             width={10}
-            style={{
-              borderRadius: 5,
-              backgroundColor: transaction.color,
-              marginRight: theme.spacing.m - 3,
-            }}
+            style={[styles.infoContainer, {backgroundColor: transaction.color}]}
           />
-          <AppText style={{fontSize: 16, color: '#000'}} medium>
+          <AppText style={styles.id} medium>
             {'#'}
             {transaction.id}
           </AppText>
@@ -41,7 +39,7 @@ const Transaction = ({transaction}: TransactionProps) => {
             <AppText style={styles.text}>${transaction.value}</AppText>
             <AppText style={styles.text}>
               {' '}
-              - {new Date(transaction.date).toDateString().slice(4)}
+              - {moment(transaction.date).format('DD MMMM, YYYY')}
             </AppText>
           </Box>
         </Box>
@@ -63,6 +61,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   text: {
     fontSize: 14,
     color: theme.colors.darkGrey,
+  },
+  infoContainer: {
+    borderRadius: 5,
+    marginRight: theme.spacing.m - 3,
+  },
+  id: {
+    fontSize: 16,
+    color: '#000',
   },
 }));
 

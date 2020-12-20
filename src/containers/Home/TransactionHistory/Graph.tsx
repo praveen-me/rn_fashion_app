@@ -81,7 +81,7 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
             return null;
           }
           const i = Math.round(
-            moment.duration(moment(point.date).diff(startDate)).asMonths(),
+            moment.duration(point.date - startDate).asMonths(),
           );
 
           return (

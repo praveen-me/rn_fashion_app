@@ -1,11 +1,11 @@
 import React from 'react';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import Header from '../../../components/Header';
 import AppText from '../../../components/Text';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
-import Graph from './Graph';
+import Graph, {Point} from './Graph';
 import Transaction from './Transaction';
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -22,13 +22,22 @@ const useStyles = makeStyles((theme: Theme) => {
       color: theme.colors.darkGrey,
       fontSize: 14,
     },
+    footer: {
+      ...StyleSheet.absoluteFillObject,
+      height: undefined,
+      width: undefined,
+      borderTopLeftRadius: 75,
+      background: 'transparent',
+    },
   };
 });
+
+const apspectRatio = 5;
 
 const numOfMonths = 8;
 const startDate = new Date('2019-09-01').getTime();
 
-const graphData = [
+const graphData: Point[] = [
   {
     date: new Date('2019-09-01').getTime(),
     value: 86,
@@ -36,31 +45,43 @@ const graphData = [
     id: 24576,
   },
   {
-    date: new Date('2019-11-01').getTime(),
-    value: 0,
+    date: new Date('2019-10-01').getTime(),
+    value: 180,
     color: '#FF0058',
     id: 24578,
   },
   {
-    date: new Date('2019-11-01').getTime(),
+    date: new Date('2019-11-09').getTime(),
     value: 139.42,
     color: '#0C0D34',
     id: 24579,
   },
   {
-    date: new Date('2020-01-01').getTime(),
+    date: new Date('2019-12-01').getTime(),
     value: 297.98,
     color: '#FF0058',
     id: 24580,
   },
   {
+    date: new Date('2020-01-09').getTime(),
+    value: 139.42,
+    color: '#0C0D34',
+    id: 24579,
+  },
+  {
     date: new Date('2020-02-01').getTime(),
+    value: 200.98,
+    color: '#FF0058',
+    id: 24580,
+  },
+  {
+    date: new Date('2020-03-01').getTime(),
     value: 198.54,
     color: '#a09c00',
     id: 24581,
   },
   {
-    date: new Date('2020-03-01').getTime(),
+    date: new Date('2020-04-01').getTime(),
     value: 0,
     color: '#2CB9B0',
     id: 24582,
@@ -89,7 +110,7 @@ const TransactionHistory = ({
           onPress: () => {},
         }}
       />
-      <Box margin="l">
+      <Box margin="l" flex={1}>
         <Box
           justifyContent="space-between"
           alignItems="flex-end"
@@ -112,13 +133,29 @@ const TransactionHistory = ({
           startDate={startDate}
         />
 
-        <ScrollView>
+        <ScrollView
+          contentContainerStyle={{paddingBottom: 75}}
+          showsVerticalScrollIndicator={false}>
           {graphData
             .filter((d) => d.value > 0)
             .map((data) => (
               <Transaction transaction={data} key={data.id} />
             ))}
         </ScrollView>
+      </Box>
+      <Box
+        position="absolute"
+        left={0}
+        bottom={0}
+        right={0}
+        aspectRatio={apspectRatio}
+        borderTopLeftRadius="xl"
+        backgroundColor="transparent"
+        overflow="hidden">
+        <Image
+          style={styles.footer}
+          source={require('../../../assets/images/patterns/1.jpeg')}
+        />
       </Box>
     </Box>
   );

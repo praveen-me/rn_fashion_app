@@ -3,6 +3,7 @@ import {Dimensions, View} from 'react-native';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import Underlay from './Underlay';
+import moment from 'moment';
 
 export interface Point {
   date: number;
@@ -79,8 +80,9 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
           if (point.value === 0) {
             return null;
           }
-
-          // const i = Math.round();
+          const i = Math.round(
+            moment.duration(moment(point.date).diff(startDate)).asMonths(),
+          );
 
           return (
             <Box
@@ -88,7 +90,7 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
               key={point.date}
               position="absolute"
               bottom={0}
-              left={index * step}
+              left={i * step}
               height={lerp(0, height, point.value / maxY)}>
               <View style={[styles.bar, {backgroundColor: point.color}]} />
               <View style={[styles.tip, {backgroundColor: point.color}]} />

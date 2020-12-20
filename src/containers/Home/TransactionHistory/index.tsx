@@ -42,7 +42,7 @@ const graphData = [
     id: 24578,
   },
   {
-    date: new Date('2019-12-01').getTime(),
+    date: new Date('2019-11-01').getTime(),
     value: 139.42,
     color: '#0C0D34',
     id: 24579,

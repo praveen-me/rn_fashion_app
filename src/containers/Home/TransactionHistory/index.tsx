@@ -25,35 +25,32 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
+const numOfMonths = 8;
+const startDate = new Date('2019-09-01').getTime();
+
 const graphData = [
   {
     date: new Date('2019-09-01').getTime(),
-    value: 0,
+    value: 86,
     color: '#2CB9B0',
     id: 24576,
   },
   {
-    date: new Date('2019-10-01').getTime(),
-    value: 0,
-    color: '#a09c00',
-    id: 24577,
-  },
-  {
     date: new Date('2019-11-01').getTime(),
-    value: 139.42,
+    value: 0,
     color: '#FF0058',
     id: 24578,
   },
   {
     date: new Date('2019-12-01').getTime(),
-    value: 281.43,
+    value: 139.42,
     color: '#0C0D34',
     id: 24579,
   },
   {
     date: new Date('2020-01-01').getTime(),
-    value: 205.97,
-    color: '#2CB9B0',
+    value: 297.98,
+    color: '#FF0058',
     id: 24580,
   },
   {
@@ -109,7 +106,11 @@ const TransactionHistory = ({
             </AppText>
           </TouchableOpacity>
         </Box>
-        <Graph data={graphData} />
+        <Graph
+          data={graphData}
+          numOfMonths={numOfMonths}
+          startDate={startDate}
+        />
 
         <ScrollView>
           {graphData

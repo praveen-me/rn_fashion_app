@@ -13,6 +13,8 @@ export interface Point {
 
 interface GraphProps {
   data: Point[];
+  numOfMonths: number;
+  startDate: number;
 }
 
 const {width: wWidth} = Dimensions.get('screen');
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Graph = ({data}: GraphProps) => {
+const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
   const theme = useTheme();
   const canvasWidth = wWidth - theme.spacing.m * 2;
   const canvasHeight = canvasWidth * apspectRatio;
@@ -57,7 +59,6 @@ const Graph = ({data}: GraphProps) => {
   const dates = data.map((d) => d.date);
   const maxY = Math.max(...values);
   const minY = Math.min(...values);
-  const minX = Math.min(...dates);
 
   const styles = useStyles();
   return (
@@ -68,6 +69,8 @@ const Graph = ({data}: GraphProps) => {
           minY,
           maxY,
           step,
+          startDate,
+          numOfMonths,
         }}
         lerp={lerp}
       />
@@ -76,6 +79,8 @@ const Graph = ({data}: GraphProps) => {
           if (point.value === 0) {
             return null;
           }
+
+          // const i = Math.round();
 
           return (
             <Box

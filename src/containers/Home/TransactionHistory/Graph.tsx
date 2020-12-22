@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useLayoutEffect, useRef} from 'react';
 import {Dimensions, View} from 'react-native';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import Underlay from './Underlay';
 import moment from 'moment';
+import {
+  Transition,
+  Transitioning,
+  TransitioningView,
+} from 'react-native-reanimated';
 
 export interface Point {
   date: number;
@@ -48,7 +53,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const transition = (
+  <Transition.Together>
+    <Transition.In type="fade" durationMs={1000} interpolation="easeInOut" />
+    <Transition.In
+      type="slide-bottom"
+      durationMs={1000}
+      interpolation="easeInOut"
+    />
+  </Transition.Together>
+);
+
 const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
+  const transitionRef = useRef<TransitioningView>(null);
   const theme = useTheme();
   const canvasWidth = wWidth - theme.spacing.m * 2;
   const canvasHeight = canvasWidth * apspectRatio;
@@ -60,6 +77,10 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
   const dates = data.map((d) => d.date);
   const maxY = Math.max(...values);
   const minY = Math.min(...values);
+
+  useLayoutEffect(() => {
+    transitionRef.current?.animateNextTransition();
+  }, []);
 
   const styles = useStyles();
   return (
@@ -75,29 +96,34 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
         }}
         lerp={lerp}
       />
-      <Box width={width} height={height}>
-        {data.map((point, index) => {
-          if (point.value === 0) {
-            return null;
-          }
-          const i = Math.round(
-            moment.duration(point.date - startDate).asMonths(),
-          );
+      <Transitioning.View
+        style={{width, height, overflow: 'hidden'}}
+        ref={transitionRef}
+        transition={transition}>
+        <Box width={width} height={height}>
+          {data.map((point, index) => {
+            if (point.value === 0) {
+              return null;
+            }
+            const i = Math.round(
+              moment.duration(point.date - startDate).asMonths(),
+            );
 
-          return (
-            <Box
-              width={step}
-              key={point.date}
-              position="absolute"
-              bottom={0}
-              left={i * step}
-              height={lerp(0, height, point.value / maxY)}>
-              <View style={[styles.bar, {backgroundColor: point.color}]} />
-              <View style={[styles.tip, {backgroundColor: point.color}]} />
-            </Box>
-          );
-        })}
-      </Box>
+            return (
+              <Box
+                width={step}
+                key={point.date}
+                position="absolute"
+                bottom={0}
+                left={i * step}
+                height={lerp(0, height, point.value / maxY)}>
+                <View style={[styles.bar, {backgroundColor: point.color}]} />
+                <View style={[styles.tip, {backgroundColor: point.color}]} />
+              </Box>
+            );
+          })}
+        </Box>
+      </Transitioning.View>
     </Box>
   );
 };

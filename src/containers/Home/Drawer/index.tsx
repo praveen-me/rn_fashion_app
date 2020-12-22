@@ -2,7 +2,11 @@ import {
   DrawerContentComponentProps,
   DrawerContentOptions,
 } from '@react-navigation/drawer';
-import {DrawerActions} from '@react-navigation/native';
+import {
+  CommonActions,
+  DrawerActions,
+  useNavigation,
+} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import Header from '../../../components/Header';
@@ -52,7 +56,18 @@ const drawerItems = [
   {
     icon: 'log-out',
     label: 'Logout',
-    screen: 'Logout',
+    onPress: (navigation: ReturnType<typeof useNavigation>) => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Auth',
+            },
+          ],
+        }),
+      );
+    },
     color: 'textPrimaryColor',
   },
 ];

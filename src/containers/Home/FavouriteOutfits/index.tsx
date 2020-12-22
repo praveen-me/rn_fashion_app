@@ -183,7 +183,6 @@ const FavouriteOutfits = ({
         label="Start"
         onPress={() => {
           const items = outfits.filter((k) => !k.selected);
-          setOutfits([]);
           setOutfits(items);
           list.current?.animateNextTransition();
         }}

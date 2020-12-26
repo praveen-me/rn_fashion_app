@@ -43,6 +43,7 @@ export default function Tabs({tabs, children}: TabsProps) {
         />
       </Box>
       <Animated.View
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           width: width * tabs.length,
           flexDirection: 'row',

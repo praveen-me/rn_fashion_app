@@ -24,7 +24,7 @@ const slides = [
     description:
       "Confused about your outfit? Don't worry! Find the best outfit here!",
     picture: {
-      src: require('./../../../assets/images/1.png'),
+      src: require('../../../assets/images/1.png'),
       width: 2513,
       height: 3583,
     },

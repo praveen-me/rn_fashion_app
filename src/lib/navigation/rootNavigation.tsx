@@ -24,6 +24,7 @@ import Drawer, {DRAWER_WIDTH} from '../../containers/Home/Drawer';
 import FavouriteOutfits from '../../containers/Home/FavouriteOutfits';
 import TransactionHistory from '../../containers/Home/TransactionHistory';
 import EditProfile from '../../containers/Home/EditProfile';
+import NotificationSettings from '../../containers/Home/NotificationSettings';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -52,7 +53,8 @@ type HomeRouteName =
   | 'OutfitIdeas'
   | 'FavouriteOutfits'
   | 'TransactionHistory'
-  | 'EditProfile';
+  | 'EditProfile'
+  | 'NotificationSettings';
 
 type AuthRoute = {
   name: AuthRouteName;
@@ -88,6 +90,7 @@ export type HomeRoutes = {
   FavouriteOutfits: undefined;
   TransactionHistory: undefined;
   EditProfile: undefined;
+  NotificationSettings: undefined;
 };
 
 export type AllRoutes = HomeRoutes | AuthRoutes;
@@ -179,6 +182,10 @@ const HomeDrawerRoutes: HomeRoute[] = [
   {
     name: 'EditProfile',
     component: EditProfile,
+  },
+  {
+    name: 'NotificationSettings',
+    component: NotificationSettings,
   },
 ];
 

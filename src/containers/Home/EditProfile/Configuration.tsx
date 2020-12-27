@@ -78,11 +78,44 @@ const preferredSizes = [
   },
 ];
 
+const preferredColorOptions = [
+  {
+    id: '1',
+    label: '#0C0D34',
+  },
+  {
+    id: '2',
+    label: '#2CB9B0',
+  },
+  {
+    id: '3',
+    label: '#FF0058',
+  },
+  {
+    id: '4',
+    label: '#a09c00',
+  },
+  {
+    id: '5',
+    label: 'orange',
+  },
+  {
+    id: '6',
+    label: 'pink',
+  },
+  {
+    id: '7',
+    label: 'violet',
+  },
+];
+
 export default function Configuration() {
   const theme = useTheme();
 
   const outfitRef = useRef<CheckBoxGroupRef>(null);
   const preferredBrandsRef = useRef<RoundedCheckBoxGroupRef>(null);
+  const preferredColorsRef = useRef<CheckBoxGroupRef>(null);
+  const clothingSizeRef = useRef<RoundedCheckBoxGroupRef>(null);
 
   return (
     <ScrollView contentContainerStyle={{padding: theme.spacing.m}}>
@@ -98,8 +131,19 @@ export default function Configuration() {
         </AppText>
         <RoundedCheckBoxGroup
           options={preferredSizes}
-          ref={preferredBrandsRef}
+          ref={clothingSizeRef}
           type="multi"
+        />
+      </Box>
+      <Box>
+        <AppText bold variant="body">
+          My preferred clothing colors
+        </AppText>
+        <RoundedCheckBoxGroup
+          options={preferredColorOptions}
+          ref={preferredColorsRef}
+          type="multi"
+          labelAsColor
         />
       </Box>
       <Box>
@@ -118,6 +162,8 @@ export default function Configuration() {
         onPress={() => {
           console.log(outfitRef.current?.value);
           console.log(preferredBrandsRef.current?.value);
+          console.log(clothingSizeRef.current?.value);
+          console.log(preferredColorsRef.current?.value);
         }}
       />
     </ScrollView>

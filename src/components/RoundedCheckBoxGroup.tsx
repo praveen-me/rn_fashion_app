@@ -1,9 +1,10 @@
 import React, {useState, forwardRef, useImperativeHandle} from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, ScrollView} from 'react-native';
 import makeStyles from '../lib/makeStyles';
 
-import {Box, Theme, useTheme} from '../contants/theme';
+import {Box, useTheme} from '../contants/theme';
 import AppText from './Text';
+import Icon from 'react-native-vector-icons/Feather';
 
 type CheckBoxType = 'single' | 'multi';
 
@@ -15,6 +16,7 @@ interface Option {
 interface RoundedCheckBoxGroupProps {
   options: Option[];
   type?: CheckBoxType;
+  labelAsColor?: boolean;
 }
 
 export interface RoundedCheckBoxGroupRef {
@@ -24,12 +26,13 @@ export interface RoundedCheckBoxGroupRef {
 const RoundedCheckBoxGroup = forwardRef<
   RoundedCheckBoxGroupRef,
   RoundedCheckBoxGroupProps
->(({options, type}: RoundedCheckBoxGroupProps, ref) => {
+>(({options, type, labelAsColor}: RoundedCheckBoxGroupProps, ref) => {
   const [selected, setSelected] = useState<string | string[]>(
     type === 'single' ? '' : [],
   );
 
   const theme = useTheme();
+  const styles = useStyles();
 
   function handleChange(id: string) {
     if (!type || type === 'single') {
@@ -41,10 +44,10 @@ const RoundedCheckBoxGroup = forwardRef<
       if (index === -1) {
         setSelected((state) => [...new Set([...state, id])]);
       } else {
-        const remaingSelected = [...selected];
-        remaingSelected.splice(index, 1);
+        const remainingSelected = [...selected];
+        remainingSelected.splice(index, 1);
 
-        setSelected(remaingSelected);
+        setSelected(remainingSelected);
       }
     }
   }
@@ -55,8 +58,14 @@ const RoundedCheckBoxGroup = forwardRef<
     },
   }));
 
+  const MainWrapper = labelAsColor ? ScrollView : Box;
+
+  const mainWrapperProps = labelAsColor
+    ? {showsHorizontalScrollIndicator: false, horizontal: true}
+    : {style: {flexDirection: 'row', flexWrap: 'wrap'}};
+
   return (
-    <Box flexDirection="row" flexWrap="wrap">
+    <MainWrapper {...mainWrapperProps}>
       {options.map(({id, label}) => {
         const isSelected = Array.isArray(selected)
           ? selected.findIndex((item) => item === id) !== -1
@@ -71,14 +80,14 @@ const RoundedCheckBoxGroup = forwardRef<
           <Pressable
             key={id}
             onPress={() => handleChange(id)}
-            style={{width: undefined, margin: theme.spacing.s}}>
+            style={{
+              width: undefined,
+              margin: theme.spacing.s,
+            }}>
             <Box
               height={50}
               width={50}
-              style={{
-                padding: 5,
-                borderRadius: 25,
-              }}
+              style={styles.outerOptionWrapper}
               justifyContent="center"
               alignItems="center"
               overflow="hidden"
@@ -90,28 +99,36 @@ const RoundedCheckBoxGroup = forwardRef<
                   height: 39,
                   width: 39,
                   borderRadius: 39 / 2,
-                  backgroundColor,
+                  backgroundColor: labelAsColor ? label : backgroundColor,
                 }}
                 justifyContent="center"
                 alignItems="center">
-                <AppText
-                  style={{
-                    width: 'auto',
-                    color,
-                  }}
-                  variant="body"
-                  center>
-                  {label}
-                </AppText>
+                {!labelAsColor ? (
+                  <AppText
+                    style={{
+                      color,
+                    }}
+                    variant="body"
+                    center>
+                    {label}
+                  </AppText>
+                ) : (
+                  isSelected && <Icon name="check" color={'white'} size={20} />
+                )}
               </Box>
             </Box>
           </Pressable>
         );
       })}
-    </Box>
+    </MainWrapper>
   );
 });
 
-const useStyles = makeStyles((theme: Theme) => ({}));
+const useStyles = makeStyles(() => ({
+  outerOptionWrapper: {
+    padding: 5,
+    borderRadius: 25,
+  },
+}));
 
 export default RoundedCheckBoxGroup;

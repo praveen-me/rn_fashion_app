@@ -21,7 +21,7 @@ const {width} = Dimensions.get('window');
 
 export default function Tabs({tabs, children}: TabsProps) {
   const [currentTab, setCurrentTab] = useState(0);
-  const transition = useTransition(currentTab, {duration: 400});
+  const transition = useTransition(currentTab, {duration: 300});
   const translateX = mix(transition, width * 0.25 - 5, width * 0.75 - 5);
 
   const styles = useStyles();

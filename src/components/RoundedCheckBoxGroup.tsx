@@ -2,7 +2,7 @@ import React, {useState, forwardRef, useImperativeHandle} from 'react';
 import {Pressable, ScrollView} from 'react-native';
 import makeStyles from '../lib/makeStyles';
 
-import {Box, useTheme} from '../contants/theme';
+import {Box, Theme, useTheme} from '../contants/theme';
 import AppText from './Text';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -80,10 +80,7 @@ const RoundedCheckBoxGroup = forwardRef<
           <Pressable
             key={id}
             onPress={() => handleChange(id)}
-            style={{
-              width: undefined,
-              margin: theme.spacing.s,
-            }}>
+            style={styles.btnStyles}>
             <Box
               height={50}
               width={50}
@@ -124,10 +121,14 @@ const RoundedCheckBoxGroup = forwardRef<
   );
 });
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   outerOptionWrapper: {
     padding: 5,
     borderRadius: 25,
+  },
+  btnStyles: {
+    width: undefined,
+    margin: theme.spacing.s,
   },
 }));
 

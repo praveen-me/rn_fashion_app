@@ -48,6 +48,7 @@ export default function Tabs({tabs, children}: TabsProps) {
           width: width * tabs.length,
           flexDirection: 'row',
           transform: [{translateX: multiply(-width, transition)}],
+          flex: 1,
         }}>
         {children.map((child, index) => (
           <Box flex={1} key={index} width={width}>

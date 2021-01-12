@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Switch} from 'react-native';
+import {Switch} from 'react-native';
 import AppText from '../../../components/Text';
 import {Box, useTheme} from '../../../contants/theme';
 

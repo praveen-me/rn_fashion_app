@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android:staging": "ENVFILE=.env.staging react-native run-android --variant=stagingDebug --appId com.rn_fashion_app.staging",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
@@ -23,6 +23,7 @@
     "moment": "^2.29.1",
     "react": "16.13.1",
     "react-native": "0.63.0",
+    "react-native-config": "^1.4.2",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.2",
     "react-native-reanimated": "^1.9.0",

@@ -84,6 +84,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -130,6 +131,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    flavorDimensions "default"
+
     defaultConfig {
         applicationId "com.rn_fashion_app"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -146,20 +149,20 @@ android {
         }
     }
     signingConfigs {
-        release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
+        staging {
+            storeFile file("rn-fashion-staging-keystore.jks")
+            storePassword System.getenv("ENV_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ENG_KEY_ALIAS")
+            keyPassword System.getenv("ENV_KEY_PASSWORD")
         }
-        debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+
+        production {
+            storeFile file("rn-fashion-production-keystore.jks")
+            storePassword System.getenv("ENV_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ENG_KEY_ALIAS")
+            keyPassword System.getenv("ENV_KEY_PASSWORD")
         }
+        
     }
     buildTypes {
         debug {
@@ -168,9 +171,21 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            // signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    productFlavors {
+        staging {
+            applicationIdSuffix ".staging"
+            signingConfig signingConfigs.staging
+            manifestPlaceholders = [appScheme: "rnfashionstagingapp"]
+        }
+        production {
+            signingConfig signingConfigs.production
+            manifestPlaceholders = [appScheme: "rnfashion"]
         }
     }
 

@@ -3,14 +3,39 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'rn_fashion_app' do
+# target 'rn_fashion_app' do
+#   config = use_native_modules!
+
+#   use_react_native!(:path => config["reactNativePath"])
+
+#   target 'rn_fashion_appTests' do
+#     inherit! :complete
+#     # Pods for testing
+#   end
+
+#   # Enables Flipper.
+#   #
+#   # Note that if you have use_frameworks! enabled, Flipper will not work and
+#   # you should disable these next few lines.
+#   use_flipper!
+#   post_install do |installer|
+#     flipper_post_install(installer)
+#   end
+# end
+
+
+abstract_target 'App' do
   config = use_native_modules!
-
   use_react_native!(:path => config["reactNativePath"])
-
-  target 'rn_fashion_appTests' do
-    inherit! :complete
-    # Pods for testing
+  target 'rn_fashion_app' do
+    #Production-specific pods
+    target 'rn_fashion_appTests' do
+      inherit! :complete
+      # Pods for testing
+    end
+  end
+  target 'RN Fashion Staging' do
+    #Development-specific pods
   end
 
   # Enables Flipper.

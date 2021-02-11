@@ -14,6 +14,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		180BE93C880F448A870A52B2 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9215E9977F4D93BAB91B65 /* Roboto-Bold.ttf */; };
+		186B9F137D5EE066489D0EB4 /* libPods-App-rn_fashion_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E963662BC5F3146D53B56DA /* libPods-App-rn_fashion_app.a */; };
 		1AA22006383943C19A20F427 /* SF-Pro-Display-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25B9513973B84051A8BFBEA2 /* SF-Pro-Display-ThinItalic.otf */; };
 		21BA91799E1947D89C719F7B /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D032469B349B4D80921976A6 /* SF-Pro-Display-Ultralight.otf */; };
 		2CA1F96452614DC5808011D2 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A62BB1119E84022BAB18FEB /* SF-Pro-Display-Semibold.otf */; };
@@ -25,14 +26,41 @@
 		4C79FCB72FF3472586C66802 /* SF-Pro-Display-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D28EC9B0F78D4382A4A2FEE3 /* SF-Pro-Display-SemiboldItalic.otf */; };
 		51EC571748FB4A3D83BFCA2C /* SF-Pro-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B88BF8111A3F471885F986C9 /* SF-Pro-Display-Light.otf */; };
 		55208638C3BC46939594F1F2 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F7B0F22B5EEA48DE98F9FFDF /* SF-Pro-Display-Bold.otf */; };
-		6DE1035BF7DE317FE9E328C2 /* libPods-rn_fashion_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B32E30124374EF66F22F144 /* libPods-rn_fashion_app.a */; };
+		5E7D815A0942095763ED3393 /* libPods-App-rn_fashion_app-rn_fashion_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A51AC2A8050DA80A9C5471 /* libPods-App-rn_fashion_app-rn_fashion_appTests.a */; };
+		6D12613F31EEB002EAE20F05 /* libPods-App-RN Fashion Staging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E30453F133B54D62443399B8 /* libPods-App-RN Fashion Staging.a */; };
 		7A525870EE17446482D5A0F4 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB8DA15ACAD74F58A32F6A10 /* Roboto-Regular.ttf */; };
 		7B35B947B4C944DFA3A67A26 /* SF-Pro-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF02138A15744FA39CCBE39E /* SF-Pro-Display-Medium.otf */; };
 		7DCF4CCBF7994AE8BD0CB3D2 /* SF-Pro-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = A483B7101A3147DF84808246 /* SF-Pro-Display-Heavy.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		842BF5F9A37344F490BD53A5 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3CAA3FB13E84AB29DA583A9 /* SF-Pro-Display-Thin.otf */; };
+		A25C1B4725D0EC65003FCE21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		A25C1B4825D0EC65003FCE21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		A25C1B4C25D0EC65003FCE21 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		A25C1B4D25D0EC65003FCE21 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		A25C1B4E25D0EC65003FCE21 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D9215E9977F4D93BAB91B65 /* Roboto-Bold.ttf */; };
+		A25C1B4F25D0EC65003FCE21 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B426CC1BF2F4304B99EF298 /* Roboto-Medium.ttf */; };
+		A25C1B5025D0EC65003FCE21 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB8DA15ACAD74F58A32F6A10 /* Roboto-Regular.ttf */; };
+		A25C1B5125D0EC65003FCE21 /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 430E2DA4C389475086641B14 /* SF-Pro-Display-Black.otf */; };
+		A25C1B5225D0EC65003FCE21 /* SF-Pro-Display-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF6575499567405DAD3D9BDD /* SF-Pro-Display-BlackItalic.otf */; };
+		A25C1B5325D0EC65003FCE21 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F7B0F22B5EEA48DE98F9FFDF /* SF-Pro-Display-Bold.otf */; };
+		A25C1B5425D0EC65003FCE21 /* SF-Pro-Display-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 8A75A05FD6C7484FB173EE69 /* SF-Pro-Display-BoldItalic.otf */; };
+		A25C1B5525D0EC65003FCE21 /* SF-Pro-Display-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = A483B7101A3147DF84808246 /* SF-Pro-Display-Heavy.otf */; };
+		A25C1B5625D0EC65003FCE21 /* SF-Pro-Display-HeavyItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8CD5E5F31AB4088B1B5878B /* SF-Pro-Display-HeavyItalic.otf */; };
+		A25C1B5725D0EC65003FCE21 /* SF-Pro-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = B88BF8111A3F471885F986C9 /* SF-Pro-Display-Light.otf */; };
+		A25C1B5825D0EC65003FCE21 /* SF-Pro-Display-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5F671DC833A4038A60B8891 /* SF-Pro-Display-LightItalic.otf */; };
+		A25C1B5925D0EC65003FCE21 /* SF-Pro-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF02138A15744FA39CCBE39E /* SF-Pro-Display-Medium.otf */; };
+		A25C1B5A25D0EC65003FCE21 /* SF-Pro-Display-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF39BB23654E46B7AB16CFDD /* SF-Pro-Display-MediumItalic.otf */; };
+		A25C1B5B25D0EC65003FCE21 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A79955A4970A4C2B82AD335A /* SF-Pro-Display-Regular.otf */; };
+		A25C1B5C25D0EC65003FCE21 /* SF-Pro-Display-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9312201687A41259AA9BD42 /* SF-Pro-Display-RegularItalic.otf */; };
+		A25C1B5D25D0EC65003FCE21 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0A62BB1119E84022BAB18FEB /* SF-Pro-Display-Semibold.otf */; };
+		A25C1B5E25D0EC65003FCE21 /* SF-Pro-Display-SemiboldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D28EC9B0F78D4382A4A2FEE3 /* SF-Pro-Display-SemiboldItalic.otf */; };
+		A25C1B5F25D0EC65003FCE21 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F3CAA3FB13E84AB29DA583A9 /* SF-Pro-Display-Thin.otf */; };
+		A25C1B6025D0EC65003FCE21 /* SF-Pro-Display-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 25B9513973B84051A8BFBEA2 /* SF-Pro-Display-ThinItalic.otf */; };
+		A25C1B6125D0EC65003FCE21 /* SF-Pro-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = D032469B349B4D80921976A6 /* SF-Pro-Display-Ultralight.otf */; };
+		A25C1B6225D0EC65003FCE21 /* SF-Pro-Display-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FBB6D0CA2E61424E9F370D94 /* SF-Pro-Display-UltralightItalic.otf */; };
+		A27409DB25D511C500F26CAC /* RN Fashion Staging-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A27409DA25D511C500F26CAC /* RN Fashion Staging-Info.plist */; };
+		A27409DC25D511C500F26CAC /* RN Fashion Staging-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A27409DA25D511C500F26CAC /* RN Fashion Staging-Info.plist */; };
 		AC46469A9B64494ABFE6CBD6 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A79955A4970A4C2B82AD335A /* SF-Pro-Display-Regular.otf */; };
-		C5A2E9E15985BB9A5A338FCD /* libPods-rn_fashion_app-rn_fashion_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F36FD6641BD6D81442298FE /* libPods-rn_fashion_app-rn_fashion_appTests.a */; };
 		D4E9E33200F44EE98E56B197 /* SF-Pro-Display-UltralightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = FBB6D0CA2E61424E9F370D94 /* SF-Pro-Display-UltralightItalic.otf */; };
 		E58CA1833A8D4BD796B43501 /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 430E2DA4C389475086641B14 /* SF-Pro-Display-Black.otf */; };
 		F5506578961144BCAA160DC2 /* SF-Pro-Display-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D9312201687A41259AA9BD42 /* SF-Pro-Display-RegularItalic.otf */; };
@@ -64,37 +92,46 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* rn_fashion_appTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rn_fashion_appTests.m; sourceTree = "<group>"; };
 		0A62BB1119E84022BAB18FEB /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Semibold.otf"; path = "../assets/fonts/SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
-		0B32E30124374EF66F22F144 /* libPods-rn_fashion_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rn_fashion_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0F36FD6641BD6D81442298FE /* libPods-rn_fashion_app-rn_fashion_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rn_fashion_app-rn_fashion_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* rn_fashion_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rn_fashion_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rn_fashion_app/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = rn_fashion_app/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = rn_fashion_app/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rn_fashion_app/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rn_fashion_app/main.m; sourceTree = "<group>"; };
+		201CD6296364EF6FDE22B5A8 /* Pods-App-RN Fashion Staging.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-RN Fashion Staging.release.xcconfig"; path = "Target Support Files/Pods-App-RN Fashion Staging/Pods-App-RN Fashion Staging.release.xcconfig"; sourceTree = "<group>"; };
 		25B9513973B84051A8BFBEA2 /* SF-Pro-Display-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-ThinItalic.otf"; path = "../assets/fonts/SF-Pro-Display-ThinItalic.otf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* rn_fashion_app-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rn_fashion_app-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* rn_fashion_app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rn_fashion_app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E963662BC5F3146D53B56DA /* libPods-App-rn_fashion_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-App-rn_fashion_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		430E2DA4C389475086641B14 /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Black.otf"; path = "../assets/fonts/SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
+		631F44CB62141632AE40875A /* Pods-App-rn_fashion_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-rn_fashion_app.release.xcconfig"; path = "Target Support Files/Pods-App-rn_fashion_app/Pods-App-rn_fashion_app.release.xcconfig"; sourceTree = "<group>"; };
 		7B426CC1BF2F4304B99EF298 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rn_fashion_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A75A05FD6C7484FB173EE69 /* SF-Pro-Display-BoldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-BoldItalic.otf"; path = "../assets/fonts/SF-Pro-Display-BoldItalic.otf"; sourceTree = "<group>"; };
+		8D869C7D3783EBA6A0032F8D /* Pods-App-rn_fashion_app-rn_fashion_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-rn_fashion_app-rn_fashion_appTests.release.xcconfig"; path = "Target Support Files/Pods-App-rn_fashion_app-rn_fashion_appTests/Pods-App-rn_fashion_app-rn_fashion_appTests.release.xcconfig"; sourceTree = "<group>"; };
+		8E2A3897988CB5CA22B963E1 /* Pods-App-RN Fashion Staging.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-RN Fashion Staging.debug.xcconfig"; path = "Target Support Files/Pods-App-RN Fashion Staging/Pods-App-RN Fashion Staging.debug.xcconfig"; sourceTree = "<group>"; };
+		90620C18C23EE3ADBF525EB1 /* Pods-App-rn_fashion_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-rn_fashion_app.debug.xcconfig"; path = "Target Support Files/Pods-App-rn_fashion_app/Pods-App-rn_fashion_app.debug.xcconfig"; sourceTree = "<group>"; };
 		920AE01196CF291853BA329C /* Pods-rn_fashion_app-rn_fashion_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app-rn_fashion_appTests.release.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app-rn_fashion_appTests/Pods-rn_fashion_app-rn_fashion_appTests.release.xcconfig"; sourceTree = "<group>"; };
 		9D9215E9977F4D93BAB91B65 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		A25C1B6825D0EC65003FCE21 /* RN Fashion Staging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RN Fashion Staging.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A27409DA25D511C500F26CAC /* RN Fashion Staging-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "RN Fashion Staging-Info.plist"; path = "rn_fashion_app/RN Fashion Staging-Info.plist"; sourceTree = "<group>"; };
 		A483B7101A3147DF84808246 /* SF-Pro-Display-Heavy.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Heavy.otf"; path = "../assets/fonts/SF-Pro-Display-Heavy.otf"; sourceTree = "<group>"; };
-		A73D6623F5213E78782B8867 /* Pods-rn_fashion_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app.release.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app.release.xcconfig"; sourceTree = "<group>"; };
 		A79955A4970A4C2B82AD335A /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Regular.otf"; path = "../assets/fonts/SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
 		AF39BB23654E46B7AB16CFDD /* SF-Pro-Display-MediumItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-MediumItalic.otf"; path = "../assets/fonts/SF-Pro-Display-MediumItalic.otf"; sourceTree = "<group>"; };
+		B7263E9FB6E0C4CA95869D33 /* Pods-App-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App-rn_fashion_app-rn_fashion_appTests.debug.xcconfig"; path = "Target Support Files/Pods-App-rn_fashion_app-rn_fashion_appTests/Pods-App-rn_fashion_app-rn_fashion_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B88BF8111A3F471885F986C9 /* SF-Pro-Display-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Light.otf"; path = "../assets/fonts/SF-Pro-Display-Light.otf"; sourceTree = "<group>"; };
 		D032469B349B4D80921976A6 /* SF-Pro-Display-Ultralight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Ultralight.otf"; path = "../assets/fonts/SF-Pro-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		D28EC9B0F78D4382A4A2FEE3 /* SF-Pro-Display-SemiboldItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-SemiboldItalic.otf"; path = "../assets/fonts/SF-Pro-Display-SemiboldItalic.otf"; sourceTree = "<group>"; };
 		D5B2C53165757B8DB1E88994 /* Pods-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app-rn_fashion_appTests.debug.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app-rn_fashion_appTests/Pods-rn_fashion_app-rn_fashion_appTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D5F5C6D2C3D531A63A64DE1E /* Pods-rn_fashion_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app.debug.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app.debug.xcconfig"; sourceTree = "<group>"; };
 		D9312201687A41259AA9BD42 /* SF-Pro-Display-RegularItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-RegularItalic.otf"; path = "../assets/fonts/SF-Pro-Display-RegularItalic.otf"; sourceTree = "<group>"; };
+		E30453F133B54D62443399B8 /* libPods-App-RN Fashion Staging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-App-RN Fashion Staging.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97D8F48CF3AE36DC25AF108 /* Pods-rn_fashion_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app.release.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app.release.xcconfig"; sourceTree = "<group>"; };
 		EB8DA15ACAD74F58A32F6A10 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F3A51AC2A8050DA80A9C5471 /* libPods-App-rn_fashion_app-rn_fashion_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-App-rn_fashion_app-rn_fashion_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3CAA3FB13E84AB29DA583A9 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-Thin.otf"; path = "../assets/fonts/SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
-		F3E913972B31574447799D3B /* Pods-rn_fashion_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rn_fashion_app.debug.xcconfig"; path = "Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app.debug.xcconfig"; sourceTree = "<group>"; };
 		F5F671DC833A4038A60B8891 /* SF-Pro-Display-LightItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-LightItalic.otf"; path = "../assets/fonts/SF-Pro-Display-LightItalic.otf"; sourceTree = "<group>"; };
 		F7B0F22B5EEA48DE98F9FFDF /* SF-Pro-Display-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "SF-Pro-Display-Bold.otf"; path = "fonts/SF-Pro-Display-Bold.otf"; sourceTree = "<group>"; };
 		F8CD5E5F31AB4088B1B5878B /* SF-Pro-Display-HeavyItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SF-Pro-Display-HeavyItalic.otf"; path = "../assets/fonts/SF-Pro-Display-HeavyItalic.otf"; sourceTree = "<group>"; };
@@ -108,7 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5A2E9E15985BB9A5A338FCD /* libPods-rn_fashion_app-rn_fashion_appTests.a in Frameworks */,
+				5E7D815A0942095763ED3393 /* libPods-App-rn_fashion_app-rn_fashion_appTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DE1035BF7DE317FE9E328C2 /* libPods-rn_fashion_app.a in Frameworks */,
+				186B9F137D5EE066489D0EB4 /* libPods-App-rn_fashion_app.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +168,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A25C1B4925D0EC65003FCE21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6D12613F31EEB002EAE20F05 /* libPods-App-RN Fashion Staging.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +206,7 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				A27409DA25D511C500F26CAC /* RN Fashion Staging-Info.plist */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -173,8 +219,9 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				0B32E30124374EF66F22F144 /* libPods-rn_fashion_app.a */,
-				0F36FD6641BD6D81442298FE /* libPods-rn_fashion_app-rn_fashion_appTests.a */,
+				E30453F133B54D62443399B8 /* libPods-App-RN Fashion Staging.a */,
+				2E963662BC5F3146D53B56DA /* libPods-App-rn_fashion_app.a */,
+				F3A51AC2A8050DA80A9C5471 /* libPods-App-rn_fashion_app-rn_fashion_appTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,6 +284,7 @@
 				00E356EE1AD99517003FC87E /* rn_fashion_appTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* rn_fashion_app-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* rn_fashion_app-tvOSTests.xctest */,
+				A25C1B6825D0EC65003FCE21 /* RN Fashion Staging.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -244,10 +292,16 @@
 		896751923113820FB4EA36BE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F3E913972B31574447799D3B /* Pods-rn_fashion_app.debug.xcconfig */,
-				A73D6623F5213E78782B8867 /* Pods-rn_fashion_app.release.xcconfig */,
 				D5B2C53165757B8DB1E88994 /* Pods-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */,
 				920AE01196CF291853BA329C /* Pods-rn_fashion_app-rn_fashion_appTests.release.xcconfig */,
+				D5F5C6D2C3D531A63A64DE1E /* Pods-rn_fashion_app.debug.xcconfig */,
+				E97D8F48CF3AE36DC25AF108 /* Pods-rn_fashion_app.release.xcconfig */,
+				8E2A3897988CB5CA22B963E1 /* Pods-App-RN Fashion Staging.debug.xcconfig */,
+				201CD6296364EF6FDE22B5A8 /* Pods-App-RN Fashion Staging.release.xcconfig */,
+				90620C18C23EE3ADBF525EB1 /* Pods-App-rn_fashion_app.debug.xcconfig */,
+				631F44CB62141632AE40875A /* Pods-App-rn_fashion_app.release.xcconfig */,
+				B7263E9FB6E0C4CA95869D33 /* Pods-App-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */,
+				8D869C7D3783EBA6A0032F8D /* Pods-App-rn_fashion_app-rn_fashion_appTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -333,6 +387,27 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* rn_fashion_app-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A25C1B4325D0EC65003FCE21 /* RN Fashion Staging */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A25C1B6525D0EC65003FCE21 /* Build configuration list for PBXNativeTarget "RN Fashion Staging" */;
+			buildPhases = (
+				3F28822610778FE861FF5491 /* [CP] Check Pods Manifest.lock */,
+				A25C1B4525D0EC65003FCE21 /* Start Packager */,
+				A25C1B4625D0EC65003FCE21 /* Sources */,
+				A25C1B4925D0EC65003FCE21 /* Frameworks */,
+				A25C1B4B25D0EC65003FCE21 /* Resources */,
+				A25C1B6325D0EC65003FCE21 /* Bundle React Native code and images */,
+				CA52ABC04EDED696D56B4687 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RN Fashion Staging";
+			productName = rn_fashion_app;
+			productReference = A25C1B6825D0EC65003FCE21 /* RN Fashion Staging.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -376,6 +451,7 @@
 				00E356ED1AD99517003FC87E /* rn_fashion_appTests */,
 				2D02E47A1E0B4A5D006451C7 /* rn_fashion_app-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* rn_fashion_app-tvOSTests */,
+				A25C1B4325D0EC65003FCE21 /* RN Fashion Staging */,
 			);
 		};
 /* End PBXProject section */
@@ -405,6 +481,7 @@
 				1188ED78A938455781601F18 /* SF-Pro-Display-HeavyItalic.otf in Resources */,
 				51EC571748FB4A3D83BFCA2C /* SF-Pro-Display-Light.otf in Resources */,
 				FCC9CA930CDB4E3BBC32A547 /* SF-Pro-Display-LightItalic.otf in Resources */,
+				A27409DB25D511C500F26CAC /* RN Fashion Staging-Info.plist in Resources */,
 				7B35B947B4C944DFA3A67A26 /* SF-Pro-Display-Medium.otf in Resources */,
 				0305F8BBDC05416ABF133F87 /* SF-Pro-Display-MediumItalic.otf in Resources */,
 				AC46469A9B64494ABFE6CBD6 /* SF-Pro-Display-Regular.otf in Resources */,
@@ -430,6 +507,37 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A25C1B4B25D0EC65003FCE21 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A25C1B4C25D0EC65003FCE21 /* LaunchScreen.storyboard in Resources */,
+				A25C1B4D25D0EC65003FCE21 /* Images.xcassets in Resources */,
+				A25C1B4E25D0EC65003FCE21 /* Roboto-Bold.ttf in Resources */,
+				A25C1B4F25D0EC65003FCE21 /* Roboto-Medium.ttf in Resources */,
+				A25C1B5025D0EC65003FCE21 /* Roboto-Regular.ttf in Resources */,
+				A25C1B5125D0EC65003FCE21 /* SF-Pro-Display-Black.otf in Resources */,
+				A25C1B5225D0EC65003FCE21 /* SF-Pro-Display-BlackItalic.otf in Resources */,
+				A25C1B5325D0EC65003FCE21 /* SF-Pro-Display-Bold.otf in Resources */,
+				A25C1B5425D0EC65003FCE21 /* SF-Pro-Display-BoldItalic.otf in Resources */,
+				A25C1B5525D0EC65003FCE21 /* SF-Pro-Display-Heavy.otf in Resources */,
+				A25C1B5625D0EC65003FCE21 /* SF-Pro-Display-HeavyItalic.otf in Resources */,
+				A25C1B5725D0EC65003FCE21 /* SF-Pro-Display-Light.otf in Resources */,
+				A25C1B5825D0EC65003FCE21 /* SF-Pro-Display-LightItalic.otf in Resources */,
+				A27409DC25D511C500F26CAC /* RN Fashion Staging-Info.plist in Resources */,
+				A25C1B5925D0EC65003FCE21 /* SF-Pro-Display-Medium.otf in Resources */,
+				A25C1B5A25D0EC65003FCE21 /* SF-Pro-Display-MediumItalic.otf in Resources */,
+				A25C1B5B25D0EC65003FCE21 /* SF-Pro-Display-Regular.otf in Resources */,
+				A25C1B5C25D0EC65003FCE21 /* SF-Pro-Display-RegularItalic.otf in Resources */,
+				A25C1B5D25D0EC65003FCE21 /* SF-Pro-Display-Semibold.otf in Resources */,
+				A25C1B5E25D0EC65003FCE21 /* SF-Pro-Display-SemiboldItalic.otf in Resources */,
+				A25C1B5F25D0EC65003FCE21 /* SF-Pro-Display-Thin.otf in Resources */,
+				A25C1B6025D0EC65003FCE21 /* SF-Pro-Display-ThinItalic.otf in Resources */,
+				A25C1B6125D0EC65003FCE21 /* SF-Pro-Display-Ultralight.otf in Resources */,
+				A25C1B6225D0EC65003FCE21 /* SF-Pro-Display-UltralightItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +573,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-rn_fashion_app-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-App-rn_fashion_app-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -486,13 +594,35 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		3F28822610778FE861FF5491 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-App-RN Fashion Staging-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4DF74E02309D0674CD39F2F6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-rn_fashion_app-rn_fashion_appTests/Pods-rn_fashion_app-rn_fashion_appTests-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-App-rn_fashion_app-rn_fashion_appTests/Pods-App-rn_fashion_app-rn_fashion_appTests-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -533,7 +663,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rn_fashion_app-rn_fashion_appTests/Pods-rn_fashion_app-rn_fashion_appTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App-rn_fashion_app-rn_fashion_appTests/Pods-App-rn_fashion_app-rn_fashion_appTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7673B7292A47C1F4F6B8C9E4 /* [CP] Copy Pods Resources */ = {
@@ -542,7 +672,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-App-rn_fashion_app/Pods-App-rn_fashion_app-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -583,7 +713,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-rn_fashion_app/Pods-rn_fashion_app-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App-rn_fashion_app/Pods-App-rn_fashion_app-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		99B57772D4E3BBB71ECEB08D /* [CP] Check Pods Manifest.lock */ = {
@@ -601,11 +731,94 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-rn_fashion_app-rn_fashion_appTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-App-rn_fashion_app-rn_fashion_appTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A25C1B4525D0EC65003FCE21 /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A25C1B6325D0EC65003FCE21 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+		};
+		CA52ABC04EDED696D56B4687 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-App-RN Fashion Staging/Pods-App-RN Fashion Staging-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-App-RN Fashion Staging/Pods-App-RN Fashion Staging-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -683,6 +896,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A25C1B4625D0EC65003FCE21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A25C1B4725D0EC65003FCE21 /* AppDelegate.m in Sources */,
+				A25C1B4825D0EC65003FCE21 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -701,7 +923,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D5B2C53165757B8DB1E88994 /* Pods-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */;
+			baseConfigurationReference = B7263E9FB6E0C4CA95869D33 /* Pods-App-rn_fashion_app-rn_fashion_appTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -724,7 +946,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 920AE01196CF291853BA329C /* Pods-rn_fashion_app-rn_fashion_appTests.release.xcconfig */;
+			baseConfigurationReference = 8D869C7D3783EBA6A0032F8D /* Pods-App-rn_fashion_app-rn_fashion_appTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -744,7 +966,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3E913972B31574447799D3B /* Pods-rn_fashion_app.debug.xcconfig */;
+			baseConfigurationReference = 90620C18C23EE3ADBF525EB1 /* Pods-App-rn_fashion_app.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -757,7 +979,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rn-fashion-app";
 				PRODUCT_NAME = rn_fashion_app;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -767,7 +989,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A73D6623F5213E78782B8867 /* Pods-rn_fashion_app.release.xcconfig */;
+			baseConfigurationReference = 631F44CB62141632AE40875A /* Pods-App-rn_fashion_app.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -779,7 +1001,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rn-fashion-app";
 				PRODUCT_NAME = rn_fashion_app;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1005,6 +1227,56 @@
 			};
 			name = Release;
 		};
+		A25C1B6625D0EC65003FCE21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8E2A3897988CB5CA22B963E1 /* Pods-App-RN Fashion Staging.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = "rn_fashion_app/RN Fashion Staging-Info.plist";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "";
+				INFOPLIST_PREFIX_HEADER = "";
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rn-fashion-app.staging";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		A25C1B6725D0EC65003FCE21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 201CD6296364EF6FDE22B5A8 /* Pods-App-RN Fashion Staging.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = "rn_fashion_app/RN Fashion Staging-Info.plist";
+				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "";
+				INFOPLIST_PREFIX_HEADER = "";
+				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.rn-fashion-app.staging";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1049,6 +1321,15 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A25C1B6525D0EC65003FCE21 /* Build configuration list for PBXNativeTarget "RN Fashion Staging" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A25C1B6625D0EC65003FCE21 /* Debug */,
+				A25C1B6725D0EC65003FCE21 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

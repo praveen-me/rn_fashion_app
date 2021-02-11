@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "android:staging": "ENVFILE=.env.staging react-native run-android --variant=stagingDebug --appId com.rn_fashion_app.staging",
-    "ios": "react-native run-ios",
+    "ios:staging": "react-native run-ios --scheme=\"RN Fashion Staging\"",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean-android": "cd android && ./gradlew clean && cd ..",
-    "clean-ios": "cd ios && xcodebuild clean && cd ../",
+    "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "apk": "cd android && ./gradlew app:assembleRelease && cd app && cd build && cd outputs && cd apk && cd release && open .",
     "bundle": "cd android && ENVFILE=.env.production ./gradlew bundleRelease && cd app && cd build && cd outputs && cd bundle && cd release && open ."
   },

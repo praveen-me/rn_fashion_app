@@ -25,6 +25,7 @@ import FavouriteOutfits from '../../containers/Home/FavouriteOutfits';
 import TransactionHistory from '../../containers/Home/TransactionHistory';
 import EditProfile from '../../containers/Home/EditProfile';
 import NotificationSettings from '../../containers/Home/NotificationSettings';
+import Cart from '../../containers/Home/Cart';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -54,7 +55,8 @@ type HomeRouteName =
   | 'FavouriteOutfits'
   | 'TransactionHistory'
   | 'EditProfile'
-  | 'NotificationSettings';
+  | 'NotificationSettings'
+  | 'Cart';
 
 type AuthRoute = {
   name: AuthRouteName;
@@ -91,6 +93,7 @@ export type HomeRoutes = {
   TransactionHistory: undefined;
   EditProfile: undefined;
   NotificationSettings: undefined;
+  Cart: undefined;
 };
 
 export type AllRoutes = HomeRoutes | AuthRoutes;
@@ -186,6 +189,10 @@ const HomeDrawerRoutes: HomeRoute[] = [
   {
     name: 'NotificationSettings',
     component: NotificationSettings,
+  },
+  {
+    name: 'Cart',
+    component: Cart,
   },
 ];
 

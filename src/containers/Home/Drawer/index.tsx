@@ -95,7 +95,12 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
                 props.navigation.dispatch(DrawerActions.closeDrawer());
               },
             }}
-            right={{icon: 'shopping-bag', onPress: () => {}}}
+            right={{
+              icon: 'shopping-bag',
+              onPress: () => {
+                props.navigation.navigate('Cart');
+              },
+            }}
             title="My Profile"
             dark
           />

@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean-android": "cd android && ./gradlew clean && cd ..",
+    "clean:android": "cd android && ENVFILE=.env.staging ./gradlew clean && cd ..",
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "apk": "cd android && ./gradlew app:assembleRelease && cd app && cd build && cd outputs && cd apk && cd release && open .",
     "bundle": "cd android && ENVFILE=.env.production ./gradlew bundleRelease && cd app && cd build && cd outputs && cd bundle && cd release && open ."
@@ -30,6 +30,7 @@
     "react-native-redash": "^14.2.3",
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.0.0",
     "yup": "^0.29.3"

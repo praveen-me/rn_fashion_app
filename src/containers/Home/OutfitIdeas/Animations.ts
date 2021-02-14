@@ -40,7 +40,7 @@ export const useSpring = ({
     toValue: useValue(0),
     damping: 6,
     mass: 1,
-    stiffness: 64,
+    stiffness: 30,
     overShootClamping: useValue(0),
     restSpeedThreshold: useValue(0.01),
     restDisplacementThreshold: useValue(0.01),

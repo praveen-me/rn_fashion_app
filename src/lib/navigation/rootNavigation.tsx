@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 
 import {
   CompositeNavigationProp,
@@ -26,6 +27,7 @@ import TransactionHistory from '../../containers/Home/TransactionHistory';
 import EditProfile from '../../containers/Home/EditProfile';
 import NotificationSettings from '../../containers/Home/NotificationSettings';
 import Cart from '../../containers/Home/Cart';
+import useIsLoggedIn from '../../context/useIsLoggedIn';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -131,17 +133,6 @@ const AuthStackScreens = () => {
   );
 };
 
-const AppStackRoutes: Array<AppRoute> = [
-  {
-    name: 'Home',
-    component: HomeDrawerScreens,
-  },
-  {
-    name: 'Auth',
-    component: AuthStackScreens,
-  },
-];
-
 const StackRoutes: Array<AuthRoute> = [
   {
     name: 'Onboarding',
@@ -197,21 +188,40 @@ const HomeDrawerRoutes: HomeRoute[] = [
 ];
 
 const RootNavigator = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn] = useIsLoggedIn();
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    if (isLoggedIn === 'true' || isLoggedIn === null) {
+      setIsLoading(false);
+    }
+  }, [isLoggedIn]);
 
-  return (
+  return !isLoading ? (
     <NavigationContainer>
       <AppStack.Navigator
         headerMode="none"
-        initialRouteName={true ? 'Home' : 'Auth'}>
-        {AppStackRoutes.map(({name, component}, index) => (
-          <AppStack.Screen name={name} component={component} key={index} />
-        ))}
+        initialRouteName={isLoggedIn === 'true' ? 'Home' : 'Auth'}>
+        {isLoggedIn === 'true' ? (
+          <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
+        ) : (
+          <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
+        )}
       </AppStack.Navigator>
     </NavigationContainer>
+  ) : (
+    <View style={styles.activityContainer}>
+      <ActivityIndicator size="large" />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  activityContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default RootNavigator;

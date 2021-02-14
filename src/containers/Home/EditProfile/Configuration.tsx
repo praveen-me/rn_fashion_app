@@ -156,16 +156,6 @@ export default function Configuration() {
           type="multi"
         />
       </Box>
-
-      <Button
-        title="One"
-        onPress={() => {
-          console.log(outfitRef.current?.value);
-          console.log(preferredBrandsRef.current?.value);
-          console.log(clothingSizeRef.current?.value);
-          console.log(preferredColorsRef.current?.value);
-        }}
-      />
     </ScrollView>
   );
 }

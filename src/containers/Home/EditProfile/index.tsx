@@ -1,6 +1,6 @@
-import React from 'react';
-import {StatusBar, StyleSheet} from 'react-native';
-import {Box, useTheme} from '../../../contants/theme';
+import React, {useRef} from 'react';
+import {StatusBar, Dimensions} from 'react-native';
+import {Box, Theme, useTheme} from '../../../contants/theme';
 import Header from '../../../components/Header';
 import {DrawerActions} from '@react-navigation/native';
 import {HomeNavigationProps} from 'src/lib/navigation/rootNavigation';
@@ -8,6 +8,14 @@ import AppText from '../../../components/Text';
 import Tabs from './Tabs';
 import Configuration from './Configuration';
 import PersonalInfo from './PersonalInfo';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {PanGestureHandler} from 'react-native-gesture-handler';
+import {usePanGestureHandler} from 'react-native-redash';
+import Animated, {Extrapolate, interpolate} from 'react-native-reanimated';
+import {useSpring} from '../OutfitIdeas/Animations';
+import makeStyles from '../../../lib/makeStyles';
+
+const {width: wWidth} = Dimensions.get('screen');
 
 const tabs = [
   {
@@ -24,9 +32,39 @@ export default function EditProfile({
   navigation,
 }: HomeNavigationProps<'EditProfile'>) {
   const theme = useTheme();
+  const isSwiped = useRef(false);
+  const styles = useStyles();
+
+  const {gestureHandler, translation, velocity, state} = usePanGestureHandler();
+
+  const translateX = useSpring({
+    value: translation.x,
+    velocity: velocity.x,
+    state,
+    snapPoints: [0, wWidth - 90],
+    onSnap: ([x]) => {
+      if (x === wWidth - 90) {
+        onSwiped();
+      }
+    },
+  });
+
+  const textOpacity = interpolate(translation.x, {
+    inputRange: [0, wWidth - 100],
+    outputRange: [1, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
+  function onSwiped() {
+    if (!isSwiped.current) {
+      isSwiped.current = true;
+
+      console.log('swiped');
+    }
+  }
 
   return (
-    <>
+    <Box backgroundColor="white" flex={1}>
       <StatusBar barStyle="light-content" />
       <Box flex={1}>
         <Box flex={0.2} backgroundColor="white">
@@ -62,7 +100,6 @@ export default function EditProfile({
             bottom={0}
             borderTopLeftRadius="xl"
             backgroundColor="white"
-            borderBottomRightRadius="xl"
             paddingTop="xl">
             <Box
               height={100}
@@ -90,8 +127,45 @@ export default function EditProfile({
           </Box>
         </Box>
       </Box>
-    </>
+      <PanGestureHandler {...gestureHandler}>
+        <Animated.View style={styles.sliderBtnContainer}>
+          <Animated.View
+            style={[styles.sliderBtn, {transform: [{translateX}]}]}>
+            <Icon
+              name="grip-vertical"
+              size={20}
+              color={theme.colors.primatyBtnBg}
+            />
+          </Animated.View>
+          <Animated.View style={{flex: 1, opacity: textOpacity}}>
+            <AppText style={{color: 'white'}} center>
+              Swipe to save changes
+            </AppText>
+          </Animated.View>
+        </Animated.View>
+      </PanGestureHandler>
+    </Box>
   );
 }
 
-const styles = StyleSheet.create({});
+const useStyles = makeStyles((theme: Theme) => ({
+  sliderBtnContainer: {
+    backgroundColor: theme.colors.primatyBtnBg,
+    margin: 15,
+    padding: 15,
+    borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  sliderBtn: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 100,
+    marginLeft: 10,
+  },
+}));

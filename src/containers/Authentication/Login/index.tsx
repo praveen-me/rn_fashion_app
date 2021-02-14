@@ -1,18 +1,20 @@
 import React, {useRef} from 'react';
-import {Alert, TextInput as RNTextInput} from 'react-native';
+import {TextInput as RNTextInput} from 'react-native';
 import Button from '../../../components/Button';
 import Container from '../../../components/Container';
 import AppText from '../../../components/Text';
 import {Box, useTheme} from '../../../contants/theme';
 import CheckBox from '../components/Form/CheckBox';
 import TextInput from '../components/Form/TextInput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useFormik} from 'formik';
 
 import * as Yup from 'yup';
 import Footer from '../components/Footer';
 import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
-import {CommonActions} from '@react-navigation/native';
+import {IS_LOGGED_IN} from '../../../lib/keys';
+import useIsLoggedIn from '../../../context/useIsLoggedIn';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -21,6 +23,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
+  const [_, setIsLoggedIn] = useIsLoggedIn();
+
   const theme = useTheme();
   const {
     handleChange,
@@ -32,17 +36,10 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
     setFieldValue,
   } = useFormik({
     initialValues: {email: '', password: '', remember: false},
-    onSubmit: () =>
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'Home',
-            },
-          ],
-        }),
-      ),
+    onSubmit: async () => {
+      await AsyncStorage.setItem(IS_LOGGED_IN, 'true');
+      setIsLoggedIn('true');
+    },
     validationSchema: LoginSchema,
   });
 

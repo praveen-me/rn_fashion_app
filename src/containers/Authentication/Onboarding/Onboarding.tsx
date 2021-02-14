@@ -125,6 +125,14 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
     }
   };
 
+  function onNextSlide(index: number, last: boolean) {
+    if (last) {
+      navigation.navigate('Welcome');
+    } else {
+      onPress(index);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.slider, {backgroundColor}]}>
@@ -193,11 +201,7 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
                   {...{description, subTitle}}
                   last={last}
                   onPress={() => {
-                    if (last) {
-                      navigation.navigate('Welcome');
-                    } else {
-                      onPress(index);
-                    }
+                    onNextSlide(index, last);
                   }}
                 />
               );

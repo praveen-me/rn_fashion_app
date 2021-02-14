@@ -17,6 +17,18 @@ const {width} = Dimensions.get('window');
 const Welcome = ({navigation}: AuthNavigationProps<'Welcome'>) => {
   const theme = useTheme();
 
+  function onPressLogin() {
+    navigation.navigate('Login');
+  }
+
+  function onPressJoinUs() {
+    navigation.navigate('SignUp');
+  }
+
+  function onPressForgotPassword() {
+    navigation.navigate('ForgetPassword');
+  }
+
   return (
     <Box flex={1} backgroundColor="white">
       <Box
@@ -57,15 +69,13 @@ const Welcome = ({navigation}: AuthNavigationProps<'Welcome'>) => {
             Login to your account below or signup for an amazing experience
           </AppText>
           <Button
-            onPress={() => {
-              navigation.navigate('Login');
-            }}
+            onPress={onPressLogin}
             label="Have an account? login"
             variant="primary"
           />
-          <Button onPress={() => {}} label="Join us, it's free" />
+          <Button onPress={onPressJoinUs} label="Join us, it's free" />
           <Button
-            onPress={() => {}}
+            onPress={onPressForgotPassword}
             label="Forgot Password?"
             variant="transparent"
           />

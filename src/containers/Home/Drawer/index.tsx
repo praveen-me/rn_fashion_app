@@ -2,18 +2,17 @@ import {
   DrawerContentComponentProps,
   DrawerContentOptions,
 } from '@react-navigation/drawer';
-import {
-  CommonActions,
-  DrawerActions,
-  useNavigation,
-} from '@react-navigation/native';
+import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Dimensions} from 'react-native';
 import Header from '../../../components/Header';
 import AppText from '../../../components/Text';
 import theme, {Box} from '../../../contants/theme';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DrawerItem from './DrawerItem';
+import {IS_LOGGED_IN} from '../../../lib/keys';
+import useIsLoggedIn from '../../../context/useIsLoggedIn';
 
 const {width: wWidth, height: hHeight} = Dimensions.get('screen');
 export const DRAWER_WIDTH = wWidth;
@@ -56,23 +55,13 @@ const drawerItems = [
   {
     icon: 'log-out',
     label: 'Logout',
-    onPress: (navigation: ReturnType<typeof useNavigation>) => {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'Auth',
-            },
-          ],
-        }),
-      );
-    },
     color: 'textPrimaryColor',
   },
 ];
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
+  const [_, setIsLoggedIn] = useIsLoggedIn();
+
   return (
     <Box flex={1} overflow="hidden">
       <Image
@@ -141,9 +130,16 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
             </AppText>
             <AppText center>mike@email.com</AppText>
           </Box>
-          {drawerItems.map((item) => (
-            <DrawerItem {...item} key={item.icon} />
-          ))}
+          {drawerItems.map((item) => {
+            if (item.label === 'Logout') {
+              item.onPress = async () => {
+                await AsyncStorage.removeItem(IS_LOGGED_IN);
+                setIsLoggedIn('false');
+              };
+            }
+
+            return <DrawerItem {...item} key={item.icon} />;
+          })}
         </Box>
       </Box>
       <Box

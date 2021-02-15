@@ -38,7 +38,7 @@ platform :android do
       gradle_file_path: "./android/app/build.gradle",
       ext_constant_name:"versionName"
     )
-    gradle(task: "app:assembleRelease", project_dir: "android/", flavour: 'staging')
+    gradle(task: "app:assembleRelease", project_dir: "android/", flavor: 'staging')
     puts versioncode
     puts version_name
   end

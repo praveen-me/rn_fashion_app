@@ -28,6 +28,7 @@ platform :android do
 
   desc "Build the application"
   lane :beta do
+    ENV['ENVFILE'] = '.env.staging'
     versioncode = increment_version_code
     versionname = increment_version_name(
       gradle_file_path: "./android/app/build.gradle",
@@ -37,7 +38,7 @@ platform :android do
       gradle_file_path: "./android/app/build.gradle",
       ext_constant_name:"versionName"
     )
-    gradle(task: "app:assembleRelease", project_dir: "android/")
+    gradle(task: "app:assembleRelease", project_dir: "android/", flavour: 'staging')
     puts versioncode
     puts version_name
   end

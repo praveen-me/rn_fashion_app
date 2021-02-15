@@ -49,7 +49,7 @@ export default function EditProfile({
     },
   });
 
-  const textOpacity = interpolate(translation.x, {
+  const opacity = interpolate(translation.x, {
     inputRange: [0, wWidth - 100],
     outputRange: [1, 0],
     extrapolate: Extrapolate.CLAMP,
@@ -137,7 +137,7 @@ export default function EditProfile({
               color={theme.colors.primatyBtnBg}
             />
           </Animated.View>
-          <Animated.View style={{flex: 1, opacity: textOpacity}}>
+          <Animated.View style={{flex: 1, opacity}}>
             <AppText style={{color: 'white'}} center>
               Swipe to save changes
             </AppText>
@@ -167,5 +167,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'absolute',
     zIndex: 100,
     marginLeft: 10,
+    elevation: 5,
   },
 }));

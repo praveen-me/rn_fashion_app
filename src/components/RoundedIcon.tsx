@@ -20,7 +20,7 @@ const RoundedIcon = ({
   iconRatio,
 }: RoundedIconProps) => {
   const iconDimensions = iconSize || size * (iconRatio || 0.7);
-
+  console.log({color, backgroundColor});
   return (
     <Box
       justifyContent="center"

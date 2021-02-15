@@ -30,7 +30,10 @@ export default function Tabs({tabs, children}: TabsProps) {
     <Box flex={1}>
       <Box flexDirection="row" justifyContent="space-around">
         {tabs.map((tab, index) => (
-          <RectButton style={{flex: 1}} onPress={() => setCurrentTab(index)}>
+          <RectButton
+            style={{flex: 1}}
+            onPress={() => setCurrentTab(index)}
+            key={index.toString()}>
             <Box key={tab.id} padding="m">
               <AppText variant="body" bold center>
                 {tab.label}

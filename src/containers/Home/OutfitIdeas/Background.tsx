@@ -2,9 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {Box, useTheme} from '../../../contants/theme';
 
-interface Props {}
-
-const Background = (props: Props) => {
+const Background = () => {
   const theme = useTheme();
 
   return (

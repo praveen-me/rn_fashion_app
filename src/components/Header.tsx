@@ -24,7 +24,8 @@ const Header = ({title, left, right, dark}: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
-  const color = dark ? 'white' : 'textPrimaryColor';
+  const textColor = dark ? 'white' : 'textPrimaryColor';
+  const color = dark ? theme.colors.white : theme.colors.textPrimaryColor;
   const backgroundColor = dark ? 'textPrimaryColor' : 'lightGrey';
 
   return (
@@ -42,7 +43,7 @@ const Header = ({title, left, right, dark}: HeaderProps) => {
         iconRatio={0.5}
       />
       <AppText
-        style={{...styles.headerTitle, color: theme.colors[color]}}
+        style={{...styles.headerTitle, color: theme.colors[textColor]}}
         medium>
         {title.toUpperCase()}
       </AppText>

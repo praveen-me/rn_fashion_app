@@ -54,7 +54,7 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
 
     return (
       <Box flexDirection="row" flexWrap="wrap">
-        {options.map(({id, label}) => {
+        {options.map(({id, label}, index) => {
           const isSelected = Array.isArray(selected)
             ? selected.findIndex((item) => item === id) !== -1
             : id === selected;
@@ -66,7 +66,7 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
 
           return (
             <Pressable
-              key={id}
+              key={id + index}
               onPress={() => handleChange(id)}
               style={{width: undefined, margin: theme.spacing.s}}>
               <Box

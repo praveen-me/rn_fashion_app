@@ -15,12 +15,18 @@ interface Tab {
 interface TabsProps {
   tabs: Tab[];
   children: ReactNode[];
+  currentTab: number;
+  setCurrentTab: (index: number) => void;
 }
 
 const {width} = Dimensions.get('window');
 
-export default function Tabs({tabs, children}: TabsProps) {
-  const [currentTab, setCurrentTab] = useState(0);
+export default function Tabs({
+  tabs,
+  children,
+  currentTab,
+  setCurrentTab,
+}: TabsProps) {
   const transition = useTransition(currentTab, {duration: 300});
   const translateX = mix(transition, width * 0.25 - 5, width * 0.75 - 5);
 

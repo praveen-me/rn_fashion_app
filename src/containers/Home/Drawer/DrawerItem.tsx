@@ -33,11 +33,16 @@ const DrawerItem = ({icon, color, label, ...props}: DrawerItemProps) => {
     <RectButton
       activeOpacity={0.1}
       style={{borderRadius: theme.spacing.m}}
-      onPress={() =>
+      onPress={() => {
+        const params =
+          'screen' in props && props.screen === 'EditProfile'
+            ? {showSaveBtn: true}
+            : {};
+
         'screen' in props
-          ? navigation.navigate(props.screen)
-          : props.onPress(navigation)
-      }>
+          ? navigation.navigate(props.screen, params)
+          : props.onPress(navigation);
+      }}>
       <Box flexDirection="row" alignItems="center" padding="m">
         <RoundedIcon
           {...{name: icon}}

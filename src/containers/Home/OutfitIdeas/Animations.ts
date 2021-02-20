@@ -1,3 +1,4 @@
+import React, {useEffect, useRef, useState} from 'react';
 import {State} from 'react-native-gesture-handler';
 import Animated, {
   add,
@@ -35,13 +36,12 @@ export const useSpring = ({
     time: useValue(0),
     velocity: useValue(0),
   };
-
   const config = {
     toValue: useValue(0),
     damping: 6,
     mass: 1,
     stiffness: 30,
-    overShootClamping: useValue(0),
+    overshootClamping: useValue(0),
     restSpeedThreshold: useValue(0.01),
     restDisplacementThreshold: useValue(0.01),
   };
@@ -63,12 +63,12 @@ export const useSpring = ({
       cond(
         eq(config.toValue, 0),
         [
-          set(config.overShootClamping, 0),
+          set(config.overshootClamping, 0),
           set(config.restSpeedThreshold, 0),
           set(config.restDisplacementThreshold, 0),
         ],
         [
-          set(config.overShootClamping, 1),
+          set(config.overshootClamping, 1),
           set(config.restSpeedThreshold, 100),
           set(config.restDisplacementThreshold, 100),
         ],

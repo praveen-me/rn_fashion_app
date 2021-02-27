@@ -10,8 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean:android": "cd android && ENVFILE=.env.staging ./gradlew clean && cd ..",
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
-    "apk": "cd android && ./gradlew app:assembleRelease && cd app && cd build && cd outputs && cd apk && cd release && open .",
-    "bundle": "cd android && ENVFILE=.env.production ./gradlew bundleRelease && cd app && cd build && cd outputs && cd bundle && cd release && open ."
+    "apk": "cd android && ENVFILE=.env ./gradlew app:assembleRelease && cd app && cd build && cd outputs && cd apk && cd production && cd release && open .",
+    "bundle": "cd android && ENVFILE=.env ./gradlew bundleRelease && cd app && cd build && cd outputs && cd bundle && cd release && open ."
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.4",
@@ -33,7 +33,7 @@
     "react-native-screens": "^2.9.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
-    "react-native-vector-icons": "^7.0.0",
+    "react-native-vector-icons": "^8.1.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {

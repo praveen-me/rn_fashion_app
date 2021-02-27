@@ -80,7 +80,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -94,12 +94,12 @@ apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.grad
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -122,6 +122,11 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -130,7 +135,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     flavorDimensions "default"
 
     defaultConfig {
@@ -139,6 +143,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -157,10 +162,10 @@ android {
         }
 
         production {
-            storeFile file("rn-fashion-production-keystore.jks")
-            storePassword System.getenv("ENV_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("ENG_KEY_ALIAS")
-            keyPassword System.getenv("ENV_KEY_PASSWORD")
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties["ENV_KEYSTORE_PASSWORD"]
+            keyAlias keystoreProperties["ENG_KEY_ALIAS"]
+            keyPassword keystoreProperties["ENV_KEY_PASSWORD"]
         }
         
     }
@@ -171,7 +176,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            // signingConfig signingConfigs.debug
+            signingConfig signingConfigs.production
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -213,6 +218,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
+    implementation 'com.android.support:multidex:1.0.3'
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
     }

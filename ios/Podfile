@@ -10,6 +10,8 @@ platform :ios, '10.0'
 
 pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 #   target 'rn_fashion_appTests' do
 #     inherit! :complete
 #     # Pods for testing

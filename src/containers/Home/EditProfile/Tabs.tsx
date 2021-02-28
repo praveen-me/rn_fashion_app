@@ -6,6 +6,8 @@ import {mix, useTransition} from 'react-native-redash';
 import makeStyles from '../../../lib/makeStyles';
 import AppText from '../../../components/Text';
 import {Box, Theme} from '../../../contants/theme';
+import Configuration from './Configuration';
+import PersonalInfo from './PersonalInfo';
 
 interface Tab {
   id: string;
@@ -14,19 +16,13 @@ interface Tab {
 
 interface TabsProps {
   tabs: Tab[];
-  children: ReactNode[];
   currentTab: number;
   setCurrentTab: (index: number) => void;
 }
 
 const {width} = Dimensions.get('window');
 
-export default function Tabs({
-  tabs,
-  children,
-  currentTab,
-  setCurrentTab,
-}: TabsProps) {
+export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
   const transition = useTransition(currentTab, {duration: 300});
   const translateX = mix(transition, width * 0.25 - 5, width * 0.75 - 5);
 
@@ -39,8 +35,8 @@ export default function Tabs({
           <RectButton
             style={{flex: 1}}
             onPress={() => setCurrentTab(index)}
-            key={index.toString()}>
-            <Box key={tab.id} padding="m">
+            key={tab.label}>
+            <Box padding="m">
               <AppText variant="body" bold center>
                 {tab.label}
               </AppText>
@@ -59,9 +55,9 @@ export default function Tabs({
           transform: [{translateX: multiply(-width, transition)}],
           flex: 1,
         }}>
-        {children.map((child, index) => (
-          <Box flex={1} key={index} width={width}>
-            {child}
+        {tabs.map((tab) => (
+          <Box flex={1} key={tab.id} width={width}>
+            {tab.id === 'configuration' ? <Configuration /> : <PersonalInfo />}
           </Box>
         ))}
       </Animated.View>

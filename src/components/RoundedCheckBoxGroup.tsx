@@ -78,7 +78,7 @@ const RoundedCheckBoxGroup = forwardRef<
 
         return (
           <Pressable
-            key={label}
+            key={id}
             onPress={() => handleChange(id)}
             style={styles.btnStyles}>
             <Box

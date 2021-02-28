@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => {
       height: undefined,
       width: undefined,
       borderTopLeftRadius: 75,
-      background: 'transparent',
+      backgroundColor: 'transparent',
     },
   };
 });
@@ -66,13 +66,13 @@ const graphData: Point[] = [
     date: new Date('2020-01-09').getTime(),
     value: 139.42,
     color: '#0C0D34',
-    id: 24579,
+    id: 24589,
   },
   {
     date: new Date('2020-02-01').getTime(),
     value: 200.98,
     color: '#FF0058',
-    id: 24580,
+    id: 24584,
   },
   {
     date: new Date('2020-03-01').getTime(),

@@ -6,8 +6,6 @@ import {DrawerActions} from '@react-navigation/native';
 import {HomeNavigationProps} from 'src/lib/navigation/rootNavigation';
 import AppText from '../../../components/Text';
 import Tabs from './Tabs';
-import Configuration from './Configuration';
-import PersonalInfo from './PersonalInfo';
 import BottomSaveButton from './BottomSaveButton';
 
 const tabs = [
@@ -104,9 +102,8 @@ export default function EditProfile({
                 <Tabs
                   tabs={tabs}
                   currentTab={currentTab}
-                  setCurrentTab={setCurrentTab}>
-                  {[<Configuration />, <PersonalInfo />]}
-                </Tabs>
+                  setCurrentTab={setCurrentTab}
+                />
               </Box>
             </Box>
           </Box>

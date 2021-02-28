@@ -66,7 +66,7 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
 
           return (
             <Pressable
-              key={id + index}
+              key={id}
               onPress={() => handleChange(id)}
               style={{width: undefined, margin: theme.spacing.s}}>
               <Box

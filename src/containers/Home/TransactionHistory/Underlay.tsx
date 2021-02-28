@@ -59,7 +59,7 @@ const Underlay = ({
           .map((_, i) => minDate.clone().add(i, 'month'))
           .map((date) => {
             return (
-              <Box width={step} style={{top: ROW_HEIGHT}}>
+              <Box width={step} style={{top: ROW_HEIGHT}} key={date.toString()}>
                 <AppText center variant="body">
                   {date.format('MMM')}
                 </AppText>

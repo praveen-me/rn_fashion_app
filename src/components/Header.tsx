@@ -32,28 +32,34 @@ const Header = ({title, left, right, dark}: HeaderProps) => {
     <Box
       flexDirection="row"
       paddingHorizontal="m"
+      paddingVertical="m"
       style={{marginTop: insets.top}}
       justifyContent="space-between"
       alignItems="center">
-      <RoundedIconButton
-        name={left.icon}
-        size={44}
-        onPress={left.onPress}
-        {...{color, backgroundColor}}
-        iconRatio={0.5}
-      />
+      {left.icon && (
+        <RoundedIconButton
+          name={left.icon}
+          size={44}
+          onPress={left.onPress}
+          {...{color, backgroundColor}}
+          iconRatio={0.5}
+        />
+      )}
       <AppText
         style={{...styles.headerTitle, color: theme.colors[textColor]}}
-        medium>
+        medium
+        center>
         {title.toUpperCase()}
       </AppText>
-      <RoundedIconButton
-        name={right.icon}
-        size={44}
-        onPress={right.onPress}
-        {...{color, backgroundColor}}
-        iconRatio={0.5}
-      />
+      {right.icon && (
+        <RoundedIconButton
+          name={right.icon}
+          size={44}
+          onPress={right.onPress}
+          {...{color, backgroundColor}}
+          iconRatio={0.5}
+        />
+      )}
     </Box>
   );
 };
@@ -73,6 +79,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     lineHeight: 24,
+    flex: 1,
   },
 });
 

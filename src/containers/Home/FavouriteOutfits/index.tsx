@@ -135,10 +135,10 @@ const FavouriteOutfits = ({
           },
           iconColor: '#fafafa',
         }}
-        right={{
-          icon: 'shopping-bag',
-          onPress: () => {},
-        }}
+        // right={{
+        //   icon: 'shopping-bag',
+        //   onPress: () => {},
+        // }}
       />
 
       <Box flex={1}>

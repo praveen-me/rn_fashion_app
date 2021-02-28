@@ -43,10 +43,10 @@ const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
           },
           iconColor: '#fafafa',
         }}
-        right={{
-          icon: 'shopping-bag',
-          onPress: () => {},
-        }}
+        // right={{
+        //   icon: 'shopping-bag',
+        //   onPress: () => {},
+        // }}
       />
       <Categories />
       <Box flex={1}>

@@ -84,12 +84,12 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
                 props.navigation.dispatch(DrawerActions.closeDrawer());
               },
             }}
-            right={{
-              icon: 'shopping-bag',
-              onPress: () => {
-                props.navigation.navigate('Cart');
-              },
-            }}
+            // right={{
+            //   icon: 'shopping-bag',
+            //   onPress: () => {
+            //     props.navigation.navigate('Cart');
+            //   },
+            // }}
             title="My Profile"
             dark
           />
@@ -108,7 +108,7 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
           backgroundColor="white"
           borderBottomRightRadius="xl"
           justifyContent="center"
-          padding="xl">
+          paddingTop="m">
           <Box
             height={100}
             width={100}

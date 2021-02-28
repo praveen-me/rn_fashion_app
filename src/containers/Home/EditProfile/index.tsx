@@ -59,7 +59,7 @@ export default function EditProfile({
                       navigation.dispatch(DrawerActions.openDrawer());
                     },
                   }}
-                  right={{icon: 'shopping-bag', onPress: () => {}}}
+                  // right={{icon: 'shopping-bag', onPress: () => {}}}
                   title="My Profile"
                   dark
                 />

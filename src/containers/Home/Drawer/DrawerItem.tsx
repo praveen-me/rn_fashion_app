@@ -14,11 +14,11 @@ interface BaseDrawerItemProps {
 }
 
 interface ScreenDrawerItemProps extends BaseDrawerItemProps {
-  screen: keyof HomeRoutes;
+  screen?: keyof HomeRoutes;
 }
 
 interface OptionDrawerItemProps extends BaseDrawerItemProps {
-  onPress: (navigation: ReturnType<typeof useNavigation>) => void;
+  onPress: () => Promise<void>;
 }
 
 export type DrawerItemProps = OptionDrawerItemProps | ScreenDrawerItemProps;

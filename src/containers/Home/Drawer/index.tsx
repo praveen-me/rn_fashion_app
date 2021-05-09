@@ -131,14 +131,20 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
             <AppText center>mike@email.com</AppText>
           </Box>
           {drawerItems.map((item) => {
-            if (item.label === 'Logout') {
-              item.onPress = async () => {
-                await AsyncStorage.removeItem(IS_LOGGED_IN);
-                setIsLoggedIn('false');
-              };
-            }
-
-            return <DrawerItem {...item} key={item.icon} />;
+            return (
+              <DrawerItem
+                {...item}
+                key={item.icon}
+                {...(item.label === 'Logout'
+                  ? {
+                      onPress: async function () {
+                        await AsyncStorage.removeItem(IS_LOGGED_IN);
+                        setIsLoggedIn('false');
+                      },
+                    }
+                  : {})}
+              />
+            );
           })}
         </Box>
       </Box>

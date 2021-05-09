@@ -66,5 +66,3 @@ buck-out/
 *.hprof
 
 .DS_Store
-
-rn-fashion-production-keystore.jks

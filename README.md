@@ -25,9 +25,9 @@ iOS App Id: com.rn-fashion-app
 
 ## Creating builds locally for Staging and Production flavors
 #### (Android Only) The following environment variables must be set to create builds locally
-ENVFILE - This defines the name of the environment config file to be used
-ENV_KEYSTORE_PASSWORD - This defines the password for the keystore for the build flavour in question
-ENG_KEY_ALIAS - This defines the alias for the keystore for the build flavour in question
+ENVFILE - This defines the name of the environment config file to be used<br/>
+ENV_KEYSTORE_PASSWORD - This defines the password for the keystore for the build flavour in question<br/>
+ENG_KEY_ALIAS - This defines the alias for the keystore for the build flavour in question<br/>
 ENV_KEY_PASSWORD - This defines the key password for the keystore for the build flavour in question
 
 ### Staging

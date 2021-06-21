@@ -1,0 +1,78 @@
+name: Mobsf Android Staging
+
+on:
+  push:
+    branches:
+      - build_android_staging
+  workflow_dispatch:
+    branches:
+      - build_android_staging
+
+jobs:
+  staging-build:
+    runs-on: ubuntu-latest
+    name: Build Android Staging Apk
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+    - uses: c-hive/gha-yarn-cache@v1
+
+    - name: Install Node Modules
+      run: |
+        yarn install
+
+    - name: Create .env.staging
+      uses: finnp/create-file-action@master
+      env:
+        FILE_NAME: ".env.staging"
+        FILE_DATA: ${{ secrets.ENVFILE_STAGING }}
+
+    - name: Cat .env.staging file
+      run: cat .env.staging
+
+    - name: Cache Gradle Wrapper
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+
+    - name: Cache Gradle Dependencies
+      uses: actions/cache@v1
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-caches-
+
+    - name: Make Gradlew Executable
+      run: cd android && chmod +x ./gradlew
+
+    - name: Create Android Staging Build
+      run: |
+        yarn gen:apk
+
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: app-staging-release.apk
+    #     path: android/app/build/outputs/apk/staging/release
+
+    - name: Run MobSF Analysis
+      uses: fundacaocerti/mobsf-action@v1.6
+      env:
+        INPUT_FILE_NAME: android/app/build/outputs/apk/staging/release/app-staging-release.apk
+        SCAN_TYPE: apk
+        OUTPUT_FILE_NAME: mobsf-report
+    
+    - name: Upload MobSF Analysis PDF Result
+      uses: actions/upload-artifact@v2
+      with:
+        name: mobsf-report.pdf
+        path: mobsf-report.pdf
+
+
+      
+      
+
+

@@ -82,7 +82,7 @@ const graphData: Point[] = [
   },
   {
     date: new Date('2020-04-01').getTime(),
-    value: 0,
+    value: 238.96,
     color: '#2CB9B0',
     id: 24582,
   },

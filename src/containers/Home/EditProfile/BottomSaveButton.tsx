@@ -1,5 +1,5 @@
 import React, {forwardRef, useEffect, useRef} from 'react';
-import {Dimensions, ToastAndroid} from 'react-native';
+import {Dimensions, Platform, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 
@@ -56,11 +56,13 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
     if (!isSwiped.current) {
       isSwiped.current = true;
 
-      ToastAndroid.showWithGravity(
-        'Settings Saved',
-        ToastAndroid.SHORT,
-        ToastAndroid.TOP,
-      );
+      if (Platform.OS === 'android') {
+        ToastAndroid.showWithGravity(
+          'Settings Saved',
+          ToastAndroid.SHORT,
+          ToastAndroid.TOP,
+        );
+      }
 
       navigation.navigate('OutfitIdeas');
     }

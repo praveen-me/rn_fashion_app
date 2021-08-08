@@ -1,0 +1,24 @@
+{
+  "test-runner": "jest",
+  "devices": {
+    "simulator": {
+      "type": "ios.simulator",
+      "device": {
+        "type": "iPhone 11"
+      }
+    }
+  },
+  "apps": {
+    "ios.release": {
+      "type": "ios.app",
+      "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/RNFashionStaging.app",
+      "build": "xcodebuild -workspace ios/rn_fashion_app.xcworkspace -scheme \"RN Fashion Staging\" -configuration Release -sdk iphonesimulator -derivedDataPath ios/build"
+    }
+  },
+  "configurations": {
+    "ios.sim.release": {
+      "device": "simulator",
+      "app": "ios.release"
+    }
+  }
+}

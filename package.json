@@ -15,6 +15,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.10",
     "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/drawer": "^5.9.0",
@@ -23,6 +24,7 @@
     "@shopify/restyle": "^1.1.0",
     "detox": "^18.20.1",
     "formik": "^2.1.5",
+    "graphql": "^15.5.2",
     "moment": "^2.29.1",
     "patch-package": "^6.4.7",
     "react": "16.13.1",

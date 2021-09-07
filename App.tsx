@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {Platform} from 'react-native';
 import {ThemeProvider} from '@shopify/restyle';
+import {Provider} from 'react-redux';
 import theme from './src/contants/theme';
 import RootNavigator from './src/lib/navigation/rootNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -9,6 +10,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {IsLoggedInProvider} from './src/context/useIsLoggedIn';
 import {ApolloProvider} from '@apollo/client';
 import config from './src/lib/apolloConfig';
+import store from './src/lib/store';
 
 export default function App() {
   React.useEffect(() => {
@@ -19,13 +21,15 @@ export default function App() {
 
   return (
     <ApolloProvider client={config}>
-      <ThemeProvider theme={theme}>
-        <SafeAreaProvider>
-          <IsLoggedInProvider>
-            <RootNavigator />
-          </IsLoggedInProvider>
-        </SafeAreaProvider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <SafeAreaProvider>
+            <IsLoggedInProvider>
+              <RootNavigator />
+            </IsLoggedInProvider>
+          </SafeAreaProvider>
+        </ThemeProvider>
+      </Provider>
     </ApolloProvider>
   );
 }

@@ -1,13 +1,16 @@
-import {all, takeLatest} from 'redux-saga/effects';
-import {ISignupRequested, userActionTypes} from '../actions/user.actions';
-import {signUpUserRequested} from 'src/graphql/user/user.mutation';
+import {all, call, takeLatest} from 'redux-saga/effects';
+import {ISignupRequested, SIGNUP_REQUESTED} from '../actions/user.actions';
+
+import {signUpUserRequested} from '../../graphql/user/user.mutation';
 
 function* signupRequestedSaga(action: ISignupRequested) {
-  signUpUserRequested;
+  const {payload} = action;
+
+  const data = yield call(signUpUserRequested, payload);
+
+  console.log(data);
 }
 
 export default function* rootUserSaga() {
-  yield all([
-    takeLatest(userActionTypes.SIGNUP_REQUESTED, signupRequestedSaga),
-  ]);
+  yield all([takeLatest(SIGNUP_REQUESTED, signupRequestedSaga)]);
 }

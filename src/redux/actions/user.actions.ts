@@ -1,21 +1,19 @@
-export const userActionTypes = {
-  SIGNUP_REQUESTED: 'SIGNUP_REQUESTED',
-};
+import {ISignupState} from '../../containers/Authentication/SignUp';
+
+export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
+
+export const SIGNUP_REQUESTED = 'SIGNUP_REQUESTED';
 
 export interface ISignupRequested {
-  type: typeof userActionTypes.SIGNUP_REQUESTED;
-  payload: {
-    email: string;
-    password: string;
-  };
+  type: typeof SIGNUP_REQUESTED;
+  payload: SignupPayload;
 }
 
-export function signupRequested(
-  email: string,
-  password: string,
-): ISignupRequested {
+export function signupRequested(data: SignupPayload): ISignupRequested {
+  const {email, password} = data;
+
   return {
-    type: userActionTypes.SIGNUP_REQUESTED,
+    type: SIGNUP_REQUESTED,
     payload: {
       email,
       password,

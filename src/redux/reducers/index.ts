@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import userReducer, {IUserState} from 'src/redux/reducers/user';
+import userReducer, {IUserState} from './user';
 
 interface IState {
   user: IUserState;

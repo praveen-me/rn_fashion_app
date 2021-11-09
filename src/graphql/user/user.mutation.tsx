@@ -5,10 +5,12 @@ import {SignupPayload} from '../../redux/actions/user.actions';
 export const signUpUserRequested = (payload: SignupPayload) => {
   const {email, password} = payload;
 
+  console.log({email, password});
+
   const schema = gql`
-    mutation SignUp($email: String!, $password: $String!) {
-      signup(input: {$email: email, $password: password}) {
-        status,
+    mutation SignUp($email: String!, $password: String!) {
+      signup(email: $email, password: $password) {
+        status
         result
       }
     }

@@ -8,10 +8,16 @@ export const signUpUserRequested = (payload: SignupPayload) => {
   console.log({email, password});
 
   const schema = gql`
-    mutation SignUp($email: String!, $password: String!) {
-      signup(email: $email, password: $password) {
-        status
-        result
+    mutation signup($signupInput: UserCredsInput!) {
+      signup(input: $signupInput) {
+        status {
+          error
+          msg
+        }
+        result {
+          user_id
+          email
+        }
       }
     }
   `;
@@ -19,8 +25,10 @@ export const signUpUserRequested = (payload: SignupPayload) => {
   return config.mutate({
     mutation: schema,
     variables: {
-      email,
-      password,
+      signupInput: {
+        email,
+        password,
+      },
     },
   });
 };

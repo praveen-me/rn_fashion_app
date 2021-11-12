@@ -5,7 +5,10 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {
   CompositeNavigationProp,
   NavigationContainer,
+  NavigationContainerRef,
+  NavigationProp,
   RouteProp,
+  useNavigationContainerRef,
 } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -187,6 +190,8 @@ const HomeDrawerRoutes: HomeRoute[] = [
   },
 ];
 
+export const navigationRef = React.createRef<NavigationContainerRef>();
+
 const RootNavigator = () => {
   const [isLoggedIn] = useIsLoggedIn();
   const [isLoading, setIsLoading] = React.useState(true);
@@ -198,7 +203,7 @@ const RootNavigator = () => {
   }, [isLoggedIn]);
 
   return !isLoading ? (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator
         headerMode="none"
         initialRouteName={isLoggedIn === 'true' ? 'Home' : 'Auth'}>

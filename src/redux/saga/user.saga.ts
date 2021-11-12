@@ -2,21 +2,25 @@ import {all, call, takeLatest} from 'redux-saga/effects';
 import {ISignupRequested, SIGNUP_REQUESTED} from '../actions/user.actions';
 
 import {signUpUserRequested} from '../../graphql/user/user.mutation';
-
-interface Response<Data extends Object> {
-  status: {
-    error: boolean;
-    msg: string;
-  };
-  result: Data;
-}
+import {Response} from '../../@types';
+import {AuthRoutes, navigationRef} from '../../lib/navigation/rootNavigation';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
   try {
-    const data: Response<{}> = yield call(signUpUserRequested, payload);
+    const {
+      data,
+    }: Response<
+      {
+        user_id: string;
+        email: string;
+      },
+      'signup'
+    > = yield call(signUpUserRequested, payload);
 
-    console.log(data);
+    if (!data.signup.status.error) {
+      navigationRef.current?.navigate<keyof AuthRoutes>('Login');
+    }
   } catch (e) {
     console.log(e);
   }

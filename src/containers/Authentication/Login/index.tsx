@@ -15,6 +15,8 @@ import Footer from '../components/Footer';
 import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 import {IS_LOGGED_IN} from '../../../lib/keys';
 import useIsLoggedIn from '../../../context/useIsLoggedIn';
+import {useDispatch} from 'react-redux';
+import {loginRequested} from '../../../redux/actions/user.actions';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -22,7 +24,14 @@ const LoginSchema = Yup.object().shape({
   remember: Yup.boolean(),
 });
 
+export interface ILoginState {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+
 const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
+  const dispatch = useDispatch();
   const [_, setIsLoggedIn] = useIsLoggedIn();
 
   const theme = useTheme();
@@ -36,14 +45,22 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
     setFieldValue,
   } = useFormik({
     initialValues: {email: '', password: '', remember: false},
-    onSubmit: async () => {
-      await AsyncStorage.setItem(IS_LOGGED_IN, 'true');
-      setIsLoggedIn('true');
-    },
+    onSubmit,
     validationSchema: LoginSchema,
   });
 
   const passwordField = useRef<RNTextInput>(null);
+
+  async function onSubmit(values: ILoginState) {
+    const payload = {
+      email: values.email,
+      password: values.password,
+    };
+
+    dispatch(loginRequested(payload));
+
+    await AsyncStorage.setItem(IS_LOGGED_IN, 'true');
+  }
 
   const footer = (
     <Footer

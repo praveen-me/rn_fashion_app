@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
-import userReducer, {IUserState} from './user';
+import userReducer, {IUserState} from './user.reducer';
 
-interface IState {
+export interface IAppState {
   user: IUserState;
 }
 
-const rootReducer = combineReducers<IState>({
+const rootReducer = combineReducers<IAppState>({
   user: userReducer,
 });
 

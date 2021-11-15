@@ -6,9 +6,7 @@ import {
   CompositeNavigationProp,
   NavigationContainer,
   NavigationContainerRef,
-  NavigationProp,
   RouteProp,
-  useNavigationContainerRef,
 } from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -31,6 +29,8 @@ import EditProfile from '../../containers/Home/EditProfile';
 import NotificationSettings from '../../containers/Home/NotificationSettings';
 import Cart from '../../containers/Home/Cart';
 import useIsLoggedIn from '../../context/useIsLoggedIn';
+import {useSelector} from 'react-redux';
+import {getIsAuthenticated} from '../../redux/selectors/user.selectors';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -56,8 +56,8 @@ type AuthRouteName =
 type AppRouteName = 'Home' | 'Auth';
 
 type HomeRouteName =
-  | 'OutfitIdeas'
   | 'FavouriteOutfits'
+  | 'OutfitIdeas'
   | 'TransactionHistory'
   | 'EditProfile'
   | 'NotificationSettings'
@@ -193,11 +193,12 @@ const HomeDrawerRoutes: HomeRoute[] = [
 export const navigationRef = React.createRef<NavigationContainerRef>();
 
 const RootNavigator = () => {
-  const [isLoggedIn] = useIsLoggedIn();
+  const isLoggedIn = useSelector(getIsAuthenticated);
+
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (isLoggedIn === 'true' || isLoggedIn === null) {
+    if (!isLoggedIn) {
       setIsLoading(false);
     }
   }, [isLoggedIn]);
@@ -206,8 +207,8 @@ const RootNavigator = () => {
     <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator
         headerMode="none"
-        initialRouteName={isLoggedIn === 'true' ? 'Home' : 'Auth'}>
-        {isLoggedIn === 'true' ? (
+        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+        {isLoggedIn ? (
           <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
         ) : (
           <AppStack.Screen name={'Auth'} component={AuthStackScreens} />

@@ -3,11 +3,13 @@ import config from '../../lib/apolloConfig';
 
 export const fetchUser = () => {
   const schema = gql`
-    query fetchUser() {
-      me() {
-        user_id
-        email
-        name
+    query fetchUser {
+      me {
+        result {
+          user_id
+          email
+          name
+        }
       }
     }
   `;

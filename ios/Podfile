@@ -13,6 +13,8 @@ pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
 
 
+pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
+
 #   target 'rn_fashion_appTests' do
 #     inherit! :complete
 #     # Pods for testing

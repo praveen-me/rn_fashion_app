@@ -41,7 +41,9 @@ export const loginUserRequested = (payload: SignupPayload) => {
           error
           msg
         }
-        token
+        result {
+          token
+        }
       }
     }
   `;

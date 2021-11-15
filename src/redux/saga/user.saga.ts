@@ -41,6 +41,7 @@ function* signupRequestedSaga(action: ISignupRequested) {
 
 function* loginRquestedSaga(action: ISignupRequested) {
   const {payload} = action;
+
   try {
     const {
       data,
@@ -58,6 +59,8 @@ function* loginRquestedSaga(action: ISignupRequested) {
       yield setGraphqlHeaders();
 
       const userData: Response<IFetchMeUser, 'me'> = yield call(fetchUser);
+
+      console.log({userData});
 
       if (!userData.data.me.status.error) {
         const user = userData.data.me.result;

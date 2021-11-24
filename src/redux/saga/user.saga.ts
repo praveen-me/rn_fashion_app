@@ -1,5 +1,6 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
 import {
+  FETCH_ME_REQUESTED,
   ISignupRequested,
   loginCompleted,
   LOGIN_REQUESTED,
@@ -56,18 +57,23 @@ function* loginRquestedSaga(action: ISignupRequested) {
       const {token} = data.login.result;
 
       yield saveToken(token);
-      yield setGraphqlHeaders();
+      yield fetchMeRequestedSaga();
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
-      const userData: Response<IFetchMeUser, 'me'> = yield call(fetchUser);
+function* fetchMeRequestedSaga() {
+  try {
+    yield setGraphqlHeaders();
 
-      console.log({userData});
+    const userData: Response<IFetchMeUser, 'me'> = yield call(fetchUser);
 
-      if (!userData.data.me.status.error) {
-        const user = userData.data.me.result;
+    if (!userData.data.me.status.error) {
+      const user = userData.data.me.result;
 
-        console.log(user);
-        yield put(loginCompleted(user));
-      }
+      yield put(loginCompleted(user));
     }
   } catch (e) {
     console.log(e);
@@ -82,5 +88,6 @@ export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
     takeLatest(LOGIN_REQUESTED, loginRquestedSaga),
+    takeLatest(FETCH_ME_REQUESTED, fetchMeRequestedSaga),
   ]);
 }

@@ -14,7 +14,6 @@ import * as Yup from 'yup';
 import Footer from '../components/Footer';
 import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 import {IS_LOGGED_IN} from '../../../lib/keys';
-import useIsLoggedIn from '../../../context/useIsLoggedIn';
 import {useDispatch} from 'react-redux';
 import {loginRequested} from '../../../redux/actions/user.actions';
 
@@ -32,7 +31,6 @@ export interface ILoginState {
 
 const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
   const dispatch = useDispatch();
-  const [_, setIsLoggedIn] = useIsLoggedIn();
 
   const theme = useTheme();
   const {

@@ -7,7 +7,6 @@ import theme from './src/contants/theme';
 import RootNavigator from './src/lib/navigation/rootNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
-import {IsLoggedInProvider} from './src/context/useIsLoggedIn';
 import {ApolloProvider} from '@apollo/client';
 import config from './src/lib/apolloConfig';
 import store from './src/lib/store';
@@ -24,9 +23,9 @@ export default function App() {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <SafeAreaProvider>
-            <IsLoggedInProvider>
-              <RootNavigator />
-            </IsLoggedInProvider>
+            {/* <IsLoggedInProvider> */}
+            <RootNavigator />
+            {/* </IsLoggedInProvider> */}
           </SafeAreaProvider>
         </ThemeProvider>
       </Provider>

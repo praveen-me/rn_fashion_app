@@ -13,6 +13,7 @@ let config = new ApolloClient({
 
 export async function setGraphqlHeaders() {
   const token = await AsyncStorage.getItem(AUTH_TOKEN);
+
   const authLink = setContext((_, {headers}) => {
     return {
       headers: {

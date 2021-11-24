@@ -6,6 +6,7 @@ export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
 export const SIGNUP_REQUESTED = 'SIGNUP_REQUESTED';
 export const LOGIN_REQUESTED = 'LOGIN_REQUESTED';
 export const LOGIN_COMPLETED = 'LOGIN_COMPLETED';
+export const FETCH_ME_REQUESTED = 'FETCH_ME_REQUESTED';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -20,6 +21,10 @@ export interface ILoginRequested {
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
   payload: IFetchMeUser;
+}
+
+export interface IFetchMeRequested {
+  type: typeof FETCH_ME_REQUESTED;
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -50,5 +55,11 @@ export function loginCompleted(user: IFetchMeUser): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,
+  };
+}
+
+export function fetchMeRequested(): IFetchMeRequested {
+  return {
+    type: FETCH_ME_REQUESTED,
   };
 }

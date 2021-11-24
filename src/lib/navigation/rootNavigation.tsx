@@ -28,9 +28,11 @@ import TransactionHistory from '../../containers/Home/TransactionHistory';
 import EditProfile from '../../containers/Home/EditProfile';
 import NotificationSettings from '../../containers/Home/NotificationSettings';
 import Cart from '../../containers/Home/Cart';
-import useIsLoggedIn from '../../context/useIsLoggedIn';
+
 import {useSelector} from 'react-redux';
 import {getIsAuthenticated} from '../../redux/selectors/user.selectors';
+
+import bootStrapApp from '../bootStarpApp';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -110,6 +112,8 @@ const AppStack = createStackNavigator<AppRoutes>();
 const HomeDrawer = createDrawerNavigator<HomeRoutes>();
 
 const HomeDrawerScreens = () => {
+  console.log({HomeDrawerRoutes});
+
   return (
     <HomeDrawer.Navigator
       initialRouteName="OutfitIdeas"
@@ -198,10 +202,16 @@ const RootNavigator = () => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (!isLoggedIn) {
+    bootStrapApp();
+  }, []);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
       setIsLoading(false);
     }
   }, [isLoggedIn]);
+
+  console.log({isLoggedIn});
 
   return !isLoading ? (
     <NavigationContainer ref={navigationRef}>

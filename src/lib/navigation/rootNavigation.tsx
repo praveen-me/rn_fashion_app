@@ -33,6 +33,8 @@ import {useSelector} from 'react-redux';
 import {getIsAuthenticated} from '../../redux/selectors/user.selectors';
 
 import bootStrapApp from '../bootStarpApp';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AUTH_TOKEN} from '../../contants/keys';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -112,8 +114,6 @@ const AppStack = createStackNavigator<AppRoutes>();
 const HomeDrawer = createDrawerNavigator<HomeRoutes>();
 
 const HomeDrawerScreens = () => {
-  console.log({HomeDrawerRoutes});
-
   return (
     <HomeDrawer.Navigator
       initialRouteName="OutfitIdeas"
@@ -209,9 +209,15 @@ const RootNavigator = () => {
     if (isLoggedIn) {
       setIsLoading(false);
     }
-  }, [isLoggedIn]);
 
-  console.log({isLoggedIn});
+    (async () => {
+      const hasToken = await AsyncStorage.getItem(AUTH_TOKEN);
+
+      if (!hasToken) {
+        setIsLoading(false);
+      }
+    })();
+  }, [isLoggedIn]);
 
   return !isLoading ? (
     <NavigationContainer ref={navigationRef}>

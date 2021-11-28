@@ -4,6 +4,8 @@ import {
   ISignupRequested,
   loginCompleted,
   LOGIN_REQUESTED,
+  logoutUserCompleted,
+  LOGOUT_USER_REQUESTED,
   SIGNUP_REQUESTED,
 } from '../actions/user.actions';
 
@@ -84,10 +86,25 @@ function* saveToken(token: string) {
   yield AsyncStorage.setItem(AUTH_TOKEN, token);
 }
 
+function* logoutUserRequestedSaga() {
+  try {
+    const hasToken: null | string = yield AsyncStorage.getItem(
+      AUTH_TOKEN,
+    ) as Promise<null | string>;
+
+    if (!!hasToken) {
+      yield AsyncStorage.removeItem(AUTH_TOKEN);
+    }
+
+    yield put(logoutUserCompleted());
+  } catch (e) {}
+}
+
 export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
     takeLatest(LOGIN_REQUESTED, loginRquestedSaga),
     takeLatest(FETCH_ME_REQUESTED, fetchMeRequestedSaga),
+    takeLatest(LOGOUT_USER_REQUESTED, logoutUserRequestedSaga),
   ]);
 }

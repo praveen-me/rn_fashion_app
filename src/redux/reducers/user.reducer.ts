@@ -1,5 +1,10 @@
 import {IFetchMeUser} from '../@types';
-import {LOGIN_COMPLETED, ILoginCompleted} from '../actions/user.actions';
+import {
+  LOGIN_COMPLETED,
+  ILoginCompleted,
+  LOGOUT_USER_COMPLETED,
+  ILogoutUserCompleted,
+} from '../actions/user.actions';
 
 export interface IUserState {
   isAuthenticated: boolean;
@@ -11,7 +16,7 @@ const initState: IUserState = {
   currentUser: null,
 };
 
-type RootAction = ILoginCompleted;
+type RootAction = ILoginCompleted | ILogoutUserCompleted;
 
 export default function userReducer(state = initState, action: RootAction) {
   switch (action.type) {
@@ -22,6 +27,14 @@ export default function userReducer(state = initState, action: RootAction) {
         ...state,
         isAuthenticated: true,
         currentUser: user,
+      };
+    }
+
+    case LOGOUT_USER_COMPLETED: {
+      return {
+        ...state,
+        currentUser: initState.currentUser,
+        isAuthenticated: initState.isAuthenticated,
       };
     }
 

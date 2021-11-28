@@ -12,6 +12,8 @@ import theme, {Box} from '../../../contants/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DrawerItem from './DrawerItem';
 import {IS_LOGGED_IN} from '../../../lib/keys';
+import {useDispatch} from 'react-redux';
+import {logoutUserRequested} from '../../../redux/actions/user.actions';
 
 const {width: wWidth, height: hHeight} = Dimensions.get('screen');
 export const DRAWER_WIDTH = wWidth;
@@ -59,6 +61,8 @@ const drawerItems = [
 ];
 
 const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
+  const dispatch = useDispatch();
+
   return (
     <Box flex={1} overflow="hidden">
       <Image
@@ -135,8 +139,7 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
                 {...(item.label === 'Logout'
                   ? {
                       onPress: async function () {
-                        await AsyncStorage.removeItem(IS_LOGGED_IN);
-                        // setIsLoggedIn('false');
+                        dispatch(logoutUserRequested());
                       },
                     }
                   : {})}

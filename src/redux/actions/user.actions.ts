@@ -7,6 +7,8 @@ export const SIGNUP_REQUESTED = 'SIGNUP_REQUESTED';
 export const LOGIN_REQUESTED = 'LOGIN_REQUESTED';
 export const LOGIN_COMPLETED = 'LOGIN_COMPLETED';
 export const FETCH_ME_REQUESTED = 'FETCH_ME_REQUESTED';
+export const LOGOUT_USER_REQUESTED = 'LOGOUT_USER_REQUESTED';
+export const LOGOUT_USER_COMPLETED = 'LOGOUT_USER_COMPLETED';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -25,6 +27,12 @@ export interface ILoginCompleted {
 
 export interface IFetchMeRequested {
   type: typeof FETCH_ME_REQUESTED;
+}
+export interface ILogoutUserRequested {
+  type: typeof LOGOUT_USER_REQUESTED;
+}
+export interface ILogoutUserCompleted {
+  type: typeof LOGOUT_USER_COMPLETED;
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -61,5 +69,16 @@ export function loginCompleted(user: IFetchMeUser): ILoginCompleted {
 export function fetchMeRequested(): IFetchMeRequested {
   return {
     type: FETCH_ME_REQUESTED,
+  };
+}
+
+export function logoutUserRequested(): ILogoutUserRequested {
+  return {
+    type: LOGOUT_USER_REQUESTED,
+  };
+}
+export function logoutUserCompleted(): ILogoutUserCompleted {
+  return {
+    type: LOGOUT_USER_COMPLETED,
   };
 }

@@ -1,4 +1,7 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
+import {InAppBrowser} from 'react-native-inappbrowser-reborn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   FETCH_ME_REQUESTED,
   ISignupRequested,
@@ -6,6 +9,7 @@ import {
   LOGIN_REQUESTED,
   logoutUserCompleted,
   LOGOUT_USER_REQUESTED,
+  OAUTH_REQUESTED,
   SIGNUP_REQUESTED,
 } from '../actions/user.actions';
 
@@ -15,7 +19,6 @@ import {
 } from '../../graphql/user/user.mutation';
 import {Response} from '../../@types';
 import {AuthRoutes, navigationRef} from '../../lib/navigation/rootNavigation';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AUTH_TOKEN} from '../../contants/keys';
 import {setGraphqlHeaders} from '../../lib/apolloConfig';
 import {fetchUser} from '../../graphql/user/user.query';
@@ -100,11 +103,44 @@ function* logoutUserRequestedSaga() {
   } catch (e) {}
 }
 
+function* OAuthRequestedSaga() {
+  try {
+    const isInAppBrowserAvailable: boolean = yield InAppBrowser.isAvailable();
+
+    if (isInAppBrowserAvailable) {
+      const result: string = yield InAppBrowser.openAuth(
+        'http://localhost:3000/oauth',
+        'rnFashion://',
+        {
+          dismissButtonStyle: 'cancel',
+          preferredBarTintColor: '#453AA4',
+          preferredControlTintColor: 'white',
+          readerMode: false,
+          animated: true,
+          modalPresentationStyle: 'fullScreen',
+          modalTransitionStyle: 'coverVertical',
+          modalEnabled: true,
+          enableBarCollapsing: false,
+          animations: {
+            startEnter: 'slide_in_right',
+            startExit: 'slide_out_left',
+            endEnter: 'slide_in_left',
+            endExit: 'slide_out_right',
+          },
+        },
+      );
+
+      console.log({result});
+    }
+  } catch (e) {}
+}
+
 export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
     takeLatest(LOGIN_REQUESTED, loginRquestedSaga),
     takeLatest(FETCH_ME_REQUESTED, fetchMeRequestedSaga),
     takeLatest(LOGOUT_USER_REQUESTED, logoutUserRequestedSaga),
+    takeLatest(OAUTH_REQUESTED, OAuthRequestedSaga),
   ]);
 }

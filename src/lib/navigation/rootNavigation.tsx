@@ -117,8 +117,9 @@ const HomeDrawerScreens = () => {
   return (
     <HomeDrawer.Navigator
       initialRouteName="OutfitIdeas"
-      drawerContent={(props) => <Drawer {...props} />}
-      drawerStyle={{width: DRAWER_WIDTH}}>
+      drawerContent={props => <Drawer {...props} />}
+      drawerStyle={{width: DRAWER_WIDTH}}
+    >
       {HomeDrawerRoutes.map(({name, component}, index) => {
         return (
           <HomeDrawer.Screen name={name} component={component} key={index} />
@@ -130,7 +131,7 @@ const HomeDrawerScreens = () => {
 
 const AuthStackScreens = () => {
   return (
-    <AuthStack.Navigator headerMode="none">
+    <AuthStack.Navigator screenOptions={{headerShown: false}}>
       {StackRoutes.map(({name, component}, index) => {
         return (
           <AuthStack.Screen name={name} component={component} key={index} />
@@ -149,22 +150,22 @@ const StackRoutes: Array<AuthRoute> = [
     name: 'Welcome',
     component: Welcome,
   },
-  {
-    name: 'Login',
-    component: Login,
-  },
-  {
-    name: 'SignUp',
-    component: SignUp,
-  },
-  {
-    name: 'ForgetPassword',
-    component: ForgetPassword,
-  },
-  {
-    name: 'PasswordChanged',
-    component: PasswordChanged,
-  },
+  // {
+  //   name: 'Login',
+  //   component: Login,
+  // },
+  // {
+  //   name: 'SignUp',
+  //   component: SignUp,
+  // },
+  // {
+  //   name: 'ForgetPassword',
+  //   component: ForgetPassword,
+  // },
+  // {
+  //   name: 'PasswordChanged',
+  //   component: PasswordChanged,
+  // },
 ];
 
 const HomeDrawerRoutes: HomeRoute[] = [
@@ -222,13 +223,14 @@ const RootNavigator = () => {
   return !isLoading ? (
     <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator
-        headerMode="none"
-        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
-        {isLoggedIn ? (
+        screenOptions={{headerShown: false}}
+        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}
+      >
+        {/* {isLoggedIn ? (
           <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
-        ) : (
-          <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
-        )}
+        ) : ( */}
+        <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
+        {/* )} */}
       </AppStack.Navigator>
     </NavigationContainer>
   ) : (

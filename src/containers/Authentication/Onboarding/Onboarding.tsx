@@ -111,7 +111,6 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
   const x = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler(event => {
-    console.log(event.contentOffset.x);
     x.value = event.contentOffset.x;
   });
   const theme = useTheme();

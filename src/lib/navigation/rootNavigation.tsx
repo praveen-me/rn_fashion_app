@@ -150,22 +150,22 @@ const StackRoutes: Array<AuthRoute> = [
     name: 'Welcome',
     component: Welcome,
   },
-  // {
-  //   name: 'Login',
-  //   component: Login,
-  // },
-  // {
-  //   name: 'SignUp',
-  //   component: SignUp,
-  // },
-  // {
-  //   name: 'ForgetPassword',
-  //   component: ForgetPassword,
-  // },
-  // {
-  //   name: 'PasswordChanged',
-  //   component: PasswordChanged,
-  // },
+  {
+    name: 'Login',
+    component: Login,
+  },
+  {
+    name: 'SignUp',
+    component: SignUp,
+  },
+  {
+    name: 'ForgetPassword',
+    component: ForgetPassword,
+  },
+  {
+    name: 'PasswordChanged',
+    component: PasswordChanged,
+  },
 ];
 
 const HomeDrawerRoutes: HomeRoute[] = [

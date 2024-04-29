@@ -1,10 +1,12 @@
 # RN Fashion App
 
-A fashion app demo built in React Native and Typescript.
+A fashion app demo built in React Native and TypeScript.
 
 ## Demo App:
 
 Android: https://play.google.com/store/apps/details?id=com.rn_fashion_app
+
+iOS: https://apps.apple.com/app/rn-fashion/id123456789
 
 # Demo
 
@@ -12,70 +14,62 @@ Android: https://play.google.com/store/apps/details?id=com.rn_fashion_app
 
 # How to run the project
 
-## Flavor configurations
+## Prerequisites
 
-There are two flavours of the app that can be installed parallely on a device: staging and production.
+- Node.js
+- React Native CLI
 
-### Differences between the two flavors are listed below
+## Installation
 
-#### Staging
+npm install
 
-App name: RN Fashion Staging<br/>
-Configurations file: .env.staging<br/>
-Android App Id: com.rn_fashion_app.staging<br/>
-iOS App Id: com.rn-fashion-app.staging
+## Flavors
 
-#### Production
-
-App name: RN Fashion <br/>
-Configurations file: .env<br/>
-Android App Id: com.rn_fashion_app<br/>
-iOS App Id: com.rn-fashion-app
-
-## Creating builds locally for Staging and Production flavors
-
-#### (Android Only) The following environment variables must be set to create builds locally
-
-ENVFILE - This defines the name of the environment config file to be used<br/>
-ENV_KEYSTORE_PASSWORD - This defines the password for the keystore for the build flavour in question<br/>
-ENG_KEY_ALIAS - This defines the alias for the keystore for the build flavour in question<br/>
-ENV_KEY_PASSWORD - This defines the key password for the keystore for the build flavour in question
+There are two flavors of the app that can be installed in parallel on a device:
 
 ### Staging
 
-#### Android
+- App name: RN Fashion Staging
+- Config file: .env.staging
+- Android package name: com.rn_fashion_app.staging
+- iOS bundle ID: com.rn-fashion-app.staging
 
-```
-ENVFILE=.env.staging react-native run-android --variant=stagingDebug --appId com.rn_fashion_app.staging
-```
+### Production
 
-#### iOS
+- App name: RN Fashion
+- Config file: .env
+- Android package name: com.rn_fashion_app
+- iOS bundle ID: com.rn-fashion-app
 
-```
+## Creating builds
+
+### Android
+
+# Staging
+
+ENVFILE=.env.staging react-native run-android --variant=stagingDebug
+
+# Production
+
+ENVFILE=.env react-native run-android --variant=productionDebug
+
+### iOS
+
+# Staging
+
 react-native run-ios --scheme="RN Fashion Staging"
-```
 
-### **Production**
+# Production
 
-#### Android
-
-```
-ENVFILE=.env react-native run-android --variant=productionDebug --appId com.rn_fashion_app
-```
-
-#### iOS
-
-```
 react-native run-ios --scheme="RN Fashion"
-```
 
-# Libraries Used
+## Libraries
 
 - React Native
 - React Navigation
 - TypeScript
 - Restyle
 
-## Testing Framework
+## Testing
 
 - detox

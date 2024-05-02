@@ -1,10 +1,10 @@
 import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Config from 'react-native-config';
+
 import {AUTH_TOKEN} from '../contants/keys';
 
-const httpLink = new HttpLink({uri: Config.GRAPHQL_URI as string});
+const httpLink = new HttpLink({uri: ''});
 
 let config = new ApolloClient({
   link: httpLink,

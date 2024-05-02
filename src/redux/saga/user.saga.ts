@@ -23,23 +23,19 @@ import {AUTH_TOKEN} from '../../contants/keys';
 import {setGraphqlHeaders} from '../../lib/apolloConfig';
 import {fetchUser} from '../../graphql/user/user.query';
 import {IFetchMeUser} from '../@types';
+import supabase from '../../lib/supabase';
+import type { AuthResponse } from '@supabase/supabase-js';
+
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
-  try {
-    const {
-      data,
-    }: Response<
-      {
-        user_id: string;
-        email: string;
-      },
-      'signup'
-    > = yield call(signUpUserRequested, payload);
 
-    if (!data.signup.status.error) {
-      navigationRef.current?.navigate<keyof AuthRoutes>('Login');
-    }
+  const {email, password} = payload
+
+  try {
+    const {data, error}: AuthResponse = yield call(supabase.createUser, {email, password})
+
+    console.log(data, error)
   } catch (e) {
     console.log(e);
   }

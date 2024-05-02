@@ -91,7 +91,7 @@ const SignUp = ({navigation}: AuthNavigationProps<'SignUp'>) => {
             value={values.email}
             error={errors.email}
             touched={touched.email}
-            autoCompleteType="email"
+            autoComplete="email"
             autoCapitalize="none"
             returnKeyType="next"
             returnKeyLabel="next"
@@ -107,7 +107,7 @@ const SignUp = ({navigation}: AuthNavigationProps<'SignUp'>) => {
             error={errors.password}
             touched={touched.password}
             secureTextEntry
-            autoCompleteType="password"
+            autoComplete="password"
             autoCapitalize="none"
             returnKeyType="go"
             returnKeyLabel="go"

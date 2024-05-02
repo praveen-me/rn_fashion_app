@@ -137,8 +137,6 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
     return x.value / width;
   });
 
-  // console.log(backgroundColor)
-
   const onPress = (index: number) => {
     if (scroll.current) {
       scroll.current.scrollTo({x: width * (index + 1), animated: true});

@@ -64,7 +64,7 @@ const Container = ({children, footer}: ContainerProps) => {
         </Box>
         <Box backgroundColor="textPrimaryColor" paddingBottom="l">
           {footer}
-          <Box height={insets.bottom} />
+          <Box height={insets.bottom + 30} />
         </Box>
       </Box>
     </KeyboardAwareScrollView>

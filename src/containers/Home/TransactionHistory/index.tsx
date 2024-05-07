@@ -52,13 +52,13 @@ const graphData: Point[] = [
   },
   {
     date: new Date('2019-11-09').getTime(),
-    value: 139.42,
+    value: 300.42,
     color: '#0C0D34',
     id: 24579,
   },
   {
     date: new Date('2019-12-01').getTime(),
-    value: 297.98,
+    value: 263,
     color: '#FF0058',
     id: 24580,
   },
@@ -137,8 +137,8 @@ const TransactionHistory = ({
           contentContainerStyle={{paddingBottom: 75}}
           showsVerticalScrollIndicator={false}>
           {graphData
-            .filter((d) => d.value > 0)
-            .map((data) => (
+            .filter(d => d.value > 0)
+            .map(data => (
               <Transaction transaction={data} key={data.id} />
             ))}
         </ScrollView>

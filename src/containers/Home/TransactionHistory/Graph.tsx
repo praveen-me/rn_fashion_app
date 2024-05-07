@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, View} from 'react-native';
 import {Box, Theme, useTheme} from '../../../contants/theme';
 import makeStyles from '../../../lib/makeStyles';
 import Underlay from './Underlay';
 import moment from 'moment';
-import Animated, {divide, multiply, sub} from 'react-native-reanimated';
+import Animated, {
+  divide,
+  multiply,
+  sub,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
 import {useTransition} from 'react-native-redash';
 
@@ -55,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
   const isFocused = useIsFocused();
-  const transition = useTransition(isFocused, {duration: 650});
+  const transition = useSharedValue(0);
   const theme = useTheme();
   const canvasWidth = wWidth - theme.spacing.m * 2;
   const canvasHeight = canvasWidth * apspectRatio;
@@ -63,11 +71,26 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
   const height = canvasHeight - theme.spacing.l;
 
   const step = width / data.length;
-  const values = data.map((d) => d.value);
-  const dates = data.map((d) => d.date);
+  const values = data.map(d => d.value);
+  const dates = data.map(d => d.date);
   const maxY = Math.max(...values);
   const minY = Math.min(...values);
   const styles = useStyles();
+
+  useEffect(() => {
+    transition.value = withTiming(isFocused ? 1 : 0, {duration: 300});
+  }, [isFocused]);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [
+        // {translateY},
+        {
+          scaleY: transition.value,
+        },
+      ],
+    };
+  });
 
   return (
     <Box paddingLeft="l" marginTop="xl" marginBottom="xl">
@@ -84,7 +107,7 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
       />
       <View style={{width, height, overflow: 'hidden'}}>
         <Box width={width} height={height}>
-          {data.map((point) => {
+          {data.map(point => {
             if (point.value === 0) {
               return null;
             }
@@ -93,8 +116,12 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
             );
 
             const totalHeight = lerp(0, height, point.value / maxY);
-            const currentHeight = multiply(totalHeight, transition);
-            const translateY = divide(sub(totalHeight, currentHeight), 2);
+            const currentHeight = useDerivedValue(
+              () => totalHeight * transition.value,
+            );
+            const translateY = useDerivedValue(
+              () => (totalHeight - currentHeight.value) / 2,
+            );
             return (
               <AnimatedBox
                 width={step}
@@ -103,7 +130,12 @@ const Graph = ({data, startDate, numOfMonths}: GraphProps) => {
                 bottom={0}
                 left={i * step}
                 height={lerp(0, height, point.value / maxY)}
-                style={{transform: [{translateY}, {scaleY: transition}]}}>
+                style={[
+                  {
+                    transform: [{translateY}],
+                  },
+                  animatedStyles,
+                ]}>
                 <View style={[styles.bar, {backgroundColor: point.color}]} />
                 <View style={[styles.tip, {backgroundColor: point.color}]} />
               </AnimatedBox>

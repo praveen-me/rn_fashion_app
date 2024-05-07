@@ -1,7 +1,12 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {Dimensions} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
-import Animated, {multiply} from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {mix, useTransition} from 'react-native-redash';
 import makeStyles from '../../../lib/makeStyles';
 import AppText from '../../../components/Text';
@@ -23,10 +28,27 @@ interface TabsProps {
 const {width} = Dimensions.get('window');
 
 export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
-  const transition = useTransition(currentTab, {duration: 300});
-  const translateX = mix(transition, width * 0.25 - 5, width * 0.75 - 5);
+  // const transition = useTransition(currentTab, {duration: 300});
+  const transition = useSharedValue(currentTab);
+  const translateX = useDerivedValue(
+    () => mix(transition.value, width * 0.25 - 5, width * 0.75 - 5),
+    [transition.value],
+  );
 
   const styles = useStyles();
+
+  useEffect(() => {
+    transition.value = withTiming(currentTab, {duration: 300});
+  }, [currentTab]);
+
+  const styleForAnimatedView = useAnimatedStyle(() => {
+    return {
+      transform: [{translateX: -width * transition.value}],
+      width: width * tabs.length,
+      flexDirection: 'row',
+      flex: 1,
+    };
+  });
 
   return (
     <Box flex={1}>
@@ -49,13 +71,8 @@ export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
       </Box>
       <Animated.View
         // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          width: width * tabs.length,
-          flexDirection: 'row',
-          transform: [{translateX: multiply(-width, transition)}],
-          flex: 1,
-        }}>
-        {tabs.map((tab) => (
+        style={styleForAnimatedView}>
+        {tabs.map(tab => (
           <Box flex={1} key={tab.id} width={width}>
             {tab.id === 'configuration' ? <Configuration /> : <PersonalInfo />}
           </Box>

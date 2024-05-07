@@ -1,15 +1,25 @@
 import React, {forwardRef, useEffect, useRef} from 'react';
 import {Dimensions, Platform, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {
+  GestureDetector,
+  GestureHandlerRootView,
+  PanGestureHandler,
+} from 'react-native-gesture-handler';
 
-import Animated, {Extrapolate, interpolate} from 'react-native-reanimated';
+import Animated, {
+  Extrapolate,
+  Extrapolation,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 import {useSpring} from '../OutfitIdeas/Animations';
 import AppText from '../../../components/Text';
 import makeStyles from '../../../lib/makeStyles';
-import {Theme, useTheme} from '../../../contants/theme';
-import {usePanGestureHandler} from 'react-native-redash';
+import {Box, Theme, useTheme} from '../../../contants/theme';
+// import {usePanGestureHandler} from 'react-native-redash';
 import {DrawerNavigationHelpers} from '@react-navigation/drawer/lib/typescript/src/types';
+import usePanGestureHandler from '../../../hooks/usePanGestureHandler';
 
 const {width: wWidth} = Dimensions.get('screen');
 
@@ -20,7 +30,16 @@ interface BottomSaveButtonProps {
 
 function BottomSaveButton(props: BottomSaveButtonProps, ref) {
   const isSwiped = useRef(false);
-  const {gestureHandler, translation, velocity, state} = usePanGestureHandler();
+  const {gestureHandler, translation} = usePanGestureHandler({
+    snapPoints: {min: 0, max: wWidth - 90},
+    onSnap: ({translationX, x}) => {
+      onSwiped();
+      setShowBtn(false);
+    },
+    onEnd: () => {
+      // Add any additional logic for onEnd event
+    },
+  });
   const styles = useStyles();
 
   const theme = useTheme();
@@ -33,24 +52,14 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
     };
   }, []);
 
-  let translateX = useSpring({
-    value: translation.x,
-    velocity: velocity.x,
-    state,
-    snapPoints: [0, wWidth - 90],
-    onSnap: ([x]) => {
-      if (x === wWidth - 90) {
-        onSwiped();
-        setShowBtn(false);
-      }
-    },
-  });
-
-  const opacity = interpolate(translateX, {
-    inputRange: [0, wWidth - 100],
-    outputRange: [1, 0],
-    extrapolate: Extrapolate.CLAMP,
-  });
+  const opacityStyles = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      translation.value.x,
+      [0, wWidth - 100],
+      [1, 0],
+      Extrapolation.CLAMP,
+    ),
+  }));
 
   function onSwiped() {
     if (!isSwiped.current) {
@@ -68,23 +77,39 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
     }
   }
 
+  const sliderAnimatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [{translateX: translation.value.x}],
+    };
+  });
+
   return (
-    <PanGestureHandler {...gestureHandler}>
-      <Animated.View style={styles.sliderBtnContainer}>
-        <Animated.View style={[styles.sliderBtn, {transform: [{translateX}]}]}>
-          <Icon
-            name="grip-vertical"
-            size={20}
-            color={theme.colors.primatyBtnBg}
-          />
-        </Animated.View>
-        <Animated.View style={{flex: 1, opacity}}>
-          <AppText style={{color: 'white'}} center>
-            Swipe to save changes
-          </AppText>
-        </Animated.View>
-      </Animated.View>
-    </PanGestureHandler>
+    <Box style={{minHeight: 80}}>
+      <GestureHandlerRootView>
+        <GestureDetector gesture={gestureHandler}>
+          <Animated.View style={styles.sliderBtnContainer}>
+            <Animated.View style={[styles.sliderBtn, sliderAnimatedStyles]}>
+              <Icon
+                name="grip-vertical"
+                size={20}
+                color={theme.colors.primatyBtnBg}
+              />
+            </Animated.View>
+            <Animated.View
+              style={[
+                {
+                  flex: 1,
+                },
+                opacityStyles,
+              ]}>
+              <AppText style={{color: 'white'}} center>
+                Swipe to save changes
+              </AppText>
+            </Animated.View>
+          </Animated.View>
+        </GestureDetector>
+      </GestureHandlerRootView>
+    </Box>
   );
 }
 

@@ -43,8 +43,6 @@ const Card = ({position, onSwipe, source, step}: CardProps) => {
   );
   const translateYOffset = mix(position, position * 10, -60) + 100;
 
-  console.log({position});
-
   const animatedStyles = useAnimatedStyle(
     () => ({
       transform: [

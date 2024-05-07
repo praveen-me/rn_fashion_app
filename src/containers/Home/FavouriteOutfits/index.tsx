@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Animated, {

@@ -1,10 +1,10 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {
-  Transition,
-  Transitioning,
-  TransitioningView,
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition,
 } from 'react-native-reanimated';
 import Header from '../../../components/Header';
 import {Box, useTheme} from '../../../contants/theme';
@@ -119,8 +119,6 @@ const FavouriteOutfits = ({
   const theme = useTheme();
   const width = (wWidth - theme.spacing.m * 3) / 2;
   const [outfits, setOutfits] = useState(allOutfits);
-  const list = useRef<TransitioningView>(null);
-  const transition = <Transition.Change interpolation="easeInOut" />;
 
   const onOutfitPress = () => {};
 
@@ -147,44 +145,53 @@ const FavouriteOutfits = ({
             paddingHorizontal: theme.spacing.m,
             paddingBottom: theme.spacing.xl * 4,
           }}>
-          <Transitioning.View transition={transition} ref={list}>
-            <Box flexDirection="row">
-              <Box marginRight="m">
-                {outfits
-                  .filter(({id}) => id % 2 === 1)
-                  .map((outfit) => (
+          <Box flexDirection="row">
+            <Box marginRight="m">
+              {outfits
+                .filter(({id}) => id % 2 === 1)
+                .map(outfit => (
+                  <Animated.View
+                    entering={FadeIn}
+                    exiting={FadeOut}
+                    layout={LinearTransition.stiffness(0)}
+                    key={outfit.id}>
                     <Outfit
                       key={outfit.id}
                       {...{width, ...outfit}}
                       onPress={onOutfitPress}
                       outfit={outfit}
                     />
-                  ))}
-              </Box>
-
-              <Box>
-                {outfits
-                  .filter(({id}) => id % 2 === 0)
-                  .map((outfit) => (
-                    <Outfit
-                      key={outfit.id}
-                      {...{width, ...outfit}}
-                      onPress={onOutfitPress}
-                      outfit={outfit}
-                    />
-                  ))}
-              </Box>
+                  </Animated.View>
+                ))}
             </Box>
-          </Transitioning.View>
+
+            <Box>
+              {outfits
+                .filter(({id}) => id % 2 === 0)
+                .map(outfit => (
+                  <Animated.View
+                    entering={FadeIn}
+                    exiting={FadeOut}
+                    layout={LinearTransition.stiffness(0)}
+                    key={outfit.id}>
+                    <Outfit
+                      key={outfit.id}
+                      {...{width, ...outfit}}
+                      onPress={onOutfitPress}
+                      outfit={outfit}
+                    />
+                  </Animated.View>
+                ))}
+            </Box>
+          </Box>
         </ScrollView>
       </Box>
 
       <Footer
         label="Start"
         onPress={() => {
-          const items = outfits.filter((k) => !k.selected);
+          const items = outfits.filter(k => !k.selected);
           setOutfits(items);
-          list.current?.animateNextTransition();
         }}
       />
     </Box>

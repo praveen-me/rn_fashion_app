@@ -35,6 +35,7 @@ import {getIsAuthenticated} from '../../redux/selectors/user.selectors';
 import bootStrapApp from '../bootStarpApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AUTH_TOKEN} from '../../contants/keys';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -213,9 +214,7 @@ const RootNavigator = () => {
     }
 
     (async () => {
-      AsyncStorage.removeItem(AUTH_TOKEN);
-      const hasToken = await AsyncStorage.getItem(AUTH_TOKEN);
-
+      const hasToken = await EncryptedStorage.getItem(AUTH_TOKEN);
       if (!hasToken) {
         setIsLoading(false);
       }
@@ -227,11 +226,11 @@ const RootNavigator = () => {
       <AppStack.Navigator
         screenOptions={{headerShown: false}}
         initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
-        <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
-        {/* {isLoggedIn ? (
+        {isLoggedIn ? (
+          <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
         ) : (
           <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
-        )} */}
+        )}
       </AppStack.Navigator>
     </NavigationContainer>
   ) : (

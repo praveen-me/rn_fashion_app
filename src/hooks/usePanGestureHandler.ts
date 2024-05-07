@@ -21,7 +21,7 @@ interface IUsePanGestureHandler {
   onSnap?: (e: GestureStateChangeEvent<PanGestureHandlerEventPayload>) => void;
 }
 
-function usePanGestureHandler(params: IUsePanGestureHandler) {
+function usePanGestureHandler(params?: IUsePanGestureHandler) {
   const translation = useSharedValue({x: 0, y: 0});
   const velocity = useSharedValue({x: 0, y: 0});
   const state = useSharedValue(State.UNDETERMINED);
@@ -32,8 +32,9 @@ function usePanGestureHandler(params: IUsePanGestureHandler) {
       velocity.value = {x: e.velocityX, y: e.velocityY};
       state.value = State.BEGAN;
     })
-    .onUpdate(e => {
-      if (params.snapPoints) {
+    .onChange(e => {      
+
+      if (params && params.snapPoints) {
         const {snapPoints} = params;
 
         if (
@@ -56,11 +57,13 @@ function usePanGestureHandler(params: IUsePanGestureHandler) {
       state.value = State.ACTIVE;
     })
     .onEnd(e => {
-      if (params.onEnd) {
-        runOnJS(params.onEnd)({x: e.x, translationX: e.translationX});
+
+      console.log('e.translationX', e.translationX, wWidth * 0.90, -wWidth * 0.90)
+      if (e.translationX > (wWidth * 90) || (-wWidth * 0.90) > e.translationX) {
+        if (params && params.onEnd) {
+          runOnJS(params.onEnd)({x: e.x, translationX: e.translationX});
+        }
       }
-      // if (e.translationX > wWidth || -wWidth > e.translationX) {
-      // }
       translation.value = withSpring(
         {x: 0, y: 0},
         {stiffness: 70, overshootClamping: true},

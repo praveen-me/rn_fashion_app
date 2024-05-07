@@ -17,10 +17,15 @@ interface HeaderProps {
     onPress: () => void;
     iconColor?: string;
   };
-  dark: boolean;
+  dark?: boolean;
 }
 
-const Header = ({title, left, right, dark}: HeaderProps) => {
+const Header = ({
+  title,
+  left = {icon: '', onPress: () => {}, iconColor: '#fff'},
+  right = {icon: '', onPress: () => {}, iconColor: '#fff'},
+  dark = false,
+}: HeaderProps) => {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
@@ -62,16 +67,6 @@ const Header = ({title, left, right, dark}: HeaderProps) => {
       )}
     </Box>
   );
-};
-
-Header.defaultProps = {
-  left: {
-    iconColor: '#fff',
-  },
-  right: {
-    iconColor: '#fff',
-  },
-  dark: false,
 };
 
 const styles = StyleSheet.create({

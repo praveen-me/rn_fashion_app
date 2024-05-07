@@ -5,16 +5,12 @@ import makeStyles from '../../../lib/makeStyles';
 import Underlay from './Underlay';
 import moment from 'moment';
 import Animated, {
-  divide,
-  multiply,
-  sub,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
-import {useTransition} from 'react-native-redash';
 
 export interface Point {
   date: number;

@@ -3,28 +3,24 @@ import {Dimensions, ImageRequireSource, StyleSheet} from 'react-native';
 import {
   GestureDetector,
   GestureHandlerRootView,
-  PanGestureHandler,
 } from 'react-native-gesture-handler';
 import Animated, {
-  add,
-  Extrapolate,
   Extrapolation,
   interpolate,
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useDerivedValue,
   withSpring,
+  type SharedValue,
 } from 'react-native-reanimated';
 import {mix, mixColor, useSpring} from 'react-native-redash';
 import {Box} from '../../../contants/theme';
-// import {useSpring} from './Animations';
 
 import usePanGestureHandler from '../../../hooks/usePanGestureHandler';
 
 interface CardProps {
-  position: number;
+  position: SharedValue<number>;
   onSwipe: () => void;
-  source: ImageRequireSource;
+  source: string;
   step: number;
 }
 
@@ -34,26 +30,34 @@ const height = width * (425 / 294);
 const borderRadius = 24;
 
 const Card = ({position, onSwipe, source, step}: CardProps) => {
-  const {gestureHandler, translation, velocity, state} =
-    usePanGestureHandler(onSwipe);
+  const {gestureHandler, translation} = usePanGestureHandler({
+    onEnd: onSwipe,
+    // snapPoints: {min: -wWidth, max: wWidth},
+    // onEnd: onSwipe,
+  });
 
   const backgroundColor = useDerivedValue(
-    () => mixColor(position, '#c9e9e7', '#74bcb8'),
+    () => mixColor(position.value, '#c9e9e7', '#74bcb8'),
     [position],
   );
-  const translateYOffset = mix(position, position * 10, -60) + 100;
+  const translateYOffset = mix(position.value, position.value * 10, -60) + 100;
 
   const animatedStyles = useAnimatedStyle(
     () => ({
       transform: [
         {
           scale: withSpring(
-            interpolate(position, [0, step], [1.2, 1], Extrapolation.CLAMP),
+            interpolate(
+              position.value,
+              [0, step],
+              [1.2, 1],
+              Extrapolation.CLAMP,
+            ),
           ),
         },
       ],
     }),
-    [position],
+    // [position],
   );
 
   const cardAnimatedStyles = useAnimatedStyle(
@@ -61,11 +65,11 @@ const Card = ({position, onSwipe, source, step}: CardProps) => {
       transform: [
         {translateY: translateYOffset + translation.value.y},
         {translateX: translation.value.x},
-        {scale: withSpring(mix(position, 1, 0.9))},
+        {scale: withSpring(mix(position.value, 1, 0.9))},
       ],
       backgroundColor: backgroundColor.value as string,
     }),
-    [translation, backgroundColor, position],
+    // [translation, backgroundColor, position],
   );
 
   return (
@@ -88,7 +92,7 @@ const Card = ({position, onSwipe, source, step}: CardProps) => {
               cardAnimatedStyles,
             ]}>
             <Animated.Image
-              source={source}
+              source={{uri: source}}
               style={{
                 ...StyleSheet.absoluteFillObject,
                 height: undefined,

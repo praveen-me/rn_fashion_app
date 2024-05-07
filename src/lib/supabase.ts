@@ -3,28 +3,26 @@ import 'react-native-url-polyfill/auto';
 import {
   createClient,
   SupabaseClient,
-  type AuthError,
   type AuthResponse,
   type AuthTokenResponsePassword,
 } from '@supabase/supabase-js';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import {SUPABASE_ANON_KEY, SUPABASE_URL} from '@env';
-import axios from 'axios';
 
-export interface ISbClient {
-  init(): void;
-  signInUser(credentials: {
-    email: string;
-    password: string;
-  }): Promise<AuthTokenResponsePassword | null>;
-  createUser(credentials: {
-    email: string;
-    password: string;
-  }): Promise<AuthResponse | null>;
-}
+// export interface ISbClient {
+//   init(): void;
+//   signInUser(credentials: {
+//     email: string;
+//     password: string;
+//   }): Promise<AuthTokenResponsePassword | null>;
+//   createUser(credentials: {
+//     email: string;
+//     password: string;
+//   }): Promise<AuthResponse | null>;
+// }
 
-export class SbClient implements ISbClient {
+export class SbClient {
   private client: SupabaseClient | null = null;
 
   init() {
@@ -51,13 +49,13 @@ export class SbClient implements ISbClient {
     }
   }
 
-   signInUser = async ({
+  signInUser = async ({
     email,
     password,
   }: {
     email: string;
     password: string;
-  }): Promise<AuthTokenResponsePassword | null>  => {
+  }): Promise<AuthTokenResponsePassword | null> => {
     if (!this.client) {
       throw new Error('Supabase client is not initialized.');
     }
@@ -68,13 +66,19 @@ export class SbClient implements ISbClient {
         password,
       });
 
+      console.log({data, error});
+
+      if (data) {
+        this.getOutfits();
+      }
+
       if (error) throw new Error(error.message);
 
       return {data, error: null};
     } catch (error: any) {
       return {data: {user: null, session: null}, error};
     }
-  }
+  };
 
   createUser = async ({
     email,
@@ -92,6 +96,43 @@ export class SbClient implements ISbClient {
         email,
         password,
       });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return {data, error: null};
+    } catch (error: any) {
+      return {data: {user: null, session: null}, error};
+    }
+  };
+
+  getOutfits = async () => {
+    if (!this.client) {
+      throw new Error('Supabase client is not initialized.');
+    }
+
+    try {
+      const {data, error} = await this.client.from('files').select('*');
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return {data, error: null};
+    } catch (error: any) {
+      return {data: {user: null, session: null}, error};
+    }
+  };
+
+  getUserBySession = async (session: string) => {
+    if (!this.client) {
+      throw new Error('Supabase client is not initialized.');
+    }
+
+    try {
+      // Supabase: get user by session
+      const {data, error} = await this.client.auth.getUser(session);
 
       if (error) {
         throw new Error(error.message);

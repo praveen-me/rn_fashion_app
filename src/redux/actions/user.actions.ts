@@ -1,3 +1,4 @@
+import type { User } from '@supabase/supabase-js';
 import {ISignupState} from '../../containers/Authentication/SignUp';
 import {IFetchMeUser} from '../@types';
 
@@ -23,7 +24,7 @@ export interface ILoginRequested {
 
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
-  payload: IFetchMeUser;
+  payload: User;
 }
 
 export interface IFetchMeRequested {
@@ -63,7 +64,7 @@ export function loginRequested(data: SignupPayload): ILoginRequested {
   };
 }
 
-export function loginCompleted(user: IFetchMeUser): ILoginCompleted {
+export function loginCompleted(user: User): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,

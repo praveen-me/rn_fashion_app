@@ -23,6 +23,7 @@
     "@react-navigation/stack": "^6.3.29",
     "@shopify/restyle": "^1.1.0",
     "@supabase/supabase-js": "^2.43.0",
+    "axios": "^1.6.8",
     "detox": "^18.20.1",
     "formik": "^2.1.5",
     "graphql": "^15.5.2",

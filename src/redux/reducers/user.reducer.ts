@@ -1,3 +1,4 @@
+import type { User } from '@supabase/supabase-js';
 import {IFetchMeUser} from '../@types';
 import {
   LOGIN_COMPLETED,
@@ -8,7 +9,7 @@ import {
 
 export interface IUserState {
   isAuthenticated: boolean;
-  currentUser: IFetchMeUser | null;
+  currentUser: User | null;
 }
 
 const initState: IUserState = {

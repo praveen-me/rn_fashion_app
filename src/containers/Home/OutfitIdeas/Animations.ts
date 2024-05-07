@@ -10,6 +10,7 @@ import Animated, {
   stopClock,
   spring,
   call,
+  useSharedValue,
 } from 'react-native-reanimated';
 import {snapPoint, useClock, useValue} from 'react-native-redash';
 
@@ -29,21 +30,21 @@ export const useSpring = ({
   onSnap,
 }: WithSpringParams) => {
   const clock = useClock();
-  const offset = useValue(0);
+  const offset = useSharedValue(0);
   const state = {
-    position: useValue(0),
-    finished: useValue(0),
-    time: useValue(0),
-    velocity: useValue(0),
+    position: useSharedValue(0),
+    finished: useSharedValue(0),
+    time: useSharedValue(0),
+    velocity: useSharedValue(0),
   };
   const config = {
-    toValue: useValue(0),
+    toValue: useSharedValue(0),
     damping: 6,
     mass: 1,
     stiffness: 30,
-    overshootClamping: useValue(0),
-    restSpeedThreshold: useValue(0.01),
-    restDisplacementThreshold: useValue(0.01),
+    overshootClamping: useSharedValue(0),
+    restSpeedThreshold: useSharedValue(0.01),
+    restDisplacementThreshold: useSharedValue(0.01),
   };
 
   return block([

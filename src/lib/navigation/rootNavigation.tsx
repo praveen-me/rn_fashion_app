@@ -49,7 +49,7 @@ export interface HomeNavigationProps<RouteName extends keyof HomeRoutes> {
   route: RouteProp<HomeRoutes, RouteName>;
 }
 
-type AuthRouteName =
+export type AuthRouteName =
   | 'Onboarding'
   | 'Welcome'
   | 'Login'
@@ -117,9 +117,9 @@ const HomeDrawerScreens = () => {
   return (
     <HomeDrawer.Navigator
       initialRouteName="OutfitIdeas"
+      screenOptions={{headerShown: false}}
       drawerContent={props => <Drawer {...props} />}
-      drawerStyle={{width: DRAWER_WIDTH}}
-    >
+      drawerStyle={{width: DRAWER_WIDTH}}>
       {HomeDrawerRoutes.map(({name, component}, index) => {
         return (
           <HomeDrawer.Screen name={name} component={component} key={index} />
@@ -195,7 +195,8 @@ const HomeDrawerRoutes: HomeRoute[] = [
   },
 ];
 
-export const navigationRef = React.createRef<NavigationContainerRef>();
+export const navigationRef =
+  React.createRef<NavigationContainerRef<AllRoutes>>();
 
 const RootNavigator = () => {
   const isLoggedIn = useSelector(getIsAuthenticated);
@@ -212,6 +213,7 @@ const RootNavigator = () => {
     }
 
     (async () => {
+      AsyncStorage.removeItem(AUTH_TOKEN);
       const hasToken = await AsyncStorage.getItem(AUTH_TOKEN);
 
       if (!hasToken) {
@@ -224,13 +226,12 @@ const RootNavigator = () => {
     <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}
-      >
+        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+        <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
         {/* {isLoggedIn ? (
-          <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
-        ) : ( */}
-        <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
-        {/* )} */}
+        ) : (
+          <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
+        )} */}
       </AppStack.Navigator>
     </NavigationContainer>
   ) : (

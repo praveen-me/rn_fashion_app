@@ -58,8 +58,9 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
     })
     .onEnd(e => {
 
-      console.log('e.translationX', e.translationX, wWidth * 0.90, -wWidth * 0.90)
-      if (e.translationX > (wWidth * 90) || (-wWidth * 0.90) > e.translationX) {
+      console.log('e.translationX', e.translationX, wWidth * 0.60, -wWidth * 0.60)
+      if ((e.translationX > (wWidth * 60)) || ((-wWidth * 0.60) > e.translationX)) {
+        console.log('e.translationX', e.translationX)
         if (params && params.onEnd) {
           runOnJS(params.onEnd)({x: e.x, translationX: e.translationX});
         }

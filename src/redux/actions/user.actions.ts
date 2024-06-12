@@ -1,4 +1,4 @@
-import type { User } from '@supabase/supabase-js';
+import type {IAppUser} from '../../@types';
 import {ISignupState} from '../../containers/Authentication/SignUp';
 
 export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
@@ -25,7 +25,7 @@ export interface ILoginRequested {
 
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
-  payload: User;
+  payload: IAppUser;
 }
 
 export interface IFetchMeRequested {
@@ -43,12 +43,12 @@ export interface IOAuthRequested {
 
 export interface IFetchOutfitsRequested {
   type: typeof FETCH_OUTFITS_REQUESTED;
-} 
+}
 
 export interface IFetchOutfitsCompleted {
   type: typeof FETCH_OUTFITS_COMPLETED;
-  payload: {id: number, url: string}[];
-} 
+  payload: {id: number; url: string}[];
+}
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
   const {email, password} = data;
@@ -74,7 +74,7 @@ export function loginRequested(data: SignupPayload): ILoginRequested {
   };
 }
 
-export function loginCompleted(user: User): ILoginCompleted {
+export function loginCompleted(user: IAppUser): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,
@@ -104,16 +104,17 @@ export function oAuthRequested(): IOAuthRequested {
   };
 }
 
-
 export function fetchOutfitsRequested(): IFetchOutfitsRequested {
   return {
     type: FETCH_OUTFITS_REQUESTED,
   };
 }
 
-export function fetchOutfitsCompleted(outfits: {id: number, url: string}[]): IFetchOutfitsCompleted {
+export function fetchOutfitsCompleted(
+  outfits: {id: number; url: string}[],
+): IFetchOutfitsCompleted {
   return {
     type: FETCH_OUTFITS_COMPLETED,
-    payload: outfits
-  }
+    payload: outfits,
+  };
 }

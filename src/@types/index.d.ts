@@ -9,3 +9,8 @@ export interface Response<Data extends Object, T extends string> {
     };
   };
 }
+
+export interface IAppUser {
+  uid: string;
+  email: string;
+}

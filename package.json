@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android:staging": "ENVFILE=.env.staging react-native run-android --mode=stagingDebug --appId com.rn_fashion_app.staging",
+    "android:staging": "ENVFILE=.env.staging react-native run-android --mode=stagingDebug --appId com.rn_fashion_app",
     "ios:staging": "react-native run-ios --scheme=\"RN Fashion Staging\"",
     "start": "react-native start",
     "test": "jest",
@@ -25,6 +25,7 @@
     "@supabase/supabase-js": "^2.43.0",
     "axios": "^1.6.8",
     "detox": "^18.20.1",
+    "firebase": "^10.12.2",
     "formik": "^2.1.5",
     "graphql": "^15.5.2",
     "moment": "^2.29.1",

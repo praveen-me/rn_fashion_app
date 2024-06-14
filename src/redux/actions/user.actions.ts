@@ -1,5 +1,6 @@
 import type {IAppUser} from '../../@types';
 import {ISignupState} from '../../containers/Authentication/SignUp';
+import type {URLItem} from '../../lib/firebase';
 
 export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
 
@@ -47,7 +48,7 @@ export interface IFetchOutfitsRequested {
 
 export interface IFetchOutfitsCompleted {
   type: typeof FETCH_OUTFITS_COMPLETED;
-  payload: {id: number; url: string}[];
+  payload: URLItem[];
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -111,7 +112,7 @@ export function fetchOutfitsRequested(): IFetchOutfitsRequested {
 }
 
 export function fetchOutfitsCompleted(
-  outfits: {id: number; url: string}[],
+  outfits: URLItem[],
 ): IFetchOutfitsCompleted {
   return {
     type: FETCH_OUTFITS_COMPLETED,

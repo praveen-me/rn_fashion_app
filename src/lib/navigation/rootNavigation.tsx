@@ -16,6 +16,7 @@ import {
   createDrawerNavigator,
   DrawerNavigationProp,
 } from '@react-navigation/drawer';
+import auth from '@react-native-firebase/auth';
 
 import {Login, Onboarding, Welcome} from '../../containers/Authentication';
 import SignUp from '../../containers/Authentication/SignUp';
@@ -208,7 +209,13 @@ const RootNavigator = () => {
     bootStrapApp();
   }, []);
 
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    console.log({user});
+  }
+
   React.useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     if (isLoggedIn) {
       setIsLoading(false);
     }
@@ -219,6 +226,7 @@ const RootNavigator = () => {
         setIsLoading(false);
       }
     })();
+    return subscriber; // unsubscribe on unmount
   }, [isLoggedIn]);
 
   return !isLoading ? (

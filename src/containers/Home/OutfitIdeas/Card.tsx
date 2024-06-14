@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, ImageRequireSource, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet, type ColorValue} from 'react-native';
 import {
   GestureDetector,
   GestureHandlerRootView,
@@ -10,6 +10,7 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   withSpring,
+  withTiming,
   type SharedValue,
 } from 'react-native-reanimated';
 import {mix, mixColor, useSpring} from 'react-native-redash';
@@ -32,45 +33,35 @@ const borderRadius = 24;
 const Card = ({position, onSwipe, source, step}: CardProps) => {
   const {gestureHandler, translation} = usePanGestureHandler({
     onEnd: onSwipe,
-    // snapPoints: {min: -wWidth, max: wWidth},
-    // onEnd: onSwipe,
   });
 
-  const backgroundColor = useDerivedValue(
-    () => mixColor(position.value, '#c9e9e7', '#74bcb8'),
-    [position],
-  );
-  const translateYOffset = mix(position.value, position.value * 10, -60) + 100;
+  const translateYOffset = mix(position.value, 0, -60) + 100;
 
-  const animatedStyles = useAnimatedStyle(
-    () => ({
-      transform: [
-        {
-          scale: withSpring(
-            interpolate(
-              position.value,
-              [0, step],
-              [1.2, 1],
-              Extrapolation.CLAMP,
-            ),
-          ),
-        },
-      ],
-    }),
-    // [position],
-  );
+  const imageAnimatedStyles = useAnimatedStyle(() => ({
+    transform: [
+      {
+        scale: interpolate(
+          position.value,
+          [0, step],
+          [1.2, 1],
+          Extrapolation.CLAMP,
+        ),
+      },
+    ],
+  }));
 
-  const cardAnimatedStyles = useAnimatedStyle(
-    () => ({
-      transform: [
-        {translateY: translateYOffset + translation.value.y},
-        {translateX: translation.value.x},
-        {scale: withSpring(mix(position.value, 1, 0.9))},
-      ],
-      backgroundColor: backgroundColor.value as string,
-    }),
-    // [translation, backgroundColor, position],
-  );
+  const cardAnimatedStyles = useAnimatedStyle(() => ({
+    transform: [
+      {translateY: withTiming(translateYOffset + translation.value.y)},
+      {translateX: translation.value.x},
+      {scale: mix(position.value, 1, 0.9)},
+    ],
+    backgroundColor: mixColor(
+      position.value,
+      '#c9e9e7',
+      '#74bcb8',
+    ) as ColorValue,
+  }));
 
   return (
     <Box
@@ -82,23 +73,23 @@ const Card = ({position, onSwipe, source, step}: CardProps) => {
           <Animated.View
             style={[
               {
-                // backgroundColor,
                 height,
                 width,
                 borderRadius,
-
                 overflow: 'hidden',
               },
               cardAnimatedStyles,
             ]}>
             <Animated.Image
               source={{uri: source}}
-              style={{
-                ...StyleSheet.absoluteFillObject,
-                height: undefined,
-                width: undefined,
-                transform: animatedStyles.transform,
-              }}
+              style={[
+                {
+                  ...StyleSheet.absoluteFillObject,
+                  height: undefined,
+                  width: undefined,
+                },
+                imageAnimatedStyles,
+              ]}
             />
           </Animated.View>
         </GestureDetector>

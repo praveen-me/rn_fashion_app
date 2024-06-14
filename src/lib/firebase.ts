@@ -1,23 +1,77 @@
-import {initializeApp} from 'firebase/app';
-import {browserLocalPersistence, getAuth, initializeAuth} from 'firebase/auth';
-import {getFirestore} from 'firebase/firestore';
+// src/lib/firebase.ts
+import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyBy4WIE9wtl-V4LHv0pUzNIN4n9XGw4eRY',
-  authDomain: 'rn-fashion-app.firebaseapp.com',
-  databaseURL: 'https://rn-fashion-app.firebaseio.com',
-  projectId: 'rn-fashion-app',
-  storageBucket: 'rn-fashion-app.appspot.com',
-  messagingSenderId: '383620677539',
-  appId: '1:383620677539:web:679c30a6c6d23adbfba416',
-  measurementId: 'G-V22L49DBH4',
-};
+// Define interfaces for URL items and result structure
+export interface URLItem {
+  id: string;
+  url: string | null;
+  error?: boolean;
+}
 
-export const FIREBASE_APP = initializeApp(firebaseConfig);
-export let FIREBASE_AUTH = initializeAuth(FIREBASE_APP, {
-  persistence: browserLocalPersistence,
-});
+export interface StorageItemsResult {
+  urls: URLItem[];
+  success: boolean;
+}
 
-FIREBASE_AUTH = getAuth(FIREBASE_APP);
+class FirebaseHelpers {
+  /**
+   * Login with email and password using Firebase Authentication.
+   * @param email - User email address
+   * @param password - User password
+   * @returns Firebase user object on success, error object on failure
+   */
+  static async login(email: string, password: string) {
+    try {
+      const user = await auth().signInWithEmailAndPassword(email, password);
+      return user;
+    } catch (error) {
+      console.error('Login failed', error);
+      return {success: false, error};
+    }
+  }
 
-export const FIREBASE_DB = getFirestore(FIREBASE_APP);
+  /**
+   * Get all items from a specified Firebase Storage folder.
+   * @param folder - The folder path in Firebase Storage
+   * @returns Object containing URLs of items and success status { urls: [], success: true/false }
+   */
+  public static async getAllItems(folder: string): Promise<StorageItemsResult> {
+    const storageRef = storage().ref(folder);
+
+    try {
+      const {items} = await storageRef.listAll();
+
+      const urls = await Promise.all(
+        items.map(async item => {
+          try {
+            const url = await item.getDownloadURL();
+            return {id: item.fullPath, url};
+          } catch (error) {
+            console.error(
+              `Failed to get download URL for ${item.fullPath}`,
+              error,
+            );
+            return {id: item.fullPath, url: null, error: true};
+          }
+        }),
+      );
+
+      return {
+        urls,
+        success: true,
+      };
+    } catch (error) {
+      console.error(
+        `Failed to list or process items in folder ${folder}`,
+        error,
+      );
+      return {
+        urls: [],
+        success: false,
+      };
+    }
+  }
+}
+
+export default FirebaseHelpers;

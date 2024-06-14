@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   useDerivedValue,
   useSharedValue,
@@ -15,6 +15,7 @@ import Card from './Card';
 import Categories from './Categories';
 import {useSelector} from 'react-redux';
 import {getOutfits} from '../../../redux/selectors/user.selectors';
+import {useTiming} from 'react-native-redash';
 
 const cards = [
   {
@@ -35,56 +36,54 @@ const cards = [
   },
 ];
 
-const step = 1 / (5 - 1);
-
 interface OutfitCardsProps {
-  outfits: {id: number; url: string}[];
   currentIndex: number;
   aIndex: SharedValue<number>;
   step: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  index: number;
+  source: string;
 }
 
 const OutfitCards: React.FC<OutfitCardsProps> = ({
-  outfits,
   currentIndex,
   aIndex,
   step,
   setCurrentIndex,
+  index,
+  source,
 }) => {
-  return (
-    <>
-      {outfits.map(({id: index, url: source}) => {
-        const position = useDerivedValue(() => index * step - aIndex.value);
+  const position = useDerivedValue(() => index * step - aIndex.value);
 
-        return (
-          currentIndex < index * step + step && (
-            <Card
-              key={index}
-              position={position}
-              onSwipe={() => {
-                console.log('called');
-                setCurrentIndex(prev => prev + step);
-              }}
-              source={source}
-              step={step}
-            />
-          )
-        );
-      })}
-    </>
+  return (
+    currentIndex < index * step + step && (
+      <Card
+        position={position}
+        onSwipe={() => setCurrentIndex(prev => prev + step)}
+        source={source}
+        step={step}
+      />
+    )
   );
 };
 
 const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const outfits = useSelector(getOutfits);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const aIndex = useSharedValue(currentIndex);
+  const aIndex = useTiming(currentIndex);
 
-  useEffect(() => {
-    aIndex.value = withTiming(currentIndex, {duration: 50});
-  }, [currentIndex]);
+  const mappedOutfits = useMemo(
+    () =>
+      outfits.reverse().map(({id, url: source}, index, items) => ({
+        id,
+        source,
+        index: items.length - index - 1,
+      })),
+    [outfits],
+  );
+
+  const step = useMemo(() => 1 / (outfits.length - 1), [outfits]);
 
   return (
     <Box flex={1} backgroundColor="white">
@@ -106,15 +105,20 @@ const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
       <Box flex={1}>
         <Background />
 
-        {outfits.length > 0 && (
-          <OutfitCards
-            outfits={outfits}
-            currentIndex={currentIndex}
-            aIndex={aIndex}
-            step={step}
-            setCurrentIndex={setCurrentIndex}
-          />
-        )}
+        {mappedOutfits.length > 0 &&
+          mappedOutfits.map(({id, source, index}) => {
+            return (
+              <OutfitCards
+                currentIndex={currentIndex}
+                aIndex={aIndex}
+                step={step}
+                setCurrentIndex={setCurrentIndex}
+                index={index}
+                source={source}
+                key={id}
+              />
+            );
+          })}
       </Box>
     </Box>
   );

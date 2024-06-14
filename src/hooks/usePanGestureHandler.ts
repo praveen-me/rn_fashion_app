@@ -32,8 +32,7 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
       velocity.value = {x: e.velocityX, y: e.velocityY};
       state.value = State.BEGAN;
     })
-    .onChange(e => {      
-
+    .onChange(e => {
       if (params && params.snapPoints) {
         const {snapPoints} = params;
 
@@ -43,10 +42,13 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
         ) {
           translation.value = {x: e.translationX, y: e.translationY};
           velocity.value = {x: e.velocityX, y: e.velocityY};
-          
         }
 
-        if ((e.translationX >= snapPoints.max - 10 && e.translationX <= snapPoints.max) && params.onSnap)  {
+        if (
+          e.translationX >= snapPoints.max - 10 &&
+          e.translationX <= snapPoints.max &&
+          params.onSnap
+        ) {
           runOnJS(params.onSnap)({...e, oldState: state.value});
         }
       } else {
@@ -57,10 +59,14 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
       state.value = State.ACTIVE;
     })
     .onEnd(e => {
-
-      console.log('e.translationX', e.translationX, wWidth * 0.60, -wWidth * 0.60)
-      if ((e.translationX > (wWidth * 60)) || ((-wWidth * 0.60) > e.translationX)) {
-        console.log('e.translationX', e.translationX)
+      console.log(
+        'e.translationX',
+        e.translationX,
+        wWidth * 0.6,
+        -wWidth * 0.6,
+      );
+      if (e.translationX > wWidth * 0.6 || -wWidth * 0.6 > e.translationX) {
+        console.log('e.translationX', e.translationX);
         if (params && params.onEnd) {
           runOnJS(params.onEnd)({x: e.x, translationX: e.translationX});
         }

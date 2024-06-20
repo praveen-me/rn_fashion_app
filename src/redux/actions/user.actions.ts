@@ -1,4 +1,5 @@
-import type {IAppUser} from '../../@types';
+import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import type {IUserData} from '../../@types';
 import {ISignupState} from '../../containers/Authentication/SignUp';
 import type {URLItem} from '../../lib/firebase';
 
@@ -13,6 +14,7 @@ export const LOGOUT_USER_COMPLETED = 'LOGOUT_USER_COMPLETED';
 export const OAUTH_REQUESTED = 'OAUTH_REQUESTED';
 export const FETCH_OUTFITS_REQUESTED = 'FETCH_OUTFITS_REQUESTED';
 export const FETCH_OUTFITS_COMPLETED = 'FETCH_OUTFITS_COMPLETED';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -26,7 +28,7 @@ export interface ILoginRequested {
 
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
-  payload: IAppUser;
+  payload: IUserData;
 }
 
 export interface IFetchMeRequested {
@@ -49,6 +51,11 @@ export interface IFetchOutfitsRequested {
 export interface IFetchOutfitsCompleted {
   type: typeof FETCH_OUTFITS_COMPLETED;
   payload: URLItem[];
+}
+
+export interface ISetCurrentUser {
+  type: typeof SET_CURRENT_USER;
+  payload: IUserData;
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -75,7 +82,7 @@ export function loginRequested(data: SignupPayload): ILoginRequested {
   };
 }
 
-export function loginCompleted(user: IAppUser): ILoginCompleted {
+export function loginCompleted(user: IUserData): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,
@@ -117,5 +124,12 @@ export function fetchOutfitsCompleted(
   return {
     type: FETCH_OUTFITS_COMPLETED,
     payload: outfits,
+  };
+}
+
+export function setCurrentUser(user: IUserData): ISetCurrentUser {
+  return {
+    type: SET_CURRENT_USER,
+    payload: user,
   };
 }

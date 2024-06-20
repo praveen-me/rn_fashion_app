@@ -1,13 +1,11 @@
-import React, {ReactNode, useEffect, useState} from 'react';
+import React from 'react';
 import {Dimensions} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
-import {mix, useTransition} from 'react-native-redash';
+import {mix, useTiming} from 'react-native-redash';
 import makeStyles from '../../../lib/makeStyles';
 import AppText from '../../../components/Text';
 import {Box, Theme} from '../../../contants/theme';
@@ -28,18 +26,14 @@ interface TabsProps {
 const {width} = Dimensions.get('window');
 
 export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
-  // const transition = useTransition(currentTab, {duration: 300});
-  const transition = useSharedValue(currentTab);
+  const transition = useTiming(currentTab, {duration: 300});
+
   const translateX = useDerivedValue(
     () => mix(transition.value, width * 0.25 - 5, width * 0.75 - 5),
-    [transition.value],
+    [],
   );
 
   const styles = useStyles();
-
-  useEffect(() => {
-    transition.value = withTiming(currentTab, {duration: 300});
-  }, [currentTab]);
 
   const styleForAnimatedView = useAnimatedStyle(() => {
     return {

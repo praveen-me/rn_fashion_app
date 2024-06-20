@@ -17,6 +17,8 @@ import {
   FETCH_OUTFITS_REQUESTED,
   fetchOutfitsCompleted,
   fetchOutfitsRequested,
+  fetchMeRequested,
+  setCurrentUser,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -26,6 +28,8 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
+import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+import type {IUserData} from '../../@types';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
@@ -34,12 +38,11 @@ function* signupRequestedSaga(action: ISignupRequested) {
 
   try {
     const createdUser: FirebaseAuthTypes.UserCredential =
-      yield firebaseAuth().createUserWithEmailAndPassword(email, password);
+      yield FirebaseHelpers.createUser(email, password);
 
     const {user} = createdUser;
 
-    if (user.email && user.uid) {
-      yield put(loginCompleted({uid: user.uid, email: user.email}));
+    if (user.uid) {
     }
   } catch (e) {
     console.log(e);
@@ -59,7 +62,7 @@ function* loginRequestedSaga(action: ISignupRequested) {
     const {user} = signInUser;
 
     if (user.uid && user.email) {
-      yield put(loginCompleted({uid: user.uid, email: user.email}));
+      yield put(fetchMeRequested());
       yield EncryptedStorage.setItem(AUTH_CURRENT_USER, JSON.stringify(user));
     }
   } catch (e) {
@@ -70,13 +73,20 @@ function* loginRequestedSaga(action: ISignupRequested) {
 function* fetchMeRequestedSaga() {
   try {
     const sessionUser = firebaseAuth().currentUser;
+    const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
 
     if (sessionUser) {
       const {uid, email} = sessionUser;
 
       if (uid && email) {
-        yield put(loginCompleted({uid, email}));
         yield put(fetchOutfitsRequested());
+        yield put(loginCompleted(currentUser));
+
+        setTimeout(() => {
+          if (!currentUser.name) {
+            navigationRef.current?.navigate('EditProfile', {showSaveBtn: true});
+          }
+        }, 0);
       }
     }
   } catch (e) {
@@ -90,12 +100,12 @@ function* saveToken(session: ISession) {
 
 function* logoutUserRequestedSaga() {
   try {
-    const hasToken: null | string = yield AsyncStorage.getItem(
-      AUTH_TOKEN,
-    ) as Promise<null | string>;
+    const hasUser = FirebaseHelpers.getCurrentUser();
 
-    if (!!hasToken) {
-      yield AsyncStorage.removeItem(AUTH_TOKEN);
+    if (hasUser) {
+      yield FirebaseHelpers.signOut();
+
+      yield AsyncStorage.removeItem(AUTH_CURRENT_USER);
     }
 
     yield put(logoutUserCompleted());

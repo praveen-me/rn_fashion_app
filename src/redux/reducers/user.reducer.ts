@@ -1,4 +1,3 @@
-import type { User } from '@supabase/supabase-js';
 import {
   LOGIN_COMPLETED,
   ILoginCompleted,
@@ -7,22 +6,23 @@ import {
   FETCH_OUTFITS_COMPLETED,
   type IFetchOutfitsCompleted,
 } from '../actions/user.actions';
-
-export interface IUserState {
-  isAuthenticated: boolean;
-  currentUser: User | null;
-  outfits: {id: number, url: string}[]
-}
+import type {IUserState} from '../@types';
 
 const initState: IUserState = {
   isAuthenticated: false,
   currentUser: null,
-  outfits: []
+  outfits: [],
 };
 
-type RootAction = ILoginCompleted | ILogoutUserCompleted| IFetchOutfitsCompleted;
+type RootAction =
+  | ILoginCompleted
+  | ILogoutUserCompleted
+  | IFetchOutfitsCompleted;
 
-export default function userReducer(state = initState, action: RootAction) {
+export default function userReducer(
+  state = initState,
+  action: RootAction,
+): IUserState {
   switch (action.type) {
     case LOGIN_COMPLETED: {
       const user = action.payload;
@@ -42,11 +42,11 @@ export default function userReducer(state = initState, action: RootAction) {
       };
     }
 
-    case FETCH_OUTFITS_COMPLETED: { 
+    case FETCH_OUTFITS_COMPLETED: {
       return {
         ...state,
-        outfits: action.payload
-      }
+        outfits: action.payload,
+      };
     }
 
     default:

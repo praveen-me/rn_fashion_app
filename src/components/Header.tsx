@@ -12,7 +12,7 @@ interface HeaderProps {
     iconColor?: string;
   };
   title: string;
-  right: {
+  right?: {
     icon: string;
     onPress: () => void;
     iconColor?: string;

@@ -1,28 +1,22 @@
 import React, {useRef} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, type TextInput as RNTextInput} from 'react-native';
 import {Box} from '../../../contants/theme';
 import AppText from '../../../components/Text';
-import CheckBoxGroup, {
-  CheckBoxGroupRef,
-} from '../../../components/CheckboxGroup';
+
 import TextInput from '../../Authentication/components/Form/TextInput';
 
-const genders = [
-  {
-    id: 'male',
-    label: 'Male',
-  },
-  {
-    id: 'female',
-    label: 'Female',
-  },
-];
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useEditProfileContext} from './EditProfileProvider';
 
 export default function PersonalInfo() {
-  const genderRef = useRef<CheckBoxGroupRef>(null);
+  const addressFieldRef = useRef<RNTextInput>(null);
+
+  const {personalInfoState} = useEditProfileContext();
+
+  const {handleChange, values} = personalInfoState;
 
   return (
-    <ScrollView>
+    <KeyboardAwareScrollView>
       <Box padding="m">
         <Box marginBottom="m">
           <AppText variant="body">Account Information</AppText>
@@ -31,55 +25,29 @@ export default function PersonalInfo() {
           <TextInput
             placeholder="Name"
             icon="user"
-            // handleChange={handleChange('email')}
-            // onBlur={handleBlur('email')}
-            // value={values.email}
-            // error={errors.email}
-            // touched={touched.email}
-            autoCompleteType="name"
+            handleChange={handleChange('name')}
             autoCapitalize="none"
             returnKeyType="next"
             returnKeyLabel="next"
-            // onSubmitEditing={() => passwordField.current?.focus()}
+            value={values.name}
+            onSubmitEditing={() => addressFieldRef?.current?.focus()}
           />
         </Box>
         <Box marginBottom="m">
           <TextInput
-            // ref={passwordField}
-            placeholder="Enter your password"
-            icon="lock"
-            // handleChange={handleChange('password')}
-            // onBlur={handleBlur('password')}
-            // value={values.password}
-            // error={errors.password}
-            // touched={touched.password}
-            secureTextEntry
-            autoCompleteType="password"
-            autoCapitalize="none"
-            returnKeyType="go"
-            returnKeyLabel="go"
-            // onSubmitEditing={handleSubmit}
-          />
-        </Box>
-        <Box marginBottom="m">
-          <TextInput
-            // ref={passwordField}
+            handleChange={handleChange('address')}
+            value={values.address}
+            ref={addressFieldRef}
             placeholder="Address"
             icon="map-pin"
-            // handleChange={handleChange('password')}
-            // onBlur={handleBlur('password')}
-            // value={values.password}
-            // error={errors.password}
-            // touched={touched.password}
             secureTextEntry
-            autoCompleteType="street-address"
+            autoComplete="street-address"
             autoCapitalize="none"
             returnKeyType="go"
             returnKeyLabel="go"
-            // onSubmitEditing={handleSubmit}
           />
         </Box>
       </Box>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }

@@ -28,8 +28,9 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
-import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
+// import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import type {IUserData} from '../../@types';
+import {getConstantsRequested} from '../actions/misc.actions';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
@@ -152,6 +153,7 @@ function* fetchOutfitsRequestedSaga() {
     );
 
     if (items.success) {
+      yield put(getConstantsRequested());
       yield put(fetchOutfitsCompleted(items.urls));
     }
   } catch (e) {

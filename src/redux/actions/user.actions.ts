@@ -15,6 +15,8 @@ export const OAUTH_REQUESTED = 'OAUTH_REQUESTED';
 export const FETCH_OUTFITS_REQUESTED = 'FETCH_OUTFITS_REQUESTED';
 export const FETCH_OUTFITS_COMPLETED = 'FETCH_OUTFITS_COMPLETED';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED';
+export const UPDATE_USER_COMPLETED = 'UPDATE_USER_COMPLETED';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -56,6 +58,11 @@ export interface IFetchOutfitsCompleted {
 export interface ISetCurrentUser {
   type: typeof SET_CURRENT_USER;
   payload: IUserData;
+}
+
+export interface IUpdateUserRequested {
+  type: typeof UPDATE_USER_REQUESTED;
+  payload: Partial<IUserData>;
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -131,5 +138,14 @@ export function setCurrentUser(user: IUserData): ISetCurrentUser {
   return {
     type: SET_CURRENT_USER,
     payload: user,
+  };
+}
+
+export function updateUserRequested(
+  data: Partial<IUserData>,
+): IUpdateUserRequested {
+  return {
+    type: UPDATE_USER_REQUESTED,
+    payload: data,
   };
 }

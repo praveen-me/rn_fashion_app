@@ -3,11 +3,15 @@ import {IAppState} from '../reducers';
 
 export const getIsAuthenticated = createSelector(
   (state: IAppState) => state.user,
-  (user) => user.isAuthenticated,
+  user => user.isAuthenticated,
 );
-
 
 export const getOutfits = createSelector(
   (state: IAppState) => state.user,
-  (user) => user.outfits,
+  user => user.outfits,
+);
+
+export const getUser = createSelector(
+  (state: IAppState) => state.user,
+  user => user.currentUser,
 );

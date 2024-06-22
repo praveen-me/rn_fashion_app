@@ -7,6 +7,12 @@ import {HomeNavigationProps} from 'src/lib/navigation/rootNavigation';
 import AppText from '../../../components/Text';
 import Tabs from './Tabs';
 import BottomSaveButton from './BottomSaveButton';
+import {useSelector} from 'react-redux';
+import {getUser} from '../../../redux/selectors/user.selectors';
+import {
+  EditProfileContextProvider,
+  useEditProfileContext,
+} from './EditProfileProvider';
 
 const tabs = [
   {
@@ -19,23 +25,33 @@ const tabs = [
   },
 ];
 
-export default function EditProfile({
-  navigation,
-  route,
-}: HomeNavigationProps<'EditProfile'>) {
+function EditProfile({navigation, route}: HomeNavigationProps<'EditProfile'>) {
   const theme = useTheme();
   const [showBtn, setShowBtn] = useState(true);
-  const [currentTab, setCurrentTab] = useState(0);
+  const user = useSelector(getUser);
+
+  const {currentTabState, handleSaveUserInformation} = useEditProfileContext();
+
+  const {currentTab, setCurrentTab} = currentTabState;
+
+  const [userData, setUserData] = useState({
+    outfitSelection: user?.outfitSelection,
+    preferredBrands: user?.preferredBrands,
+    preferredSize: user?.preferredSizes,
+    name: user?.name,
+    address: user?.address,
+    preferredColors: user?.preferredColors,
+  });
 
   const bottomSaveBtnRef = useRef(null);
 
   useEffect(() => {
-    const {showSaveBtn = false} = route.params;
+    const {showSaveBtn = false} = route?.params || {};
 
     if (showSaveBtn) {
       setShowBtn(true);
     }
-  }, [route.params]);
+  }, [route?.params]);
 
   return (
     <Box backgroundColor="white" flex={1}>
@@ -95,9 +111,9 @@ export default function EditProfile({
                     style={{
                       color: theme.colors.textPrimaryColor,
                     }}>
-                    Mike Peter
+                    {user?.name || 'User'}
                   </AppText>
-                  <AppText center>mike@email.com</AppText>
+                  <AppText center>{user?.email}</AppText>
                 </Box>
                 <Tabs
                   tabs={tabs}
@@ -111,9 +127,21 @@ export default function EditProfile({
             navigation={navigation}
             ref={bottomSaveBtnRef}
             setShowBtn={setShowBtn}
+            onSave={handleSaveUserInformation}
           />
         </>
       )}
     </Box>
+  );
+}
+
+export default function EditProfileRoot({
+  navigation,
+  route,
+}: HomeNavigationProps<'EditProfile'>) {
+  return (
+    <EditProfileContextProvider>
+      <EditProfile navigation={navigation} route={route} />
+    </EditProfileContextProvider>
   );
 }

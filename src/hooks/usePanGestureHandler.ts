@@ -59,12 +59,12 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
       state.value = State.ACTIVE;
     })
     .onEnd(e => {
-      console.log(
-        'e.translationX',
-        e.translationX,
-        wWidth * 0.6,
-        -wWidth * 0.6,
-      );
+      // console.log(
+      //   'e.translationX',
+      //   e.translationX,
+      //   wWidth * 0.6,
+      //   -wWidth * 0.6,
+      // );
       if (e.translationX > wWidth * 0.6 || -wWidth * 0.6 > e.translationX) {
         console.log('e.translationX', e.translationX);
         if (params && params.onEnd) {

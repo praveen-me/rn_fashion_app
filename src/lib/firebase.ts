@@ -22,6 +22,25 @@ export interface StorageItemsResult {
 }
 
 class FirebaseHelpers {
+  private static async getAllDocsFromCollection(
+    collectionName: string,
+    orderByConfig?: {orderBy: string; direction: 'desc' | 'asc'},
+  ) {
+    if (orderByConfig) {
+      const {orderBy, direction} = orderByConfig;
+      const snapshots = await firestore()
+        .collection(collectionName)
+        .orderBy(orderBy, direction)
+        .get();
+
+      return snapshots.docs.map(doc => doc.data());
+    }
+
+    const snapshots = await firestore().collection(collectionName).get();
+
+    return snapshots.docs.map(doc => doc.data());
+  }
+
   /**
    * Login with email and password using Firebase Authentication.
    * @param email - User email address
@@ -117,25 +136,95 @@ class FirebaseHelpers {
     }
   }
 
+  /**
+   * Signs out the currently authenticated user.
+   *
+   * @returns A Promise that resolves when the sign out is successful, or throws an error if it fails.
+   */
   static async signOut() {
     try {
       await auth().signOut();
     } catch (error) {
       console.error('Sign out failed', error);
+      throw error;
     }
   }
 
+  /**
+   * Retrieves the currently authenticated user.
+   *
+   * @returns The currently authenticated user, or null if no user is authenticated.
+   */
   static getCurrentUser() {
     return auth().currentUser;
   }
 
-  static async getUser(uid: string) {
+  /**
+   * Retrieves the user data for the specified user ID.
+   *
+   * @param uid - The ID of the user.
+   * @returns A Promise that resolves to the user data if successful, or null if unsuccessful.
+   * @throws If an error occurs during the retrieval process.
+   */
+  static async getUser(): Promise<IUserData | null> {
     try {
-      const user = await firestore().collection('users').doc(uid).get();
+      const currentUser = FirebaseHelpers.getCurrentUser();
+      const user = await firestore()
+        .collection('users')
+        .doc(currentUser?.uid)
+        .get();
 
-      return user.data();
+      return user.data() as IUserData;
     } catch (error) {
       console.error('Failed to get user', error);
+      return null;
+    }
+  }
+
+  /**
+   * Updates the data of the currently authenticated user.
+   *
+   * @param data - The partial user data to update.
+   * @throws If an error occurs during the update process.
+   */
+  static async updateCurrentUser(data: Partial<IUserData>): Promise<void> {
+    const user = FirebaseHelpers.getCurrentUser();
+
+    try {
+      await firestore().collection('users').doc(user?.uid).update(data);
+    } catch (error) {
+      console.error('Failed to update user', error);
+      throw error;
+    }
+  }
+
+  static async getConstantsFromFirestore(): Promise<any> {
+    try {
+      const clothingBrands = await this.getAllDocsFromCollection(
+        'clothingBrands',
+      );
+
+      const clothingSize = await this.getAllDocsFromCollection('clothingSize', {
+        orderBy: 'createdAt',
+        direction: 'asc',
+      });
+
+      const outfitSelections = await this.getAllDocsFromCollection(
+        'outfitSelections',
+      );
+
+      const preferredColors = await this.getAllDocsFromCollection(
+        'preferredColors',
+      );
+
+      return {
+        clothingBrands,
+        clothingSize,
+        outfitSelections,
+        preferredColors,
+      };
+    } catch (error) {
+      console.error('Failed to get constants', error);
       return null;
     }
   }

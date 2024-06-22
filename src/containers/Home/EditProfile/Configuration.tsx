@@ -1,121 +1,66 @@
-import React, {useRef} from 'react';
-import {ScrollView, Button} from 'react-native';
+import React, {useMemo} from 'react';
+import {ScrollView} from 'react-native';
 import {Box, useTheme} from '../../../contants/theme';
 import AppText from '../../../components/Text';
-import CheckBoxGroup, {
-  CheckBoxGroupRef,
-} from '../../../components/CheckboxGroup';
-import RoundedCheckBoxGroup, {
-  RoundedCheckBoxGroupRef,
-} from '../../../components/RoundedCheckBoxGroup';
+import CheckBoxGroup from '../../../components/CheckboxGroup';
+import RoundedCheckBoxGroup from '../../../components/RoundedCheckBoxGroup';
 
-const outfitSelectionOptions = [
-  {
-    id: 'men',
-    label: 'For men',
-  },
-  {
-    id: 'women',
-    label: 'For Women',
-  },
-  {
-    id: 'both',
-    label: 'For both',
-  },
-];
+import {useEditProfileContext} from './EditProfileProvider';
+import {useSelector} from 'react-redux';
+import {getUserConstants} from '../../../redux/selectors/misc.selectors';
 
-const preferredBrandsOptions = [
-  {
-    id: 'addidas',
-    label: 'Addidas',
-  },
-  {
-    id: 'nike',
-    label: 'Nike',
-  },
-  {
-    id: 'converse',
-    label: 'Converse',
-  },
-  {
-    id: 'tommhilfiger',
-    label: 'Tommy Hilfiger',
-  },
-  {
-    id: 'bbclub',
-    label: 'Billionaire Boys Club',
-  },
-  {
-    id: 'lcs',
-    label: 'Le Coq Sportif',
-  },
-  {
-    id: 'jordan',
-    label: 'Jordan',
-  },
-];
+interface IConfigurationProps {
+  // user: IUserData;
+}
 
-const preferredSizes = [
-  {
-    id: 's',
-    label: 'S',
-  },
-  {
-    id: 'm',
-    label: 'M',
-  },
-  {
-    id: 'l',
-    label: 'L',
-  },
-  {
-    id: 'xl',
-    label: 'XL',
-  },
-  {
-    id: 'xxl',
-    label: 'XXL',
-  },
-];
-
-const preferredColorOptions = [
-  {
-    id: '1',
-    label: '#0C0D34',
-  },
-  {
-    id: '2',
-    label: '#2CB9B0',
-  },
-  {
-    id: '3',
-    label: '#FF0058',
-  },
-  {
-    id: '4',
-    label: '#a09c00',
-  },
-  {
-    id: '5',
-    label: 'orange',
-  },
-  {
-    id: '6',
-    label: 'pink',
-  },
-  {
-    id: '7',
-    label: 'violet',
-  },
-];
-
-export default function Configuration() {
+export default function Configuration(props: IConfigurationProps) {
   const theme = useTheme();
 
-  const outfitRef = useRef<CheckBoxGroupRef>(null);
-  const preferredBrandsRef = useRef<RoundedCheckBoxGroupRef>(null);
-  const preferredColorsRef = useRef<CheckBoxGroupRef>(null);
-  const clothingSizeRef = useRef<RoundedCheckBoxGroupRef>(null);
+  const {addInputRef} = useEditProfileContext();
+
+  const {clothingBrands, outfitSelections, clothingSize, preferredColors} =
+    useSelector(getUserConstants);
+
+  // const [userChoices, setUserChoices] = useState({
+  //   outfitSelection: props.user?.outfitSelection,
+  //   preferredBrands: props.user?.preferredBrands,
+  //   preferredSize: props.user?.preferredSizes,
+  //   preferredColors: props.user?.preferredColors,
+  // });
+
+  console.log({outfitSelections});
+
+  const outfitSelectionOptions = useMemo(
+    () =>
+      outfitSelections.map(outfit => ({id: outfit.key, label: outfit.label})),
+    [outfitSelections],
+  );
+  console.log({outfitSelectionOptions});
+
+  const clothingSizeOptions = useMemo(
+    () =>
+      clothingSize.map(size => ({
+        id: size.value.toLowerCase(),
+        label: size.value.toUpperCase(),
+      })),
+    [clothingSize],
+  );
+
+  const preferredColorsOptions = useMemo(() => {
+    return preferredColors.map((color, index) => ({
+      id: color.value,
+      label: color.value,
+    }));
+  }, [preferredColors]);
+
+  const clothingBrandOptions = useMemo(
+    () =>
+      clothingBrands.map(brand => ({
+        id: brand.key,
+        label: brand.label,
+      })),
+    [clothingBrands],
+  );
 
   return (
     <ScrollView contentContainerStyle={{padding: theme.spacing.m}}>
@@ -123,15 +68,25 @@ export default function Configuration() {
         <AppText variant="body" bold>
           What type of outfit you usually wear now?
         </AppText>
-        <CheckBoxGroup options={outfitSelectionOptions} ref={outfitRef} />
+        <CheckBoxGroup
+          options={outfitSelectionOptions}
+          ref={ref => {
+            if (!ref) return;
+
+            addInputRef('outfitSelection', ref);
+          }}
+        />
       </Box>
       <Box>
         <AppText bold variant="body">
           What is your clothing size?
         </AppText>
         <RoundedCheckBoxGroup
-          options={preferredSizes}
-          ref={clothingSizeRef}
+          options={clothingSizeOptions}
+          ref={ref => {
+            if (!ref) return;
+            addInputRef('preferredSizes', ref);
+          }}
           type="multi"
         />
       </Box>
@@ -140,8 +95,11 @@ export default function Configuration() {
           My preferred clothing colors
         </AppText>
         <RoundedCheckBoxGroup
-          options={preferredColorOptions}
-          ref={preferredColorsRef}
+          options={preferredColorsOptions}
+          ref={ref => {
+            if (!ref) return;
+            addInputRef('preferredColors', ref);
+          }}
           type="multi"
           labelAsColor
         />
@@ -151,8 +109,11 @@ export default function Configuration() {
           My Preferred Brand
         </AppText>
         <CheckBoxGroup
-          options={preferredBrandsOptions}
-          ref={preferredBrandsRef}
+          options={clothingBrandOptions}
+          ref={ref => {
+            if (!ref) return;
+            addInputRef('preferredBrands', ref);
+          }}
           type="multi"
         />
       </Box>

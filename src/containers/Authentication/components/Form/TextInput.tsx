@@ -12,7 +12,7 @@ import RoundedIcon from '../../../../components/RoundedIcon';
 interface TextInputProps extends RNTextInputProps {
   icon: string;
   handleChange: (e: any) => void;
-  onBlur: (e: any) => void;
+  onBlur?: (e: any) => void;
   value: string;
   placeholder: string;
   error?: string;

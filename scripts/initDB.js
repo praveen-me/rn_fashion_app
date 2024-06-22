@@ -11,23 +11,26 @@ const db = admin.firestore();
 
 async function createDummyData() {
   const outfitSelectionOptions = [
-    {
-      key: 'men',
-      label: 'For men',
-    },
-    {
-      key: 'women',
-      label: 'For Women',
-    },
-    {
-      key: 'both',
-      label: 'For both',
-    },
+    {value: 's'},
+    {value: 'm'},
+    {value: 'l'},
+    {value: 'xl'},
+    {value: 'xxl'},
   ];
 
   // Add posts to Firestore
   for (const brand of outfitSelectionOptions) {
-    const outfitRef = await db.collection('outfitSelections').add(brand);
+    const outfitRef = await db
+      .collection('clothingSize')
+      .add({...brand, createdAt: admin.firestore.Timestamp.now()});
+
+    // Create a sleep function
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Wait for 1 second before adding the next post
+    await sleep(1000);
   }
 }
 

@@ -4,20 +4,18 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
   GestureDetector,
   GestureHandlerRootView,
-  PanGestureHandler,
 } from 'react-native-gesture-handler';
 
 import Animated, {
-  Extrapolate,
   Extrapolation,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {useSpring} from '../OutfitIdeas/Animations';
+
 import AppText from '../../../components/Text';
 import makeStyles from '../../../lib/makeStyles';
 import {Box, Theme, useTheme} from '../../../contants/theme';
-// import {usePanGestureHandler} from 'react-native-redash';
+
 import {DrawerNavigationHelpers} from '@react-navigation/drawer/lib/typescript/src/types';
 import usePanGestureHandler from '../../../hooks/usePanGestureHandler';
 
@@ -26,18 +24,17 @@ const {width: wWidth} = Dimensions.get('screen');
 interface BottomSaveButtonProps {
   navigation: DrawerNavigationHelpers;
   setShowBtn: (value: boolean) => void;
+  onSave: () => void;
 }
 
 function BottomSaveButton(props: BottomSaveButtonProps, ref) {
   const isSwiped = useRef(false);
   const {gestureHandler, translation} = usePanGestureHandler({
     snapPoints: {min: 0, max: wWidth - 90},
-    onSnap: ({translationX, x}) => {
+    onSnap: ({translationX}) => {
+      console.log({translationX});
       onSwiped();
-      setShowBtn(false);
-    },
-    onEnd: () => {
-      // Add any additional logic for onEnd event
+      // setShowBtn(false);
     },
   });
   const styles = useStyles();
@@ -62,19 +59,17 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
   }));
 
   function onSwiped() {
-    if (!isSwiped.current) {
-      isSwiped.current = true;
+    props.onSave();
 
-      if (Platform.OS === 'android') {
-        ToastAndroid.showWithGravity(
-          'Settings Saved',
-          ToastAndroid.SHORT,
-          ToastAndroid.TOP,
-        );
-      }
+    // if (Platform.OS === 'android') {
+    //   ToastAndroid.showWithGravity(
+    //     'Settings Saved',
+    //     ToastAndroid.SHORT,
+    //     ToastAndroid.TOP,
+    //   );
+    // }
 
-      navigation.navigate('OutfitIdeas');
-    }
+    // navigation.navigate('OutfitIdeas');
   }
 
   const sliderAnimatedStyles = useAnimatedStyle(() => {
@@ -84,32 +79,31 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
   });
 
   return (
-    <Box style={{minHeight: 80}}>
-      <GestureHandlerRootView>
-        <GestureDetector gesture={gestureHandler}>
-          <Animated.View style={styles.sliderBtnContainer}>
-            <Animated.View style={[styles.sliderBtn, sliderAnimatedStyles]}>
-              <Icon
-                name="grip-vertical"
-                size={20}
-                color={theme.colors.primatyBtnBg}
-              />
-            </Animated.View>
-            <Animated.View
-              style={[
-                {
-                  flex: 1,
-                },
-                opacityStyles,
-              ]}>
-              <AppText style={{color: 'white'}} center>
-                Swipe to save changes
-              </AppText>
-            </Animated.View>
+    <GestureHandlerRootView style={{justifyContent: 'flex-end'}}>
+      <GestureDetector gesture={gestureHandler}>
+        <Animated.View style={styles.sliderBtnContainer}>
+          <Animated.View style={[styles.sliderBtn, sliderAnimatedStyles]}>
+            <Icon
+              name="grip-vertical"
+              size={20}
+              color={theme.colors.primatyBtnBg}
+            />
           </Animated.View>
-        </GestureDetector>
-      </GestureHandlerRootView>
-    </Box>
+          <Animated.View
+            style={[
+              {
+                flex: 1,
+                paddingHorizontal: 10,
+              },
+              opacityStyles,
+            ]}>
+            <AppText style={{color: 'white'}} center>
+              Swipe to save changes
+            </AppText>
+          </Animated.View>
+        </Animated.View>
+      </GestureDetector>
+    </GestureHandlerRootView>
   );
 }
 

@@ -1,9 +1,7 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firebaseAuth, {
-  type FirebaseAuthTypes,
-} from '@react-native-firebase/auth';
+import firebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 import {
   FETCH_ME_REQUESTED,
@@ -19,6 +17,9 @@ import {
   fetchOutfitsRequested,
   fetchMeRequested,
   setCurrentUser,
+  UPDATE_USER_REQUESTED,
+  updateUserRequested,
+  type IUpdateUserRequested,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -101,7 +102,7 @@ function* saveToken(session: ISession) {
 
 function* logoutUserRequestedSaga() {
   try {
-    const hasUser = FirebaseHelpers.getCurrentUser();
+    const hasUser = FirebaseHelpers.getCurrentAuthUser();
 
     if (hasUser) {
       yield FirebaseHelpers.signOut();
@@ -161,6 +162,28 @@ function* fetchOutfitsRequestedSaga() {
   }
 }
 
+function* updateUserRequestedSaga(action: IUpdateUserRequested) {
+  const {payload} = action;
+
+  console.log({payload}, 'L157');
+
+  try {
+    const currentUser = FirebaseHelpers.getCurrentAuthUser();
+
+    if (currentUser) {
+      yield FirebaseHelpers.updateCurrentUser(payload);
+
+      const updatedUser: IUserData = yield FirebaseHelpers.getCurrentUser();
+
+      if (updatedUser) {
+        yield put(loginCompleted(updatedUser));
+      }
+    }
+  } catch (e) {
+    console.log(e, 'Error');
+  }
+}
+
 export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
@@ -169,5 +192,6 @@ export default function* rootUserSaga() {
     takeLatest(LOGOUT_USER_REQUESTED, logoutUserRequestedSaga),
     takeLatest(OAUTH_REQUESTED, OAuthRequestedSaga),
     takeLatest(FETCH_OUTFITS_REQUESTED, fetchOutfitsRequestedSaga),
+    takeLatest(UPDATE_USER_REQUESTED, updateUserRequestedSaga),
   ]);
 }

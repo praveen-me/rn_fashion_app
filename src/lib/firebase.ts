@@ -155,7 +155,7 @@ class FirebaseHelpers {
    *
    * @returns The currently authenticated user, or null if no user is authenticated.
    */
-  static getCurrentUser() {
+  static getCurrentAuthUser() {
     return auth().currentUser;
   }
 
@@ -166,9 +166,9 @@ class FirebaseHelpers {
    * @returns A Promise that resolves to the user data if successful, or null if unsuccessful.
    * @throws If an error occurs during the retrieval process.
    */
-  static async getUser(): Promise<IUserData | null> {
+  static async getCurrentUser(): Promise<IUserData | null> {
     try {
-      const currentUser = FirebaseHelpers.getCurrentUser();
+      const currentUser = FirebaseHelpers.getCurrentAuthUser();
       const user = await firestore()
         .collection('users')
         .doc(currentUser?.uid)
@@ -188,7 +188,7 @@ class FirebaseHelpers {
    * @throws If an error occurs during the update process.
    */
   static async updateCurrentUser(data: Partial<IUserData>): Promise<void> {
-    const user = FirebaseHelpers.getCurrentUser();
+    const user = await FirebaseHelpers.getCurrentAuthUser();
 
     try {
       await firestore().collection('users').doc(user?.uid).update(data);

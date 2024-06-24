@@ -1,9 +1,13 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, memo} from 'react';
 import {ScrollView} from 'react-native';
 import {Box, useTheme} from '../../../contants/theme';
 import AppText from '../../../components/Text';
-import CheckBoxGroup from '../../../components/CheckboxGroup';
-import RoundedCheckBoxGroup from '../../../components/RoundedCheckBoxGroup';
+import CheckBoxGroup, {
+  type CheckBoxGroupRef,
+} from '../../../components/CheckboxGroup';
+import RoundedCheckBoxGroup, {
+  type RoundedCheckBoxGroupRef,
+} from '../../../components/RoundedCheckBoxGroup';
 
 import {useEditProfileContext} from './EditProfileProvider';
 import {useSelector} from 'react-redux';
@@ -11,12 +15,19 @@ import {getUserConstants} from '../../../redux/selectors/misc.selectors';
 
 interface IConfigurationProps {
   // user: IUserData;
+  addInputRef: (
+    key:
+      | 'outfitSelection'
+      | 'preferredBrands'
+      | 'preferredColors'
+      | 'preferredSizes',
+    ref: CheckBoxGroupRef | RoundedCheckBoxGroupRef,
+  ) => void;
 }
 
-export default function Configuration(props: IConfigurationProps) {
+export default memo(function Configuration(props: IConfigurationProps) {
+  const {addInputRef} = props;
   const theme = useTheme();
-
-  const {addInputRef} = useEditProfileContext();
 
   const {clothingBrands, outfitSelections, clothingSize, preferredColors} =
     useSelector(getUserConstants);
@@ -28,14 +39,11 @@ export default function Configuration(props: IConfigurationProps) {
   //   preferredColors: props.user?.preferredColors,
   // });
 
-  console.log({outfitSelections});
-
   const outfitSelectionOptions = useMemo(
     () =>
       outfitSelections.map(outfit => ({id: outfit.key, label: outfit.label})),
     [outfitSelections],
   );
-  console.log({outfitSelectionOptions});
 
   const clothingSizeOptions = useMemo(
     () =>
@@ -119,4 +127,4 @@ export default function Configuration(props: IConfigurationProps) {
       </Box>
     </ScrollView>
   );
-}
+});

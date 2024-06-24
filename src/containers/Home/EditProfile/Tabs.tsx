@@ -11,6 +11,7 @@ import AppText from '../../../components/Text';
 import {Box, Theme} from '../../../contants/theme';
 import Configuration from './Configuration';
 import PersonalInfo from './PersonalInfo';
+import {useEditProfileContext} from './EditProfileProvider';
 
 interface Tab {
   id: string;
@@ -26,6 +27,7 @@ interface TabsProps {
 const {width} = Dimensions.get('window');
 
 export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
+  const {addInputRef} = useEditProfileContext();
   const transition = useTiming(currentTab, {duration: 300});
 
   const translateX = useDerivedValue(
@@ -68,7 +70,11 @@ export default function Tabs({tabs, currentTab, setCurrentTab}: TabsProps) {
         style={styleForAnimatedView}>
         {tabs.map(tab => (
           <Box flex={1} key={tab.id} width={width}>
-            {tab.id === 'configuration' ? <Configuration /> : <PersonalInfo />}
+            {tab.id === 'configuration' ? (
+              <Configuration addInputRef={addInputRef} />
+            ) : (
+              <PersonalInfo />
+            )}
           </Box>
         ))}
       </Animated.View>

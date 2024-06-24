@@ -3,17 +3,17 @@ import {
   useContext,
   useRef,
   ReactNode,
-  useEffect,
   useState,
   useCallback,
 } from 'react';
+import * as Yup from 'yup';
+import {useFormik, type FormikHandlers} from 'formik';
+import {useDispatch} from 'react-redux';
+
 import type {CheckBoxGroupRef} from '../../../../components/CheckboxGroup';
 import type {RoundedCheckBoxGroupRef} from '../../../../components/RoundedCheckBoxGroup';
 import type {IUserData} from '../../../../@types';
-
-import {useFormik} from 'formik';
-
-import * as Yup from 'yup';
+import {updateUserRequested} from '../../../../redux/actions/user.actions';
 
 type RefKeys = keyof Pick<
   IUserData,
@@ -26,7 +26,7 @@ interface EditProfileContextValue {
     ref: CheckBoxGroupRef | RoundedCheckBoxGroupRef,
   ) => void;
   personalInfoState: {
-    handleChange: (field: string) => (value: string) => void;
+    handleChange: FormikHandlers['handleChange'];
     values: IPersonalInfoState;
     errors: Record<string, string>;
     touched: Record<string, boolean>;
@@ -47,7 +47,7 @@ interface EditProfileContextProviderProps {
 }
 
 const PersonalInfoScheme = Yup.object().shape({
-  name: Yup.string().email('Invalid email').min(2),
+  name: Yup.string().min(2),
   address: Yup.string(),
 });
 
@@ -62,14 +62,8 @@ export const EditProfileContextProvider = ({
   const choicesRef = useRef<
     Map<RefKeys, CheckBoxGroupRef | RoundedCheckBoxGroupRef>
   >(new Map());
-  function addInputRef(
-    key: RefKeys,
-    ref: CheckBoxGroupRef | RoundedCheckBoxGroupRef,
-  ) {
-    choicesRef.current.set(key, ref);
-  }
 
-  const {handleChange, values, errors, touched, isValid} =
+  const {handleChange, values, errors, touched, isValid, handleSubmit} =
     useFormik<IPersonalInfoState>({
       initialValues: {name: '', address: ''},
       onSubmit,
@@ -78,9 +72,10 @@ export const EditProfileContextProvider = ({
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const dispatch = useDispatch();
+
   const personalInfoState = {
-    handleChange: (field: string) => (value: string) =>
-      handleChange(field)(value),
+    handleChange,
     values,
     errors,
     touched,
@@ -92,43 +87,38 @@ export const EditProfileContextProvider = ({
     setCurrentTab,
   };
 
+  const addInputRef = useCallback(function (
+    key: RefKeys,
+    ref: CheckBoxGroupRef | RoundedCheckBoxGroupRef,
+  ) {
+    choicesRef.current.set(key, ref);
+  },
+  []);
+
   function onSubmit(formValues: IPersonalInfoState) {
-    if (isValid) {
-      const {name, address} = formValues;
+    const {name, address} = formValues;
 
-      const payload = {
-        name,
-        address,
-      };
+    const payload = {
+      name,
+      address,
+    };
 
-      console.log({payload});
-
-      // dispatch(signupRequested(payload));
-    }
+    dispatch(updateUserRequested(payload));
   }
 
-  function handleSaveUserChoices() {
-    // return values in a object format
+  const handleSaveUserChoices = useCallback(() => {
     const payload: Partial<Record<RefKeys, any>> = {};
 
     for (const [key, mapValue] of choicesRef.current.entries()) {
       payload[key] = mapValue.value;
     }
 
-    console.log({payload});
-  }
-
-  function handleSaveUserInfo() {
-    console.log(values);
-  }
+    dispatch(updateUserRequested(payload));
+  }, []);
 
   const handleSaveUserInformation = useCallback(() => {
-    if (currentTab === 0) {
-      handleSaveUserChoices();
-    } else {
-      handleSaveUserInfo();
-    }
-  }, [currentTab]);
+    currentTab === 0 ? handleSaveUserChoices() : handleSubmit();
+  }, [currentTab, handleSubmit]);
 
   return (
     <EditProfileContext.Provider

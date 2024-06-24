@@ -9,6 +9,11 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+// Create a sleep function
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function createDummyData() {
   const outfitSelectionOptions = [
     {value: 's'},
@@ -23,11 +28,6 @@ async function createDummyData() {
     const outfitRef = await db
       .collection('clothingSize')
       .add({...brand, createdAt: admin.firestore.Timestamp.now()});
-
-    // Create a sleep function
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
 
     // Wait for 1 second before adding the next post
     await sleep(1000);

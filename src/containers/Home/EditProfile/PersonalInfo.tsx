@@ -15,6 +15,8 @@ export default function PersonalInfo() {
 
   const {handleChange, values} = personalInfoState;
 
+  // console.log({values});
+
   return (
     <KeyboardAwareScrollView>
       <Box padding="m">
@@ -40,11 +42,10 @@ export default function PersonalInfo() {
             ref={addressFieldRef}
             placeholder="Address"
             icon="map-pin"
-            secureTextEntry
             autoComplete="street-address"
             autoCapitalize="none"
             returnKeyType="go"
-            returnKeyLabel="go"
+            returnKeyLabel="Done"
           />
         </Box>
       </Box>

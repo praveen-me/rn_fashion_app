@@ -1,8 +1,14 @@
-import React, {useState, forwardRef, useImperativeHandle} from 'react';
-import {Pressable} from 'react-native';
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+} from 'react';
+import {Pressable, StyleSheet} from 'react-native';
 
 import {Box, useTheme} from '../contants/theme';
 import AppText from './Text';
+import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
 
 type CheckBoxType = 'single' | 'multi';
 
@@ -60,6 +66,21 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
       },
     }));
 
+    const getIsSelected = useCallback(
+      (id: string) => {
+        if (!type || type === 'single') {
+          return id === selected;
+        }
+
+        if (Array.isArray(selected)) {
+          return selected.findIndex(item => item === id) !== -1;
+        }
+
+        return false;
+      },
+      [selected, type],
+    );
+
     return (
       <Box flexDirection="row" flexWrap="wrap">
         {options.map(({id, label}, index) => {
@@ -68,11 +89,7 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
               key={id}
               label={label}
               id={id}
-              isSelected={
-                Array.isArray(selected)
-                  ? selected.findIndex(item => item === id) !== -1
-                  : id === selected
-              }
+              isSelected={getIsSelected(id)}
               handleChange={handleChange}
             />
           );
@@ -89,33 +106,49 @@ interface IRenderItemProps {
   id: string;
 }
 
+const AnimatedBox = Animated.createAnimatedComponent(Box);
+const AnimatedAppText = Animated.createAnimatedComponent(AppText);
+
 function RenderItem({isSelected, handleChange, label, id}: IRenderItemProps) {
   const theme = useTheme();
+  const color = useSharedValue(isSelected ? 'white' : theme.colors.bodyText);
+  const backgroundColor = useSharedValue(
+    isSelected ? theme.colors.primatyBtnBg : theme.colors.lightGrey,
+  );
 
-  // const isSelected = Array.isArray(selected)
-  // ? selected.findIndex(item => item === id) !== -1
-  // : id === selected;
+  color.value = isSelected
+    ? withTiming('white')
+    : withTiming(theme.colors.bodyText);
 
-  const color = isSelected ? 'white' : theme.colors.bodyText;
-  const backgroundColor = isSelected
-    ? theme.colors.primatyBtnBg
-    : theme.colors.lightGrey;
+  backgroundColor.value = isSelected
+    ? withTiming(theme.colors.primatyBtnBg)
+    : withTiming(theme.colors.lightGrey);
 
   return (
     <Pressable
       onPress={() => handleChange(id)}
       style={{width: undefined, margin: theme.spacing.s}}>
-      <Box
+      <AnimatedBox
         // eslint-disable-next-line react-native/no-inline-styles
-        style={{
-          borderRadius: 25,
-          backgroundColor,
-          padding: 15,
-        }}>
-        <AppText style={{width: 'auto', color}}>{label}</AppText>
-      </Box>
+        style={[
+          {
+            backgroundColor,
+          },
+          styles.itemContainer,
+        ]}>
+        <AnimatedAppText style={{width: 'auto', color}}>
+          {label}
+        </AnimatedAppText>
+      </AnimatedBox>
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  itemContainer: {
+    borderRadius: 25,
+    padding: 15,
+  },
+});
 
 export default CheckBoxGroup;

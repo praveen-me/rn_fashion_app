@@ -9,19 +9,14 @@ import RoundedCheckBoxGroup, {
   type RoundedCheckBoxGroupRef,
 } from '../../../components/RoundedCheckBoxGroup';
 
-import {useEditProfileContext} from './EditProfileProvider';
 import {useSelector} from 'react-redux';
 import {getUserConstants} from '../../../redux/selectors/misc.selectors';
 import {getUser} from '../../../redux/selectors/user.selectors';
+import type {RefKeys as InputRefKeys} from './EditProfileProvider';
 
 interface IConfigurationProps {
-  // user: IUserData;
   addInputRef: (
-    key:
-      | 'outfitSelection'
-      | 'preferredBrands'
-      | 'preferredColors'
-      | 'preferredSizes',
+    key: InputRefKeys,
     ref: CheckBoxGroupRef | RoundedCheckBoxGroupRef,
   ) => void;
 }
@@ -35,19 +30,15 @@ export default memo(function Configuration(props: IConfigurationProps) {
 
   const user = useSelector(getUser);
 
-  const userConfig = {
-    outfitSelection: user?.outfitSelection || '',
-    preferredBrands: user?.preferredBrands || [],
-    preferredSize: user?.preferredSizes || [],
-    preferredColors: user?.preferredColors || [],
-  };
-
-  // const [userChoices, setUserChoices] = useState({
-  //   outfitSelection: props.user?.outfitSelection,
-  //   preferredBrands: props.user?.preferredBrands,
-  //   preferredSize: props.user?.preferredSizes,
-  //   preferredColors: props.user?.preferredColors,
-  // });
+  const userConfig = useMemo(
+    () => ({
+      outfitSelection: user?.outfitSelection || '',
+      preferredBrands: user?.preferredBrands || [],
+      preferredSize: user?.preferredSizes || [],
+      preferredColors: user?.preferredColors || [],
+    }),
+    [user],
+  );
 
   const outfitSelectionOptions = useMemo(
     () =>

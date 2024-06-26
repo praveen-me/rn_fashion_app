@@ -1,6 +1,7 @@
-import React, {ReactNode} from 'react';
+import React, {forwardRef, ReactNode, type Ref} from 'react';
 import {Text, Theme} from '../contants/theme';
 import fonts from '../contants/fonts';
+import type {Text as RNText} from 'react-native';
 
 interface TextProps {
   children: string | ReactNode;
@@ -11,14 +12,17 @@ interface TextProps {
   center?: boolean;
 }
 
-const AppText = ({
-  children,
-  style = [],
-  medium = false,
-  bold = false,
-  variant = 'body',
-  center = false,
-}: TextProps) => {
+const AppText = (
+  {
+    children,
+    style = [],
+    medium = false,
+    bold = false,
+    variant = 'body',
+    center = false,
+  }: TextProps,
+  ref: Ref<RNText>,
+) => {
   const internalStyles = {
     fontFamily: fonts.normal,
   };
@@ -36,10 +40,11 @@ const AppText = ({
   return (
     <Text
       variant={variant}
-      style={[textStyles, {textAlign: center ? 'center' : 'auto'}]}>
+      style={[textStyles, {textAlign: center ? 'center' : 'auto'}]}
+      ref={ref}>
       {children}
     </Text>
   );
 };
 
-export default AppText;
+export default forwardRef(AppText);

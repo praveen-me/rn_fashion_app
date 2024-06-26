@@ -17,6 +17,7 @@ interface RoundedCheckBoxGroupProps {
   options: Option[];
   type?: CheckBoxType;
   labelAsColor?: boolean;
+  selectedOptions?: string[];
 }
 
 export interface RoundedCheckBoxGroupRef {
@@ -26,100 +27,112 @@ export interface RoundedCheckBoxGroupRef {
 const RoundedCheckBoxGroup = forwardRef<
   RoundedCheckBoxGroupRef,
   RoundedCheckBoxGroupProps
->(({options, type, labelAsColor}: RoundedCheckBoxGroupProps, ref) => {
-  const [selected, setSelected] = useState<string | string[]>(
-    type === 'single' ? '' : [],
-  );
+>(
+  (
+    {
+      options,
+      type,
+      labelAsColor,
+      selectedOptions = [],
+    }: RoundedCheckBoxGroupProps,
+    ref,
+  ) => {
+    const [selected, setSelected] = useState<string | string[]>(
+      type === 'single' ? '' : selectedOptions,
+    );
 
-  const theme = useTheme();
-  const styles = useStyles();
+    const theme = useTheme();
+    const styles = useStyles();
 
-  function handleChange(id: string) {
-    if (!type || type === 'single') {
-      setSelected(id);
-    } else {
-      const index = Array.isArray(selected)
-        ? selected.findIndex((item) => item === id)
-        : -1;
-      if (index === -1) {
-        setSelected((state) => [...new Set([...state, id])]);
+    function handleChange(id: string) {
+      if (!type || type === 'single') {
+        setSelected(id);
       } else {
-        const remainingSelected = [...selected];
-        remainingSelected.splice(index, 1);
+        const index = Array.isArray(selected)
+          ? selected.findIndex(item => item === id)
+          : -1;
+        if (index === -1) {
+          setSelected(state => [...new Set([...state, id])]);
+        } else {
+          const remainingSelected = [...selected];
+          remainingSelected.splice(index, 1);
 
-        setSelected(remainingSelected);
+          setSelected(remainingSelected);
+        }
       }
     }
-  }
 
-  useImperativeHandle(ref, () => ({
-    get value() {
-      return selected;
-    },
-  }));
+    useImperativeHandle(ref, () => ({
+      get value() {
+        return selected;
+      },
+    }));
 
-  const MainWrapper = labelAsColor ? ScrollView : Box;
+    const MainWrapper = labelAsColor ? ScrollView : Box;
 
-  const mainWrapperProps = labelAsColor
-    ? {showsHorizontalScrollIndicator: false, horizontal: true}
-    : {style: {flexDirection: 'row', flexWrap: 'wrap'}};
+    const mainWrapperProps = labelAsColor
+      ? {showsHorizontalScrollIndicator: false, horizontal: true}
+      : {style: {flexDirection: 'row', flexWrap: 'wrap'}};
 
-  return (
-    <MainWrapper {...mainWrapperProps}>
-      {options.map(({id, label}) => {
-        const isSelected = Array.isArray(selected)
-          ? selected.findIndex((item) => item === id) !== -1
-          : id !== selected;
+    return (
+      <MainWrapper {...mainWrapperProps}>
+        {options.map(({id, label}) => {
+          const isSelected = Array.isArray(selected)
+            ? selected.findIndex(item => item === id) !== -1
+            : id !== selected;
 
-        const color = isSelected ? 'white' : theme.colors.bodyText;
-        const backgroundColor = isSelected
-          ? theme.colors.primatyBtnBg
-          : theme.colors.lightGrey;
+          const color = isSelected ? 'white' : theme.colors.bodyText;
+          const backgroundColor = isSelected
+            ? theme.colors.primatyBtnBg
+            : theme.colors.lightGrey;
 
-        return (
-          <Pressable
-            key={id}
-            onPress={() => handleChange(id)}
-            style={styles.btnStyles}>
-            <Box
-              height={50}
-              width={50}
-              style={styles.outerOptionWrapper}
-              justifyContent="center"
-              alignItems="center"
-              overflow="hidden"
-              borderWidth={1}
-              borderColor="darkGrey">
+          return (
+            <Pressable
+              key={id}
+              onPress={() => handleChange(id)}
+              style={styles.btnStyles}>
               <Box
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{
-                  height: 39,
-                  width: 39,
-                  borderRadius: 39 / 2,
-                  backgroundColor: labelAsColor ? label : backgroundColor,
-                }}
+                height={50}
+                width={50}
+                style={styles.outerOptionWrapper}
                 justifyContent="center"
-                alignItems="center">
-                {!labelAsColor ? (
-                  <AppText
-                    style={{
-                      color,
-                    }}
-                    variant="body"
-                    center>
-                    {label}
-                  </AppText>
-                ) : (
-                  isSelected && <Icon name="check" color={'white'} size={20} />
-                )}
+                alignItems="center"
+                overflow="hidden"
+                borderWidth={1}
+                borderColor="darkGrey">
+                <Box
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  style={{
+                    height: 39,
+                    width: 39,
+                    borderRadius: 39 / 2,
+                    backgroundColor: labelAsColor ? label : backgroundColor,
+                  }}
+                  justifyContent="center"
+                  alignItems="center">
+                  {!labelAsColor ? (
+                    <AppText
+                      style={{
+                        color,
+                      }}
+                      variant="body"
+                      center>
+                      {label}
+                    </AppText>
+                  ) : (
+                    isSelected && (
+                      <Icon name="check" color={'white'} size={20} />
+                    )
+                  )}
+                </Box>
               </Box>
-            </Box>
-          </Pressable>
-        );
-      })}
-    </MainWrapper>
-  );
-});
+            </Pressable>
+          );
+        })}
+      </MainWrapper>
+    );
+  },
+);
 
 const useStyles = makeStyles((theme: Theme) => ({
   outerOptionWrapper: {

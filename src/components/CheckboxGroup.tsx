@@ -14,6 +14,8 @@ interface Option {
 interface CheckBoxGroupProps {
   options: Option[];
   type?: CheckBoxType;
+  selectedOptions?: string[];
+  selectedOption?: string;
 }
 
 export interface CheckBoxGroupRef {
@@ -21,22 +23,28 @@ export interface CheckBoxGroupRef {
 }
 
 const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
-  ({options, type}: CheckBoxGroupProps, ref) => {
+  (
+    {
+      options,
+      type,
+      selectedOptions = [],
+      selectedOption = '',
+    }: CheckBoxGroupProps,
+    ref,
+  ) => {
     const [selected, setSelected] = useState<string | string[]>(
-      type === 'single' ? '' : [],
+      !type || type === 'single' ? selectedOption : selectedOptions,
     );
-
-    const theme = useTheme();
 
     function handleChange(id: string) {
       if (!type || type === 'single') {
         setSelected(id);
       } else {
         const index = Array.isArray(selected)
-          ? selected.findIndex((item) => item === id)
+          ? selected.findIndex(item => item === id)
           : -1;
         if (index === -1) {
-          setSelected((state) => [...new Set([...state, id])]);
+          setSelected(state => [...new Set([...state, id])]);
         } else {
           const remaingSelected = [...selected];
           remaingSelected.splice(index, 1);
@@ -55,35 +63,59 @@ const CheckBoxGroup = forwardRef<CheckBoxGroupRef, CheckBoxGroupProps>(
     return (
       <Box flexDirection="row" flexWrap="wrap">
         {options.map(({id, label}, index) => {
-          const isSelected = Array.isArray(selected)
-            ? selected.findIndex((item) => item === id) !== -1
-            : id === selected;
-
-          const color = isSelected ? 'white' : theme.colors.bodyText;
-          const backgroundColor = isSelected
-            ? theme.colors.primatyBtnBg
-            : theme.colors.lightGrey;
-
           return (
-            <Pressable
+            <RenderItem
               key={id}
-              onPress={() => handleChange(id)}
-              style={{width: undefined, margin: theme.spacing.s}}>
-              <Box
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{
-                  borderRadius: 25,
-                  backgroundColor,
-                  padding: 15,
-                }}>
-                <AppText style={{width: 'auto', color}}>{label}</AppText>
-              </Box>
-            </Pressable>
+              label={label}
+              id={id}
+              isSelected={
+                Array.isArray(selected)
+                  ? selected.findIndex(item => item === id) !== -1
+                  : id === selected
+              }
+              handleChange={handleChange}
+            />
           );
         })}
       </Box>
     );
   },
 );
+
+interface IRenderItemProps {
+  handleChange: (id: string) => void;
+  isSelected: boolean;
+  label: string;
+  id: string;
+}
+
+function RenderItem({isSelected, handleChange, label, id}: IRenderItemProps) {
+  const theme = useTheme();
+
+  // const isSelected = Array.isArray(selected)
+  // ? selected.findIndex(item => item === id) !== -1
+  // : id === selected;
+
+  const color = isSelected ? 'white' : theme.colors.bodyText;
+  const backgroundColor = isSelected
+    ? theme.colors.primatyBtnBg
+    : theme.colors.lightGrey;
+
+  return (
+    <Pressable
+      onPress={() => handleChange(id)}
+      style={{width: undefined, margin: theme.spacing.s}}>
+      <Box
+        // eslint-disable-next-line react-native/no-inline-styles
+        style={{
+          borderRadius: 25,
+          backgroundColor,
+          padding: 15,
+        }}>
+        <AppText style={{width: 'auto', color}}>{label}</AppText>
+      </Box>
+    </Pressable>
+  );
+}
 
 export default CheckBoxGroup;

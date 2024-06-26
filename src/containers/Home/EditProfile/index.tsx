@@ -34,14 +34,14 @@ function EditProfile({navigation, route}: HomeNavigationProps<'EditProfile'>) {
 
   const {currentTab, setCurrentTab} = currentTabState;
 
-  const [userData, setUserData] = useState({
-    outfitSelection: user?.outfitSelection,
-    preferredBrands: user?.preferredBrands,
-    preferredSize: user?.preferredSizes,
-    name: user?.name,
-    address: user?.address,
-    preferredColors: user?.preferredColors,
-  });
+  // const [userData, setUserData] = useState({
+  //   outfitSelection: user?.outfitSelection,
+  //   preferredBrands: user?.preferredBrands,
+  //   preferredSize: user?.preferredSizes,
+  //   name: user?.name,
+  //   address: user?.address,
+  //   preferredColors: user?.preferredColors,
+  // });
 
   const bottomSaveBtnRef = useRef(null);
 

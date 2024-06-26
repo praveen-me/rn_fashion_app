@@ -12,6 +12,7 @@ import RoundedCheckBoxGroup, {
 import {useEditProfileContext} from './EditProfileProvider';
 import {useSelector} from 'react-redux';
 import {getUserConstants} from '../../../redux/selectors/misc.selectors';
+import {getUser} from '../../../redux/selectors/user.selectors';
 
 interface IConfigurationProps {
   // user: IUserData;
@@ -31,6 +32,15 @@ export default memo(function Configuration(props: IConfigurationProps) {
 
   const {clothingBrands, outfitSelections, clothingSize, preferredColors} =
     useSelector(getUserConstants);
+
+  const user = useSelector(getUser);
+
+  const userConfig = {
+    outfitSelection: user?.outfitSelection || '',
+    preferredBrands: user?.preferredBrands || [],
+    preferredSize: user?.preferredSizes || [],
+    preferredColors: user?.preferredColors || [],
+  };
 
   // const [userChoices, setUserChoices] = useState({
   //   outfitSelection: props.user?.outfitSelection,
@@ -70,6 +80,8 @@ export default memo(function Configuration(props: IConfigurationProps) {
     [clothingBrands],
   );
 
+  console.log(JSON.stringify({userConfig, preferredColorsOptions}, null, 2));
+
   return (
     <ScrollView contentContainerStyle={{padding: theme.spacing.m}}>
       <Box paddingBottom="m">
@@ -83,6 +95,7 @@ export default memo(function Configuration(props: IConfigurationProps) {
 
             addInputRef('outfitSelection', ref);
           }}
+          selectedOption={userConfig.outfitSelection}
         />
       </Box>
       <Box>
@@ -96,6 +109,7 @@ export default memo(function Configuration(props: IConfigurationProps) {
             addInputRef('preferredSizes', ref);
           }}
           type="multi"
+          selectedOptions={userConfig.preferredSize}
         />
       </Box>
       <Box>
@@ -110,6 +124,7 @@ export default memo(function Configuration(props: IConfigurationProps) {
           }}
           type="multi"
           labelAsColor
+          selectedOptions={userConfig.preferredColors}
         />
       </Box>
       <Box>
@@ -123,6 +138,7 @@ export default memo(function Configuration(props: IConfigurationProps) {
             addInputRef('preferredBrands', ref);
           }}
           type="multi"
+          selectedOptions={userConfig.preferredBrands}
         />
       </Box>
     </ScrollView>

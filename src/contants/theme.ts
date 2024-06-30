@@ -5,6 +5,7 @@ import {
   useTheme as useReTheme,
 } from '@shopify/restyle';
 import colors from './colors';
+import {StyleSheet} from 'react-native';
 
 const theme = createTheme({
   colors: {
@@ -49,6 +50,11 @@ const theme = createTheme({
     xl: 75,
   },
   breakpoints: {},
+  commonStyles: StyleSheet.create({
+    flex1: {
+      flex: 1,
+    },
+  }),
 });
 
 export type Theme = typeof theme;

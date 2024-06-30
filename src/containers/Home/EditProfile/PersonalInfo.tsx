@@ -15,8 +15,6 @@ export default function PersonalInfo() {
 
   const {handleChange, values} = personalInfoState;
 
-  // console.log({values});
-
   return (
     <KeyboardAwareScrollView>
       <Box padding="m">

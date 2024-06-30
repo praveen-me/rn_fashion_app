@@ -8,14 +8,15 @@ import {
 } from 'react';
 import * as Yup from 'yup';
 import {useFormik, type FormikHandlers} from 'formik';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import type {CheckBoxGroupRef} from '../../../../components/CheckboxGroup';
 import type {RoundedCheckBoxGroupRef} from '../../../../components/RoundedCheckBoxGroup';
 import type {IUserData} from '../../../../@types';
 import {updateUserRequested} from '../../../../redux/actions/user.actions';
+import {getUser} from '../../../../redux/selectors/user.selectors';
 
-type RefKeys = keyof Pick<
+export type RefKeys = keyof Pick<
   IUserData,
   'outfitSelection' | 'preferredBrands' | 'preferredColors' | 'preferredSizes'
 >;
@@ -63,9 +64,11 @@ export const EditProfileContextProvider = ({
     Map<RefKeys, CheckBoxGroupRef | RoundedCheckBoxGroupRef>
   >(new Map());
 
+  const user = useSelector(getUser);
+
   const {handleChange, values, errors, touched, isValid, handleSubmit} =
     useFormik<IPersonalInfoState>({
-      initialValues: {name: '', address: ''},
+      initialValues: {name: user?.name ?? '', address: user?.address ?? ''},
       onSubmit,
       validationSchema: PersonalInfoScheme,
     });

@@ -15,4 +15,5 @@ export default {
   violet: 'violet',
   lightGrey: '#fafafa',
   lightBlue: '#5ea3c6',
+  overlay: 'rgba(0, 0, 0, .6)',
 };

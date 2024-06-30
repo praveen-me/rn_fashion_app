@@ -6,7 +6,7 @@ import AppText from '../../../components/Text';
 import {Box, useTheme} from '../../../contants/theme';
 import CheckBox from '../components/Form/CheckBox';
 import TextInput from '../components/Form/TextInput';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 import {useFormik} from 'formik';
 
@@ -57,7 +57,7 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
 
     dispatch(loginRequested(payload));
 
-    await AsyncStorage.setItem(IS_LOGGED_IN, 'true');
+    await EncryptedStorage.setItem(IS_LOGGED_IN, 'true');
   }
 
   const footer = (
@@ -121,7 +121,7 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
           <CheckBox
             label="Remember me"
             checked={values.remember}
-            onChange={(value) => setFieldValue('remember', value)}
+            onChange={value => setFieldValue('remember', value)}
           />
           <Button
             variant="transparent"

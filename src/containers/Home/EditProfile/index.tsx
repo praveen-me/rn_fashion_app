@@ -13,6 +13,7 @@ import {
   EditProfileContextProvider,
   useEditProfileContext,
 } from './EditProfileProvider';
+import UserAvatar from '../../../components/UserAvatar';
 
 const tabs = [
   {
@@ -93,16 +94,7 @@ function EditProfile({navigation, route}: HomeNavigationProps<'EditProfile'>) {
                 borderTopLeftRadius="xl"
                 backgroundColor="white"
                 paddingTop="xl">
-                <Box
-                  height={100}
-                  width={100}
-                  backgroundColor={'danger'}
-                  style={{borderRadius: 100 / 2}}
-                  alignSelf="center"
-                  position="absolute"
-                  top={-50}
-                  zIndex={1000}
-                />
+                <UserAvatar />
                 <Box marginTop="m">
                   <AppText
                     variant="title1"

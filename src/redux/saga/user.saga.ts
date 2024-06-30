@@ -1,6 +1,5 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import firebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 import {
@@ -107,7 +106,7 @@ function* logoutUserRequestedSaga() {
     if (hasUser) {
       yield FirebaseHelpers.signOut();
 
-      yield AsyncStorage.removeItem(AUTH_CURRENT_USER);
+      yield EncryptedStorage.removeItem(AUTH_CURRENT_USER);
     }
 
     yield put(logoutUserCompleted());

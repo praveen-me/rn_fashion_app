@@ -7,8 +7,6 @@ import theme from './src/contants/theme';
 import RootNavigator from './src/lib/navigation/rootNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import SplashScreen from 'react-native-splash-screen';
-import {ApolloProvider} from '@apollo/client';
-import config from './src/lib/apolloConfig';
 import store from './src/lib/store';
 
 export default function App() {
@@ -19,16 +17,14 @@ export default function App() {
   }, []);
 
   return (
-    <ApolloProvider client={config}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <SafeAreaProvider>
-            {/* <IsLoggedInProvider> */}
-            <RootNavigator />
-            {/* </IsLoggedInProvider> */}
-          </SafeAreaProvider>
-        </ThemeProvider>
-      </Provider>
-    </ApolloProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <SafeAreaProvider>
+          {/* <IsLoggedInProvider> */}
+          <RootNavigator />
+          {/* </IsLoggedInProvider> */}
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }

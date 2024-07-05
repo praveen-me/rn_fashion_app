@@ -19,6 +19,7 @@ import {
   type IUpdateUserRequested,
   UPLOAD_USER_AVATAR_REQUESTED,
   type IUploadUserAvatarRequested,
+  updateUserRequested,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -29,7 +30,11 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
 // import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
-import type {IUserData} from '../../@types';
+import type {
+  IUserData,
+  ProgressCallback,
+  ProgressCallbackPayload,
+} from '../../@types';
 import {getConstantsRequested} from '../actions/misc.actions';
 import {getUser} from '../selectors/user.selectors';
 
@@ -186,11 +191,26 @@ function* updateUserRequestedSaga(action: IUpdateUserRequested) {
   }
 }
 
+async function handleAvatarProgress(result: ProgressCallbackPayload) {
+  if (result.progress < 100) {
+    console.log('Uploading', result.progress);
+  }
+
+  if (result.downloadUrl) {
+    await FirebaseHelpers.updateProfile({
+      photoURL: result.downloadUrl,
+    });
+  }
+}
+
 function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
   const {payload} = action;
 
   try {
     const currentUser = FirebaseHelpers.getCurrentAuthUser();
+
+    console.log({currentUser});
+
     if (currentUser) {
       const extension = payload.avatar.slice(-4);
 
@@ -198,6 +218,7 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
         currentUser.uid,
         payload.avatar,
         extension,
+        handleAvatarProgress,
       );
     }
   } catch (e) {

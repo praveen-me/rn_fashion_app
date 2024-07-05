@@ -25,4 +25,12 @@ export interface IUserData {
   preferredColors: string[];
   preferredBrands: string[];
   name: null | string;
+  photoURL: string | null;
 }
+
+export type ProgressCallbackPayload = {
+  progress: number;
+  downloadUrl: string | null;
+};
+
+export type ProgressCallback = (result: ProgressCallbackPayload) => void;

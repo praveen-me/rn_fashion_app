@@ -1,9 +1,9 @@
 // src/lib/firebase.ts
 import '@react-native-firebase/app';
-import auth from '@react-native-firebase/auth';
+import auth, {type FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import type {IUserData} from '../@types';
+import type {IUserData, ProgressCallback} from '../@types';
 import {Image} from 'react-native-compressor';
 
 export interface URLItem {
@@ -225,20 +225,25 @@ class FirebaseHelpers {
   }
 
   /**
-   * Uploads a user avatar to the Firebase Storage.
+   * Uploads the user avatar to storage and returns the progress and download URL.
    *
    * @param {string} userId - The ID of the user.
-   * @param {string} avatar - The URL or base64-encoded representation of the avatar.
+   * @param {string} avatar - The base64 encoded avatar image.
    * @param {string} extension - The file extension of the avatar.
-   * @return {Promise<void>} A Promise that resolves when the avatar is uploaded successfully.
-   * @throws {Error} If there is an error during the upload process.
+   * @param {ProgressCallback} progressCallback - Optional callback to track upload progress.
+   * @return {Promise<{progress: number, downloadUrl: string | null}>} An object containing the upload progress and download URL.
    */
   static async uploadUserAvatar(
     userId: string,
     avatar: string,
     extension: string,
-    progressCallback?: (progressPercentage: number) => void,
+    progressCallback?: ProgressCallback,
   ) {
+    let result = {
+      progress: 0,
+      downloadUrl: null,
+    };
+
     try {
       const compressedImage = await Image.compress(avatar);
       const response = await fetch(compressedImage);
@@ -266,16 +271,44 @@ class FirebaseHelpers {
       });
 
       task.on('state_changed', taskSnapshot => {
-        progressCallback?.(
-          taskSnapshot.bytesTransferred / taskSnapshot.totalBytes,
-        );
+        result = {
+          progress:
+            (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100,
+          downloadUrl: null,
+        };
+
+        progressCallback?.(result);
       });
 
-      task.then(() => {
-        console.log('Image uploaded to the bucket!');
+      task.then(async () => {
+        const downloadUrl = await imageReference.getDownloadURL();
+
+        if (downloadUrl) {
+          progressCallback?.({
+            progress: result.progress,
+            downloadUrl: downloadUrl,
+          });
+        }
       });
+
+      return result;
     } catch (error) {
       console.error('Failed to upload user avatar', error);
+      throw error;
+    }
+  }
+
+  static async updateProfile(
+    data: FirebaseAuthTypes.UpdateProfile,
+  ): Promise<void> {
+    const currentUser = await FirebaseHelpers.getCurrentAuthUser();
+
+    try {
+      await currentUser?.updateProfile({
+        ...data,
+      });
+    } catch (error) {
+      console.error('Failed to update user', error);
       throw error;
     }
   }

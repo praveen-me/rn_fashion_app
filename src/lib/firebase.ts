@@ -4,12 +4,8 @@ import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import type {IUserData} from '../@types';
+import {Image} from 'react-native-compressor';
 
-// if (__DEV__) {
-//   // Firestore emulator
-//   firestore().useEmulator('localhost', 4000);
-// }
-// Define interfaces for URL items and result structure
 export interface URLItem {
   id: string;
   url: string | null;
@@ -169,12 +165,11 @@ class FirebaseHelpers {
   static async getCurrentUser(): Promise<IUserData | null> {
     try {
       const currentUser = FirebaseHelpers.getCurrentAuthUser();
-      const user = await firestore()
-        .collection('users')
-        .doc(currentUser?.uid)
-        .get();
+      const user = (
+        await firestore().collection('users').doc(currentUser?.uid).get()
+      ).data();
 
-      return user.data() as IUserData;
+      return user as IUserData;
     } catch (error) {
       console.error('Failed to get user', error);
       return null;
@@ -226,6 +221,62 @@ class FirebaseHelpers {
     } catch (error) {
       console.error('Failed to get constants', error);
       return null;
+    }
+  }
+
+  /**
+   * Uploads a user avatar to the Firebase Storage.
+   *
+   * @param {string} userId - The ID of the user.
+   * @param {string} avatar - The URL or base64-encoded representation of the avatar.
+   * @param {string} extension - The file extension of the avatar.
+   * @return {Promise<void>} A Promise that resolves when the avatar is uploaded successfully.
+   * @throws {Error} If there is an error during the upload process.
+   */
+  static async uploadUserAvatar(
+    userId: string,
+    avatar: string,
+    extension: string,
+    progressCallback?: (progressPercentage: number) => void,
+  ) {
+    try {
+      const compressedImage = await Image.compress(avatar);
+      const response = await fetch(compressedImage);
+      const blob = await response.blob();
+
+      // Get base64 from blobr
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onload = () =>
+          resolve((reader.result as string).split(',')[1] as string);
+        reader.onerror = error => reject(error);
+      });
+
+      const imageReference = storage().ref(
+        `user_avatars/${userId}${extension}`,
+      );
+
+      let contextType = base64.includes('image/png')
+        ? 'image/png'
+        : 'image/jpeg';
+
+      const task = imageReference.putString(base64, 'base64', {
+        contentType: contextType,
+      });
+
+      task.on('state_changed', taskSnapshot => {
+        progressCallback?.(
+          taskSnapshot.bytesTransferred / taskSnapshot.totalBytes,
+        );
+      });
+
+      task.then(() => {
+        console.log('Image uploaded to the bucket!');
+      });
+    } catch (error) {
+      console.error('Failed to upload user avatar', error);
+      throw error;
     }
   }
 }

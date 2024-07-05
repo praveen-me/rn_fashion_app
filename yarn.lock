@@ -7065,6 +7065,11 @@ react-is@^17.0.1, react-is@^17.0.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-compressor@^1.8.25:
+  version "1.8.25"
+  resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.8.25.tgz#11fb31b9883f9249f59196a146667f2be3610dd3"
+  integrity sha512-ldQvBEFJpGa9FlBF6ijBoOGg5e/vRYJOZ97ElEERwC9tO9qmt87Nj80LAuASaY0JDFfYDJi8mFSWM/uUaXaMsA==
+
 react-native-dotenv@^3.4.11:
   version "3.4.11"
   resolved "https://registry.yarnpkg.com/react-native-dotenv/-/react-native-dotenv-3.4.11.tgz#2e6c4eabd55d5f1bf109b3dd9141dadf9c55cdd4"
@@ -7086,6 +7091,11 @@ react-native-gesture-handler@^2.16.1:
     hoist-non-react-statics "^3.3.0"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-image-picker@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-7.1.2.tgz#383849d1953caf4578874a1f5e5dd11c737bd5cd"
+  integrity sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==
 
 react-native-inappbrowser-reborn@^3.6.3:
   version "3.7.0"

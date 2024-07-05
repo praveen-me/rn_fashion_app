@@ -15,10 +15,10 @@ import {
   fetchOutfitsCompleted,
   fetchOutfitsRequested,
   fetchMeRequested,
-  setCurrentUser,
   UPDATE_USER_REQUESTED,
-  updateUserRequested,
   type IUpdateUserRequested,
+  UPLOAD_USER_AVATAR_REQUESTED,
+  type IUploadUserAvatarRequested,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -31,6 +31,7 @@ import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
 // import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import type {IUserData} from '../../@types';
 import {getConstantsRequested} from '../actions/misc.actions';
+import {getUser} from '../selectors/user.selectors';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
@@ -75,6 +76,8 @@ function* fetchMeRequestedSaga() {
   try {
     const sessionUser = firebaseAuth().currentUser;
     const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
+
+    console.log({currentUser, sessionUser});
 
     if (sessionUser) {
       const {uid, email} = sessionUser;
@@ -183,6 +186,25 @@ function* updateUserRequestedSaga(action: IUpdateUserRequested) {
   }
 }
 
+function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
+  const {payload} = action;
+
+  try {
+    const currentUser = FirebaseHelpers.getCurrentAuthUser();
+    if (currentUser) {
+      const extension = payload.avatar.slice(-4);
+
+      yield FirebaseHelpers.uploadUserAvatar(
+        currentUser.uid,
+        payload.avatar,
+        extension,
+      );
+    }
+  } catch (e) {
+    console.log(e, 'Error');
+  }
+}
+
 export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
@@ -192,5 +214,6 @@ export default function* rootUserSaga() {
     takeLatest(OAUTH_REQUESTED, OAuthRequestedSaga),
     takeLatest(FETCH_OUTFITS_REQUESTED, fetchOutfitsRequestedSaga),
     takeLatest(UPDATE_USER_REQUESTED, updateUserRequestedSaga),
+    takeLatest(UPLOAD_USER_AVATAR_REQUESTED, uploadUserAvatarRequestedSaga),
   ]);
 }

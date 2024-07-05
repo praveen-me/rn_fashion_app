@@ -17,6 +17,8 @@ export const FETCH_OUTFITS_COMPLETED = 'FETCH_OUTFITS_COMPLETED';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED';
 
+export const UPLOAD_USER_AVATAR_REQUESTED = 'UPLOAD_USER_AVATAR_REQUESTED';
+
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
   payload: SignupPayload;
@@ -62,6 +64,13 @@ export interface ISetCurrentUser {
 export interface IUpdateUserRequested {
   type: typeof UPDATE_USER_REQUESTED;
   payload: Partial<IUserData>;
+}
+
+export interface IUploadUserAvatarRequested {
+  type: typeof UPLOAD_USER_AVATAR_REQUESTED;
+  payload: {
+    avatar: string;
+  };
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -146,5 +155,18 @@ export function updateUserRequested(
   return {
     type: UPDATE_USER_REQUESTED,
     payload: data,
+  };
+}
+
+export function uploadUserAvatarRequested({
+  avatar,
+}: {
+  avatar: string;
+}): IUploadUserAvatarRequested {
+  return {
+    type: UPLOAD_USER_AVATAR_REQUESTED,
+    payload: {
+      avatar,
+    },
   };
 }

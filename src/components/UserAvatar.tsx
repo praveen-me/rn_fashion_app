@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Modal, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {Modal, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
   Easing,
@@ -8,15 +8,23 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import theme, {Box} from '../contants/theme';
-import AppText from './Text';
+
 import useBackHandler from '../hooks/useBackHandler';
+import {permissionEnabled} from '../helpers/common';
+import {PERMISSIONS} from 'react-native-permissions';
+import RenderOptionsWithIcons from './RenderOptionsWithIcons';
+import {useDispatch} from 'react-redux';
+import {uploadUserAvatarRequested} from '../redux/actions/user.actions';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export default function UserAvatar() {
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {}, []);
 
   const handleUploadImagePress = useCallback(() => {
     setShowModal(true);
@@ -65,6 +73,7 @@ interface IRenderModalProps {
 function RenderModal({showModal, setShowModal}: IRenderModalProps) {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const dispatch = useDispatch();
 
   useBackHandler(() => {
     console.log('back button pressed');
@@ -109,6 +118,48 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
     );
   }
 
+  const handleCameraPress = useCallback(async () => {
+    const isPermissionsEnabled = await permissionEnabled([
+      {name: PERMISSIONS.ANDROID.CAMERA, optional: false},
+    ]);
+
+    if (isPermissionsEnabled) {
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+      });
+
+      if (
+        Array.isArray(result.assets) &&
+        result.assets.length > 0 &&
+        result.assets[0].uri
+      ) {
+        dispatch(uploadUserAvatarRequested({avatar: result.assets[0].uri}));
+      }
+    }
+  }, []);
+
+  const options = useMemo(
+    () => [
+      {
+        label: 'Upload from Camera',
+        handler: () => {
+          handleCameraPress();
+          handleModalClose();
+        },
+        iconName: 'camera',
+      },
+      {
+        label: 'Upload from Gallery',
+        handler: () => {
+          handleCameraPress();
+          handleModalClose();
+        },
+        iconName: 'image',
+      },
+    ],
+    [],
+  );
+
   return (
     <Modal
       visible={showModal}
@@ -132,24 +183,7 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
               width={200}
               position="absolute"
               borderRadius="m">
-              <TouchableOpacity onPress={() => {}} style={styles.btnContainer}>
-                <Box flexDirection="row" alignItems="center">
-                  <Box marginRight="s">
-                    <Icon name="camera" size={15} color="black" />
-                  </Box>
-                  <AppText>Upload from Camera</AppText>
-                </Box>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {}}
-                style={[styles.btnContainer, styles.btnContainerWithBorder]}>
-                <Box flexDirection="row" alignItems="center">
-                  <Box marginRight="s">
-                    <Icon name="image" size={15} color="black" />
-                  </Box>
-                  <AppText>Upload from Gallery</AppText>
-                </Box>
-              </TouchableOpacity>
+              <RenderOptionsWithIcons options={options} />
             </Box>
           </AnimatedBox>
         </TouchableOpacity>
@@ -157,14 +191,3 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  btnContainer: {
-    paddingHorizontal: theme.spacing.m,
-    paddingVertical: theme.spacing.s,
-  },
-  btnContainerWithBorder: {
-    borderTopWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-});

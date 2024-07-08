@@ -32,7 +32,7 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
       velocity.value = {x: e.velocityX, y: e.velocityY};
       state.value = State.BEGAN;
     })
-    .onChange(e => {
+    .onUpdate(e => {
       if (params && params.snapPoints) {
         const {snapPoints} = params;
 

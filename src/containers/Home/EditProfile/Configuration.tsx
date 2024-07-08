@@ -71,8 +71,6 @@ export default memo(function Configuration(props: IConfigurationProps) {
     [clothingBrands],
   );
 
-  console.log(JSON.stringify({userConfig, preferredColorsOptions}, null, 2));
-
   return (
     <ScrollView contentContainerStyle={{padding: theme.spacing.m}}>
       <Box paddingBottom="m">

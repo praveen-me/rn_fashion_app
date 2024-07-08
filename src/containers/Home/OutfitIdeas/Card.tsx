@@ -8,12 +8,9 @@ import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
-  withTiming,
   type SharedValue,
 } from 'react-native-reanimated';
-import {mix, mixColor, useSpring} from 'react-native-redash';
+import {mix, mixColor} from 'react-native-redash';
 import {Box} from '../../../contants/theme';
 
 import usePanGestureHandler from '../../../hooks/usePanGestureHandler';
@@ -52,7 +49,7 @@ const Card = ({position, onSwipe, source, step}: CardProps) => {
 
   const cardAnimatedStyles = useAnimatedStyle(() => ({
     transform: [
-      {translateY: withTiming(translateYOffset + translation.value.y)},
+      {translateY: translateYOffset + translation.value.y},
       {translateX: translation.value.x},
       {scale: mix(position.value, 1, 0.9)},
     ],

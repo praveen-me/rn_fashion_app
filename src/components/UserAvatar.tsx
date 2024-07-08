@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Modal, TouchableOpacity} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
   Easing,
@@ -10,18 +10,29 @@ import Animated, {
 } from 'react-native-reanimated';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
+import {Image} from 'expo-image';
+
 import theme, {Box} from '../contants/theme';
 
 import useBackHandler from '../hooks/useBackHandler';
 import {permissionEnabled} from '../helpers/common';
 import {PERMISSIONS} from 'react-native-permissions';
 import RenderOptionsWithIcons from './RenderOptionsWithIcons';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {uploadUserAvatarRequested} from '../redux/actions/user.actions';
+import {getUser} from '../redux/selectors/user.selectors';
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
-export default function UserAvatar() {
+const imageSize = 100;
+
+interface IUserAvatarProps {
+  showUpload?: boolean;
+}
+
+export default function UserAvatar(props: IUserAvatarProps) {
+  const user = useSelector(getUser);
+
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {}, []);
@@ -35,29 +46,48 @@ export default function UserAvatar() {
       <Box
         height={100}
         width={100}
-        backgroundColor={'danger'}
-        style={{borderRadius: 100 / 2}}
-        alignSelf="center"
         position="absolute"
         top={-50}
-        zIndex={1000}>
-        <Box
-          position="absolute"
-          bottom={5}
-          right={-5}
-          borderRadius="xl"
-          style={{
-            borderWidth: 2,
-            borderColor: 'black',
-            padding: 8,
-          }}
-          backgroundColor="white"
-          justifyContent="center"
-          alignItems="center">
-          <TouchableOpacity hitSlop={20} onPress={handleUploadImagePress}>
-            <Icon name="upload" size={15} color="black" />
-          </TouchableOpacity>
-        </Box>
+        alignSelf="center">
+        {user?.photoURL ? (
+          <Image
+            style={{
+              height: imageSize,
+              width: imageSize,
+              borderRadius: imageSize / 2,
+            }}
+            source={{uri: user?.photoURL}}
+            contentFit="cover"
+            transition={300}
+            contentPosition="center"
+            alt="User Profile Image"
+          />
+        ) : (
+          <Box
+            height={imageSize}
+            width={imageSize}
+            backgroundColor={'danger'}
+            style={{borderRadius: imageSize / 2}}
+            position="absolute"
+            zIndex={1000}
+          />
+        )}
+        {props.showUpload && (
+          <Box
+            position="absolute"
+            right={-5}
+            bottom={5}
+            borderRadius="xl"
+            style={styles.uploadBtn}
+            zIndex={1000}
+            backgroundColor="white"
+            justifyContent="center"
+            alignItems="center">
+            <TouchableOpacity hitSlop={20} onPress={handleUploadImagePress}>
+              <Icon name="upload" size={15} color="black" />
+            </TouchableOpacity>
+          </Box>
+        )}
       </Box>
 
       <RenderModal showModal={showModal} setShowModal={setShowModal} />
@@ -76,7 +106,6 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
   const dispatch = useDispatch();
 
   useBackHandler(() => {
-    console.log('back button pressed');
     setShowModal(false);
     return true;
   }, [showModal]);
@@ -191,3 +220,11 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  uploadBtn: {
+    borderWidth: 2,
+    borderColor: 'black',
+    padding: 8,
+  },
+});

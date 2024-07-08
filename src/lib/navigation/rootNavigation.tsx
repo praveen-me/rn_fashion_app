@@ -210,9 +210,7 @@ const RootNavigator = () => {
   }, []);
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    // console.log({user});
-  }
+  function onAuthStateChanged(user) {}
 
   React.useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -230,11 +228,7 @@ const RootNavigator = () => {
   }, [isLoggedIn]);
 
   return !isLoading ? (
-    <NavigationContainer
-      ref={navigationRef}
-      onStateChange={state => {
-        console.log('New state is', state);
-      }}>
+    <NavigationContainer ref={navigationRef}>
       <AppStack.Navigator
         screenOptions={{headerShown: false}}
         initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>

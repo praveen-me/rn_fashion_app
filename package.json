@@ -28,6 +28,8 @@
     "@supabase/supabase-js": "^2.43.0",
     "axios": "^1.6.8",
     "detox": "^18.20.1",
+    "expo": "^51.0.0",
+    "expo-image": "^1.12.12",
     "formik": "^2.4.6",
     "graphql": "^15.5.2",
     "moment": "^2.29.1",

@@ -1,11 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {
-  useDerivedValue,
-  useSharedValue,
-  withSpring,
-  withTiming,
-  type SharedValue,
-} from 'react-native-reanimated';
+import React, {useMemo, useState} from 'react';
+import {useDerivedValue, type SharedValue} from 'react-native-reanimated';
 
 import Header from '../../../components/Header';
 import {Box} from '../../../contants/theme';
@@ -16,25 +10,6 @@ import Categories from './Categories';
 import {useSelector} from 'react-redux';
 import {getOutfits} from '../../../redux/selectors/user.selectors';
 import {useTiming} from 'react-native-redash';
-
-const cards = [
-  {
-    index: 3,
-    source: require('./../../../assets/images/4.png'),
-  },
-  {
-    index: 2,
-    source: require('./../../../assets/images/3.png'),
-  },
-  {
-    index: 1,
-    source: require('./../../../assets/images/2.png'),
-  },
-  {
-    index: 0,
-    source: require('./../../../assets/images/1.png'),
-  },
-];
 
 interface OutfitCardsProps {
   currentIndex: number;

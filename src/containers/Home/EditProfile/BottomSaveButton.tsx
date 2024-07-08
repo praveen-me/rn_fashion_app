@@ -32,9 +32,7 @@ function BottomSaveButton(props: BottomSaveButtonProps, ref) {
   const {gestureHandler, translation} = usePanGestureHandler({
     snapPoints: {min: 0, max: wWidth - 90},
     onSnap: ({translationX}) => {
-      console.log({translationX});
       onSwiped();
-      // setShowBtn(false);
     },
   });
   const styles = useStyles();

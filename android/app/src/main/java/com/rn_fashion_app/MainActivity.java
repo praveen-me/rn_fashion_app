@@ -1,4 +1,6 @@
 package com.rn_fashion_app;
+import expo.modules.ReactActivityDelegateWrapper;
+import com.facebook.react.ReactActivityDelegate;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
@@ -20,4 +22,11 @@ public class MainActivity extends ReactActivity {
         SplashScreen.show(this);  // here
         super.onCreate(savedInstanceState);
     }
+
+  @Override
+  protected ReactActivityDelegate createReactActivityDelegate() {
+    return new ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED,
+      new ReactActivityDelegate(this, getMainComponentName())
+    );
+  }
 }

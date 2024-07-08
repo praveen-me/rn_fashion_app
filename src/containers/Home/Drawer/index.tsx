@@ -1,7 +1,4 @@
-import {
-  DrawerContentComponentProps,
-  DrawerContentOptions,
-} from '@react-navigation/drawer';
+import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Dimensions} from 'react-native';
@@ -9,11 +6,12 @@ import Header from '../../../components/Header';
 import AppText from '../../../components/Text';
 import theme, {Box} from '../../../contants/theme';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import DrawerItem from './DrawerItem';
-import {IS_LOGGED_IN} from '../../../lib/keys';
-import {useDispatch} from 'react-redux';
+
+import {useDispatch, useSelector} from 'react-redux';
 import {logoutUserRequested} from '../../../redux/actions/user.actions';
+import UserAvatar from '../../../components/UserAvatar';
+import {getUser} from '../../../redux/selectors/user.selectors';
 
 const {width: wWidth, height: hHeight} = Dimensions.get('screen');
 export const DRAWER_WIDTH = wWidth;
@@ -60,8 +58,9 @@ const drawerItems = [
   },
 ];
 
-const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
+const Drawer = (props: DrawerContentComponentProps) => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(getUser);
 
   return (
     <Box flex={1} overflow="hidden">
@@ -110,16 +109,8 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
           borderBottomRightRadius="xl"
           justifyContent="center"
           paddingTop="m">
-          <Box
-            height={100}
-            width={100}
-            backgroundColor={'danger'}
-            style={{borderRadius: 100 / 2}}
-            alignSelf="center"
-            position="absolute"
-            top={-50}
-            zIndex={1000}
-          />
+          <UserAvatar />
+
           <Box marginVertical="xl">
             <AppText
               variant="title1"
@@ -127,20 +118,18 @@ const Drawer = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
               style={{
                 color: theme.colors.textPrimaryColor,
               }}>
-              Mike Peter
+              {currentUser?.name || 'Mike Peter'}
             </AppText>
-            <AppText center>mike@email.com</AppText>
+            <AppText center>{currentUser?.email || 'mike@email.com'}</AppText>
           </Box>
-          {drawerItems.map((item) => {
+          {drawerItems.map(item => {
             return (
               <DrawerItem
                 {...item}
                 key={item.icon}
                 {...(item.label === 'Logout'
                   ? {
-                      onPress: async function () {
-                        dispatch(logoutUserRequested());
-                      },
+                      onPress: () => dispatch(logoutUserRequested()),
                     }
                   : {})}
               />

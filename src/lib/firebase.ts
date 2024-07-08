@@ -227,18 +227,18 @@ class FirebaseHelpers {
   /**
    * Uploads the user avatar to storage and returns the progress and download URL.
    *
-   * @param {string} userId - The ID of the user.
-   * @param {string} avatar - The base64 encoded avatar image.
-   * @param {string} extension - The file extension of the avatar.
-   * @param {ProgressCallback} progressCallback - Optional callback to track upload progress.
-   * @return {Promise<{progress: number, downloadUrl: string | null}>} An object containing the upload progress and download URL.
+   * @param userId - The ID of the user.
+   * @param avatar - The base64 encoded avatar image.
+   * @param extension - The file extension of the avatar.
+   * @param progressCallback - Optional callback to track upload progress.
+   * @returns An object containing the upload progress and download URL.
    */
   static async uploadUserAvatar(
     userId: string,
     avatar: string,
     extension: string,
     progressCallback?: ProgressCallback,
-  ) {
+  ): Promise<{progress: number; downloadUrl: string | null}> {
     let result = {
       progress: 0,
       downloadUrl: null,

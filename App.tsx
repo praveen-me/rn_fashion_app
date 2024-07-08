@@ -6,13 +6,14 @@ import {Provider} from 'react-redux';
 import theme from './src/contants/theme';
 import RootNavigator from './src/lib/navigation/rootNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import SplashScreen from 'react-native-splash-screen';
+
 import store from './src/lib/store';
+import setup from './src/lib/setup';
 
 export default function App() {
   React.useEffect(() => {
     if (Platform.OS === 'android') {
-      SplashScreen.hide();
+      setup();
     }
   }, []);
 

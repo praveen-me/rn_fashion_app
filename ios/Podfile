@@ -1,7 +1,8 @@
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '13.4'
 
 pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
@@ -13,6 +14,24 @@ abstract_target 'App' do
   config = use_native_modules!
   use_react_native!(:path => config["reactNativePath"])
   target 'rn_fashion_app' do
+  use_expo_modules!
+  post_integrate do |installer|
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
+    begin
+      expo_patch_react_imports!(installer)
+    rescue => e
+      Pod::UI.warn e
+    end
+  end
     #Production-specific pods
     target 'rn_fashion_appTests' do
       inherit! :complete

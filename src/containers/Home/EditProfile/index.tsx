@@ -94,7 +94,7 @@ function EditProfile({navigation, route}: HomeNavigationProps<'EditProfile'>) {
                 borderTopLeftRadius="xl"
                 backgroundColor="white"
                 paddingTop="xl">
-                <UserAvatar />
+                <UserAvatar showUpload />
                 <Box marginTop="m">
                   <AppText
                     variant="title1"

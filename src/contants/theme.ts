@@ -60,5 +60,6 @@ const theme = createTheme({
 export type Theme = typeof theme;
 export const Text = createText<Theme>();
 export const Box = createBox<Theme>();
+
 export const useTheme = () => useReTheme<Theme>();
 export default theme;

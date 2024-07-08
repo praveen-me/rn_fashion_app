@@ -30,7 +30,7 @@ export default function userReducer(
       return {
         ...state,
         isAuthenticated: true,
-        currentUser: user,
+        currentUser: {...state.currentUser, ...user},
       };
     }
 

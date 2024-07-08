@@ -1,4 +1,4 @@
-import {all, call, put, takeLatest} from 'redux-saga/effects';
+import {all, put, takeLatest} from 'redux-saga/effects';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 import firebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
@@ -19,7 +19,7 @@ import {
   type IUpdateUserRequested,
   UPLOAD_USER_AVATAR_REQUESTED,
   type IUploadUserAvatarRequested,
-  updateUserRequested,
+  type IFetchMeRequested,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -29,14 +29,11 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
-// import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
-import type {
-  IUserData,
-  ProgressCallback,
-  ProgressCallbackPayload,
-} from '../../@types';
+
+import type {IUserData, ProgressCallbackPayload} from '../../@types';
 import {getConstantsRequested} from '../actions/misc.actions';
-import {getUser} from '../selectors/user.selectors';
+
+import store from '../../lib/store';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
@@ -77,25 +74,34 @@ function* loginRequestedSaga(action: ISignupRequested) {
   }
 }
 
-function* fetchMeRequestedSaga() {
+function* fetchMeRequestedSaga(action: IFetchMeRequested) {
   try {
     const sessionUser = firebaseAuth().currentUser;
-    const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
 
-    console.log({currentUser, sessionUser});
+    if (sessionUser && action.payload.onlySession) {
+      const photoURL = sessionUser?.photoURL;
 
-    if (sessionUser) {
-      const {uid, email} = sessionUser;
+      yield put(loginCompleted({photoURL}));
+    } else {
+      const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
 
-      if (uid && email) {
-        yield put(fetchOutfitsRequested());
-        yield put(loginCompleted(currentUser));
+      if (sessionUser) {
+        const {uid, email} = sessionUser;
 
-        setTimeout(() => {
-          if (!currentUser.name) {
-            navigationRef.current?.navigate('EditProfile', {showSaveBtn: true});
-          }
-        }, 0);
+        if (uid && email) {
+          yield put(fetchOutfitsRequested());
+          yield put(
+            loginCompleted({...currentUser, photoURL: sessionUser.photoURL}),
+          );
+
+          // setTimeout(() => {
+          //   if (!currentUser.name) {
+          //     navigationRef.current?.navigate('EditProfile', {
+          //       showSaveBtn: true,
+          //     });
+          //   }
+          // }, 0);
+        }
       }
     }
   } catch (e) {
@@ -155,7 +161,6 @@ function* OAuthRequestedSaga() {
 
 function* fetchOutfitsRequestedSaga() {
   try {
-    console.log(FirebaseHelpers.getAllItems, 'get all items');
     const items: StorageItemsResult = yield FirebaseHelpers.getAllItems(
       'outfits',
     );
@@ -197,9 +202,13 @@ async function handleAvatarProgress(result: ProgressCallbackPayload) {
   }
 
   if (result.downloadUrl) {
+    console.log({downloadUrl: result.downloadUrl}, 'L177');
+
     await FirebaseHelpers.updateProfile({
       photoURL: result.downloadUrl,
     });
+
+    store.dispatch(fetchMeRequested({onlySession: true}));
   }
 }
 
@@ -208,8 +217,6 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
 
   try {
     const currentUser = FirebaseHelpers.getCurrentAuthUser();
-
-    console.log({currentUser});
 
     if (currentUser) {
       const extension = payload.avatar.slice(-4);

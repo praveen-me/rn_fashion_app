@@ -1,3 +1,4 @@
+import type {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import type {IUserData} from '../../@types';
 
 export interface IFetchMeUser {

@@ -2,6 +2,7 @@ import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import type {IUserData} from '../../@types';
 import {ISignupState} from '../../containers/Authentication/SignUp';
 import type {URLItem} from '../../lib/firebase';
+import type {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
 
@@ -31,11 +32,14 @@ export interface ILoginRequested {
 
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
-  payload: IUserData;
+  payload: Partial<IUserData>;
 }
 
 export interface IFetchMeRequested {
   type: typeof FETCH_ME_REQUESTED;
+  payload: {
+    onlySession?: boolean;
+  };
 }
 export interface ILogoutUserRequested {
   type: typeof LOGOUT_USER_REQUESTED;
@@ -97,16 +101,21 @@ export function loginRequested(data: SignupPayload): ILoginRequested {
   };
 }
 
-export function loginCompleted(user: IUserData): ILoginCompleted {
+export function loginCompleted(user: Partial<IUserData>): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,
   };
 }
 
-export function fetchMeRequested(): IFetchMeRequested {
+export function fetchMeRequested(config?: {
+  onlySession?: boolean;
+}): IFetchMeRequested {
   return {
     type: FETCH_ME_REQUESTED,
+    payload: {
+      onlySession: config?.onlySession,
+    },
   };
 }
 

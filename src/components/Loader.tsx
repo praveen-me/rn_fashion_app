@@ -11,32 +11,47 @@ import Animated, {
 import Text from './Text';
 import useTimer from '../hooks/useTimer';
 import {StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
+import {getLoaderConfig} from '../redux/selectors/misc.selectors';
 
 const loaderSize = 300;
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
-export default function Loader() {
-  const showAnimatedText = useSharedValue(0);
-  const {timerExpired, timeLeft} = useTimer(3);
+interface ILoaderProps {
+  showLocalLoader?: boolean;
+}
 
-  console.log({timeLeft, timerExpired});
+export default function Loader(props: ILoaderProps) {
+  const showAnimatedText = useSharedValue(0);
+  const {timerExpired} = useTimer(2);
+  const {state, message} = useSelector(getLoaderConfig);
+
+  const {showLocalLoader} = props;
 
   useEffect(() => {
     if (timerExpired) {
       showAnimatedText.value = 1;
     }
+
+    if (!state && !showLocalLoader) {
+      showAnimatedText.value = 0;
+    }
+  }, [timerExpired, state]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: showAnimatedText.value
+            ? withSpring(showAnimatedText.value ? 1.2 : 0, {duration: 300})
+            : 0,
+        },
+      ],
+    };
   }, [timerExpired]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scale: showAnimatedText.value
-          ? withSpring(showAnimatedText.value ? 1.2 : 0, {duration: 300})
-          : 0,
-      },
-    ],
-  }));
+  if (!showLocalLoader && !state) return null;
 
   return (
     <Box
@@ -68,7 +83,7 @@ export default function Loader() {
       </AnimatedBox>
       <AnimatedBox style={animatedStyle}>
         <Text variant="body" medium>
-          🚀 Hang on! Awesome stuff coming! 🍲
+          {message || '🚀 Hang on! Awesome stuff coming! 🍲'}
         </Text>
       </AnimatedBox>
     </Box>

@@ -242,7 +242,7 @@ const RootNavigator = () => {
         </AppStack.Navigator>
       </NavigationContainer>
 
-      {isLoading && <Loader />}
+      <Loader showLocalLoader={isLoading} />
     </>
   );
 };

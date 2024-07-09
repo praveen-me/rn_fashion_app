@@ -34,9 +34,18 @@ export interface IMiscState {
     key: string;
     label: string;
   }[];
+  loaderConfig: {
+    state: boolean;
+    message: string;
+  };
 }
 
 export type ProfileConstants = Pick<
   IMiscState,
   'outfitSelections' | 'clothingBrands' | 'preferredColors' | 'clothingSize'
 >;
+
+export type ToggleAppLoaderPayload = {
+  state: boolean;
+  message: string;
+};

@@ -10,3 +10,8 @@ export const getUserConstants = createSelector(
     outfitSelections,
   }),
 );
+
+export const getLoaderConfig = createSelector(
+  (state: IAppState) => state.misc,
+  ({loaderConfig}) => loaderConfig,
+);

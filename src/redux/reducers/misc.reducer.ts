@@ -1,7 +1,9 @@
 import type {IMiscState} from '../@types';
 import {
   GET_CONSTANTS_COMPLETED,
+  TOGGLE_APP_LOADER,
   type IGetConstantsCompleted,
+  type IToggleAppLoader,
 } from '../actions/misc.actions';
 
 const initState: IMiscState = {
@@ -9,9 +11,13 @@ const initState: IMiscState = {
   clothingBrands: [],
   clothingSize: [],
   outfitSelections: [],
+  loaderConfig: {
+    state: false,
+    message: '',
+  },
 };
 
-type RootMiscAction = IGetConstantsCompleted;
+type RootMiscAction = IGetConstantsCompleted | IToggleAppLoader;
 
 export default function miscReducer(
   state = initState,
@@ -22,6 +28,17 @@ export default function miscReducer(
       return {
         ...state,
         ...action.payload,
+      };
+    }
+
+    case TOGGLE_APP_LOADER: {
+      return {
+        ...state,
+        loaderConfig: {
+          ...state.loaderConfig,
+          state: action.payload.state,
+          message: action.payload.message,
+        },
       };
     }
 

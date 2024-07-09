@@ -1,4 +1,4 @@
-import {all, put, takeLatest} from 'redux-saga/effects';
+import {all, put, take, takeLatest} from 'redux-saga/effects';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 import firebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
@@ -20,6 +20,8 @@ import {
   UPLOAD_USER_AVATAR_REQUESTED,
   type IUploadUserAvatarRequested,
   type IFetchMeRequested,
+  FETCH_OUTFITS_COMPLETED,
+  LOGIN_COMPLETED,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -31,7 +33,7 @@ import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
 
 import type {IUserData, ProgressCallbackPayload} from '../../@types';
-import {getConstantsRequested} from '../actions/misc.actions';
+import {getConstantsRequested, toggleAppLoader} from '../actions/misc.actions';
 
 import store from '../../lib/store';
 
@@ -81,6 +83,7 @@ function* fetchMeRequestedSaga(action: IFetchMeRequested) {
     if (sessionUser && action.payload.onlySession) {
       const photoURL = sessionUser?.photoURL;
 
+      console.log({photoURL});
       yield put(loginCompleted({photoURL}));
     } else {
       const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
@@ -90,6 +93,7 @@ function* fetchMeRequestedSaga(action: IFetchMeRequested) {
 
         if (uid && email) {
           yield put(fetchOutfitsRequested());
+
           yield put(
             loginCompleted({...currentUser, photoURL: sessionUser.photoURL}),
           );
@@ -177,8 +181,6 @@ function* fetchOutfitsRequestedSaga() {
 function* updateUserRequestedSaga(action: IUpdateUserRequested) {
   const {payload} = action;
 
-  console.log({payload}, 'L157');
-
   try {
     const currentUser = FirebaseHelpers.getCurrentAuthUser();
 
@@ -202,8 +204,6 @@ async function handleAvatarProgress(result: ProgressCallbackPayload) {
   }
 
   if (result.downloadUrl) {
-    console.log({downloadUrl: result.downloadUrl}, 'L177');
-
     await FirebaseHelpers.updateProfile({
       photoURL: result.downloadUrl,
     });
@@ -216,6 +216,13 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
   const {payload} = action;
 
   try {
+    yield put(
+      toggleAppLoader({
+        state: true,
+        message: '🚀 Hang on! Uploading your pic! 📸',
+      }),
+    );
+
     const currentUser = FirebaseHelpers.getCurrentAuthUser();
 
     if (currentUser) {
@@ -227,9 +234,26 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
         extension,
         handleAvatarProgress,
       );
+
+      yield take(LOGIN_COMPLETED);
+
+      console.log('fetch me completed');
+      yield put(
+        toggleAppLoader({
+          state: false,
+          message: '',
+        }),
+      );
     }
   } catch (e) {
     console.log(e, 'Error');
+  } finally {
+    // yield put(
+    //   toggleAppLoader({
+    //     state: false,
+    //     message: '',
+    //   }),
+    // );
   }
 }
 

@@ -37,6 +37,7 @@ import bootStrapApp from '../bootStarpApp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AUTH_TOKEN} from '../../contants/keys';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import Loader from '../../components/Loader';
 
 export interface AuthNavigationProps<RouteName extends keyof AuthRoutes> {
   navigation: CompositeNavigationProp<
@@ -227,22 +228,22 @@ const RootNavigator = () => {
     return subscriber; // unsubscribe on unmount
   }, [isLoggedIn]);
 
-  return !isLoading ? (
-    <NavigationContainer ref={navigationRef}>
-      <AppStack.Navigator
-        screenOptions={{headerShown: false}}
-        initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
-        {isLoggedIn ? (
-          <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
-        ) : (
-          <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
-        )}
-      </AppStack.Navigator>
-    </NavigationContainer>
-  ) : (
-    <View style={styles.activityContainer}>
-      <ActivityIndicator size="large" />
-    </View>
+  return (
+    <>
+      <NavigationContainer ref={navigationRef}>
+        <AppStack.Navigator
+          screenOptions={{headerShown: false}}
+          initialRouteName={isLoggedIn ? 'Home' : 'Auth'}>
+          {isLoggedIn ? (
+            <AppStack.Screen name={'Home'} component={HomeDrawerScreens} />
+          ) : (
+            <AppStack.Screen name={'Auth'} component={AuthStackScreens} />
+          )}
+        </AppStack.Navigator>
+      </NavigationContainer>
+
+      {isLoading && <Loader />}
+    </>
   );
 };
 

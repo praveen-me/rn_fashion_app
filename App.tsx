@@ -21,9 +21,7 @@ export default function App() {
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <SafeAreaProvider>
-          {/* <IsLoggedInProvider> */}
           <RootNavigator />
-          {/* </IsLoggedInProvider> */}
         </SafeAreaProvider>
       </ThemeProvider>
     </Provider>

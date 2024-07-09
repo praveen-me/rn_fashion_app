@@ -24,10 +24,12 @@ interface ILoaderProps {
 
 export default function Loader(props: ILoaderProps) {
   const showAnimatedText = useSharedValue(0);
-  const {timerExpired} = useTimer(2);
   const {state, message} = useSelector(getLoaderConfig);
 
   const {showLocalLoader} = props;
+  const {timerExpired} = useTimer(2, {
+    shouldStart: showLocalLoader || state,
+  });
 
   useEffect(() => {
     if (timerExpired) {

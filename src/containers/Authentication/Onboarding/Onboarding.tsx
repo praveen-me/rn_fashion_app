@@ -14,6 +14,7 @@ import Dot from '../../../components/Dot';
 import {Theme, useTheme} from '../../../contants/theme';
 import {AuthNavigationProps} from '../../../lib/navigation/rootNavigation';
 import makeStyles from '../../../lib/makeStyles';
+import {toast} from '../../../components/Toast';
 
 const {width} = Dimensions.get('window');
 
@@ -168,8 +169,7 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
           return (
             <Animated.View
               style={[styles.underlay, animatedStyles]}
-              key={index}
-            >
+              key={index}>
               <Image
                 source={picture.src}
                 style={{
@@ -189,8 +189,7 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
           decelerationRate="fast"
           showsHorizontalScrollIndicator={false}
           bounces={false}
-          onScroll={scrollHandler}
-        >
+          onScroll={scrollHandler}>
           {slides.map((slide, index) => (
             <Slide key={index} label={slide.title} right={Boolean(index % 2)} />
           ))}
@@ -220,8 +219,7 @@ const Onboarding = ({navigation}: AuthNavigationProps<'Onboarding'>) => {
                   },
                 ],
               },
-            ]}
-          >
+            ]}>
             {slides.map(({description, subTitle}, index) => {
               const last = index === slides.length - 1;
               return (

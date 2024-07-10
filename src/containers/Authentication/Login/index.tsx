@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
-import {TextInput as RNTextInput} from 'react-native';
+import {KeyboardAvoidingView, TextInput as RNTextInput} from 'react-native';
+
 import Button from '../../../components/Button';
 import Container from '../../../components/Container';
 import AppText from '../../../components/Text';
@@ -70,7 +71,7 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
 
   return (
     <Container {...{footer}}>
-      <Box padding="xl" style={{marginTop: 100}}>
+      <Box padding="xl">
         <AppText
           variant="title1"
           center

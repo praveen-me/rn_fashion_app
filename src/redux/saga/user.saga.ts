@@ -35,6 +35,7 @@ import type {IUserData, ProgressCallbackPayload} from '../../@types';
 import {getConstantsRequested, toggleAppLoader} from '../actions/misc.actions';
 
 import store from '../../lib/store';
+import {toast} from '../../components/Toast';
 
 function* signupRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
@@ -56,7 +57,9 @@ function* signupRequestedSaga(action: ISignupRequested) {
       yield EncryptedStorage.setItem(AUTH_CURRENT_USER, JSON.stringify(user));
     }
   } catch (e) {
-    console.log(e);
+    if (e.message.includes('email-already-in-use')) {
+      toast.display('❌ User already exists.', 'top', 'danger');
+    }
   } finally {
     yield put(toggleAppLoader({state: false, message: ''}));
   }
@@ -82,8 +85,12 @@ function* loginRequestedSaga(action: ISignupRequested) {
       yield take(LOGIN_COMPLETED);
       yield EncryptedStorage.setItem(AUTH_CURRENT_USER, JSON.stringify(user));
     }
-  } catch (e) {
-    console.log(e);
+  } catch (e: {message: string}) {
+    if (e.message.includes('user-not-found')) {
+      toast.display('❌ User not found.', 'top', 'danger');
+    } else if (e.message.includes('wrong-password')) {
+      toast.display('❌ Wrong password.', 'top', 'danger');
+    }
   } finally {
     yield put(toggleAppLoader({state: false, message: ''}));
   }

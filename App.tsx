@@ -9,6 +9,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import store from './src/lib/store';
 import setup from './src/lib/setup';
+import Toast from './src/components/Toast';
 
 export default function App() {
   React.useEffect(() => {
@@ -23,6 +24,7 @@ export default function App() {
         <SafeAreaProvider>
           <RootNavigator />
         </SafeAreaProvider>
+        <Toast message="Placeholder" position="top" type="success" />
       </ThemeProvider>
     </Provider>
   );

@@ -1,12 +1,11 @@
 import {takeLatest, all, put, take} from 'redux-saga/effects';
 import SplashScreen from 'react-native-splash-screen';
+import firebaseAuth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   GET_CONSTANTS_COMPLETED,
   GET_CONSTANTS_REQUESTED,
   getConstantsCompleted,
   INITIAL_APP_SETUP,
-  TOGGLE_APP_LOADER,
-  toggleAppLoader,
 } from '../actions/misc.actions';
 import FirebaseHelpers from '../../lib/firebase';
 import type {ProfileConstants} from '../@types';
@@ -27,10 +26,15 @@ function* getConstantsRequestedSaga() {
 }
 
 function* initialAppSetupSaga() {
-  yield put(fetchMeRequested());
+  const sessionUser = firebaseAuth().currentUser;
 
-  yield take(FETCH_OUTFITS_COMPLETED);
-  yield take(GET_CONSTANTS_COMPLETED);
+  if (sessionUser) {
+    yield put(fetchMeRequested());
+
+    yield take(FETCH_OUTFITS_COMPLETED);
+    yield take(GET_CONSTANTS_COMPLETED);
+  }
+
   SplashScreen.hide();
 }
 

@@ -70,7 +70,7 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
 
   return (
     <Container {...{footer}}>
-      <Box padding="xl">
+      <Box padding="xl" style={{marginTop: 100}}>
         <AppText
           variant="title1"
           center
@@ -91,7 +91,7 @@ const Login = ({navigation}: AuthNavigationProps<'Login'>) => {
             value={values.email}
             error={errors.email}
             touched={touched.email}
-            autoCompleteType="email"
+            autoComplete="email"
             autoCapitalize="none"
             returnKeyType="next"
             returnKeyLabel="next"

@@ -20,7 +20,6 @@ import {
   UPLOAD_USER_AVATAR_REQUESTED,
   type IUploadUserAvatarRequested,
   type IFetchMeRequested,
-  FETCH_OUTFITS_COMPLETED,
   LOGIN_COMPLETED,
 } from '../actions/user.actions';
 
@@ -43,15 +42,23 @@ function* signupRequestedSaga(action: ISignupRequested) {
   const {email, password} = payload;
 
   try {
+    yield put(
+      toggleAppLoader({state: true, message: '🔒 Creating your account... 📱'}),
+    );
     const createdUser: FirebaseAuthTypes.UserCredential =
       yield FirebaseHelpers.createUser(email, password);
 
     const {user} = createdUser;
 
-    if (user.uid) {
+    if (user.uid && user.email) {
+      yield put(fetchMeRequested());
+      yield take(LOGIN_COMPLETED);
+      yield EncryptedStorage.setItem(AUTH_CURRENT_USER, JSON.stringify(user));
     }
   } catch (e) {
     console.log(e);
+  } finally {
+    yield put(toggleAppLoader({state: false, message: ''}));
   }
 }
 
@@ -59,6 +66,9 @@ function* loginRequestedSaga(action: ISignupRequested) {
   const {payload} = action;
 
   try {
+    yield put(
+      toggleAppLoader({state: true, message: '🔒 Logging you in... 📱'}),
+    );
     const signInUser: FirebaseAuthTypes.UserCredential =
       yield firebaseAuth().signInWithEmailAndPassword(
         payload.email,
@@ -69,10 +79,13 @@ function* loginRequestedSaga(action: ISignupRequested) {
 
     if (user.uid && user.email) {
       yield put(fetchMeRequested());
+      yield take(LOGIN_COMPLETED);
       yield EncryptedStorage.setItem(AUTH_CURRENT_USER, JSON.stringify(user));
     }
   } catch (e) {
     console.log(e);
+  } finally {
+    yield put(toggleAppLoader({state: false, message: ''}));
   }
 }
 
@@ -80,15 +93,14 @@ function* fetchMeRequestedSaga(action: IFetchMeRequested) {
   try {
     const sessionUser = firebaseAuth().currentUser;
 
-    if (sessionUser && action.payload.onlySession) {
-      const photoURL = sessionUser?.photoURL;
+    if (sessionUser) {
+      if (action.payload.onlySession) {
+        const photoURL = sessionUser?.photoURL;
 
-      console.log({photoURL});
-      yield put(loginCompleted({photoURL}));
-    } else {
-      const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
+        yield put(loginCompleted({photoURL}));
+      } else {
+        const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
 
-      if (sessionUser) {
         const {uid, email} = sessionUser;
 
         if (uid && email) {
@@ -157,8 +169,6 @@ function* OAuthRequestedSaga() {
           },
         },
       );
-
-      console.log({result});
     }
   } catch (e) {}
 }
@@ -237,7 +247,6 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
 
       yield take(LOGIN_COMPLETED);
 
-      console.log('fetch me completed');
       yield put(
         toggleAppLoader({
           state: false,
@@ -247,13 +256,6 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
     }
   } catch (e) {
     console.log(e, 'Error');
-  } finally {
-    // yield put(
-    //   toggleAppLoader({
-    //     state: false,
-    //     message: '',
-    //   }),
-    // );
   }
 }
 

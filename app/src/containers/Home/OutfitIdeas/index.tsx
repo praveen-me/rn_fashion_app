@@ -91,7 +91,6 @@ const OutfitIdeas = ({navigation}: HomeNavigationProps<'OutfitIdeas'>) => {
 
   const handleSwiped = useCallback(
     (item: {id: string; url: string}) => {
-      console.log({item});
       aIndex.value = withTiming(currentIndex + 1);
 
       setCurrentIndex(prev => prev + 1);

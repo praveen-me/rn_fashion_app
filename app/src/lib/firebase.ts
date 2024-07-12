@@ -109,22 +109,6 @@ class FirebaseHelpers {
         password,
       );
 
-      const {user} = response;
-
-      const initialUserData = {
-        id: user.uid,
-        email: user.email,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        address: null,
-        outfitSelection: null,
-        preferredSizes: [],
-        preferredColors: [],
-        preferredBrands: [],
-        name: null,
-      };
-
-      await firestore().collection('users').doc(user.uid).set(initialUserData);
-
       return response;
     } catch (error) {
       console.error('Create user failed', error);

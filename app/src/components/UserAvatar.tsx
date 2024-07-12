@@ -8,7 +8,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 import {Image} from 'expo-image';
 
@@ -169,14 +169,14 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
 
   const options = useMemo(
     () => [
-      {
-        label: 'Upload from Camera',
-        handler: () => {
-          handleCameraPress();
-          handleModalClose();
-        },
-        iconName: 'camera',
-      },
+      // {
+      //   label: 'Upload from Camera',
+      //   handler: () => {
+      //     handleCameraPress();
+      //     handleModalClose();
+      //   },
+      //   iconName: 'camera',
+      // },
       {
         label: 'Upload from Gallery',
         handler: () => {

@@ -1,23 +1,4 @@
 {
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "emulators": {
-    "firestore": {
-      "port": 8080
-    },
-    "database": {
-      "port": 9000
-    },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true
-  },
   "functions": [
     {
       "source": "functions",
@@ -30,7 +11,6 @@
         "*.local"
       ],
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
         "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }

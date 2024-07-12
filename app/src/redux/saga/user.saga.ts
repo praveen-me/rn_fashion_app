@@ -217,7 +217,6 @@ function* updateUserRequestedSaga(action: IUpdateUserRequested) {
 
 async function handleAvatarProgress(result: ProgressCallbackPayload) {
   if (result.progress < 100) {
-    console.log('Uploading', result.progress);
   }
 
   if (result.downloadUrl) {

@@ -41,8 +41,6 @@ const Toast: React.FC<ToastProps> = ({message, position, type}) => {
   });
   const animatedOpacity = useSharedValue(0);
 
-  console.log({visible});
-
   useEffect(() => {
     let timer: null | NodeJS.Timeout = null;
     if (visible) {

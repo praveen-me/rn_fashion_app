@@ -45,11 +45,7 @@ const Transaction = ({transaction}: TransactionProps) => {
         </Box>
       </Box>
       <Box alignItems="flex-end" backgroundColor="danger">
-        <Button
-          onPress={() => {
-            console.log('hello');
-          }}
-          textBtn>
+        <Button onPress={() => {}} textBtn>
           See More
         </Button>
       </Box>

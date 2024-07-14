@@ -62,8 +62,6 @@ const Card = ({
       }
     })
     .onEnd(({translationX, velocityX}) => {
-      console.log('onEnd');
-
       if (Math.abs(translationX) > 100 || Math.abs(velocityX) > 1000) {
         translateX.value = withTiming(
           translationX > 0 ? width + width / 2 : -width - width / 2,

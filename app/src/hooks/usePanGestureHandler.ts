@@ -60,7 +60,6 @@ function usePanGestureHandler(params?: IUsePanGestureHandler) {
     })
     .onEnd(e => {
       if (e.translationX > wWidth * 0.6 || -wWidth * 0.6 > e.translationX) {
-        console.log('e.translationX', e.translationX);
         if (params && params.onEnd) {
           runOnJS(params.onEnd)({x: e.x, translationX: e.translationX});
         }

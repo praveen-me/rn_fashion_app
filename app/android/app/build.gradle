@@ -100,7 +100,7 @@ android {
         applicationId "com.rn_fashion_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145730
+        versionCode 3145731
         versionName "2.0.0"
         multiDexEnabled true
     }

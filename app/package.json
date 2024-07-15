@@ -11,7 +11,7 @@
     "clean:android": "cd android && ENVFILE=.env.staging ./gradlew clean && cd ..",
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "apk": "cd android && ./gradlew app:assembleRelease && cd app && cd build && cd outputs && cd apk && cd production && cd release && open .",
-    "bundle": "cd android && ./gradlew bundleRelease && cd app && cd build && cd outputs && cd production && cd release && open .",
+    "bundle": "cd android && ./gradlew bundleProductionRelease && cd app && cd build && cd outputs &&  cd bundle && cd productionRelease && open .",
     "postinstall": "patch-package"
   },
   "dependencies": {

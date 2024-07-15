@@ -1,5 +1,5 @@
 import type {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import type {IUserData} from '../../@types';
+import type {IUserData, IUserNotifications} from '../../@types';
 
 export interface IFetchMeUser {
   user_id: string;
@@ -15,7 +15,7 @@ export interface ISession {
 
 export interface IUserState {
   isAuthenticated: boolean;
-  currentUser: IUserData | null;
+  currentUser: (IUserData & IUserNotifications) | null;
   outfits: {id: number; url: string}[];
 }
 

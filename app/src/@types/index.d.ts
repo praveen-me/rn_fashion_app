@@ -19,13 +19,20 @@ export interface IUserData {
   id: string;
   email: string;
   createdAt: string; // Replace 'any' with the appropriate type for createdAt
-  address: string | null;
-  outfitSelection: string | null;
+  address?: string;
+  outfitSelection?: string;
   preferredSizes: string[];
   preferredColors: string[];
   preferredBrands: string[];
-  name: null | string;
-  photoURL: string | null;
+  name?: string;
+  photoURL?: string;
+}
+
+export interface IUserNotifications {
+  discounts: boolean;
+  newStuff: boolean;
+  outfitIdeas: boolean;
+  stock: boolean;
 }
 
 export type ProgressCallbackPayload = {

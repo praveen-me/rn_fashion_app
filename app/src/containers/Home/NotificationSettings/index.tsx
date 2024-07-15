@@ -1,16 +1,54 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet, Image, Dimensions} from 'react-native';
 import Header from '../../../components/Header';
 import theme, {Box} from '../../../contants/theme';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Notification from './Notification';
+import {useSelector} from 'react-redux';
+import {getUserNotifications} from '../../../redux/selectors/user.selectors';
 
 const {width: wWidth} = Dimensions.get('screen');
 export const DRAWER_WIDTH = wWidth;
 
+const notificationOptions = [
+  {
+    key: 'outfitIdeas',
+    label: 'Outfit Ideas',
+    description: 'Receive daily notifications',
+  },
+  {
+    key: 'discounts',
+    label: 'Discounts & bSales',
+    description: 'Buy the stuff you love for less',
+  },
+  {
+    key: 'stock',
+    label: 'Stock Notifications',
+    description: 'If the product you 💜 comes back in the stock',
+  },
+  {
+    key: 'newStuff',
+    label: 'New Stuff',
+    description: 'Hear it first, wear it first',
+  },
+];
+
 export default function NotificationSettings({
   navigation,
 }: HomeNavigationProps<'NotificationSettings'>) {
+  const notifications = useSelector(getUserNotifications);
+
+  const openDrawer = useCallback(() => {
+    navigation.openDrawer();
+  }, []);
+
+  const handleUserNotificationUpdate = useCallback(
+    (notificationKey: string, value: boolean) => {
+      console.log({notificationKey, value});
+    },
+    [],
+  );
+
   return (
     <Box flex={1} backgroundColor="white">
       <Image
@@ -22,9 +60,7 @@ export default function NotificationSettings({
           title="Notifications"
           left={{
             icon: 'menu',
-            onPress: () => {
-              navigation.openDrawer();
-            },
+            onPress: openDrawer,
             iconColor: '#fafafa',
           }}
           right={{
@@ -39,22 +75,20 @@ export default function NotificationSettings({
           padding="m"
           backgroundColor="white"
           borderBottomRightRadius="xl">
-          <Notification
-            title="Outfit Ideas"
-            description="Receive daily notifications"
-          />
-          <Notification
-            title="Discounts & bSales"
-            description="Buy the stuff you love for less"
-          />
-          <Notification
-            title="Stock Notifications"
-            description="If the product you 💜 comes back in the stock"
-          />
-          <Notification
-            title="New Stuff"
-            description="Hear it first, wear it first"
-          />
+          {notificationOptions.map(notificationItem => (
+            <Notification
+              key={notificationItem.key}
+              title={notificationItem.label}
+              description={notificationItem.description}
+              value={
+                notifications[
+                  notificationItem.key as keyof typeof notifications
+                ]
+              }
+              onChange={handleUserNotificationUpdate}
+              notificationKey={notificationItem.key}
+            />
+          ))}
         </Box>
         <Box
           flex={0.4}

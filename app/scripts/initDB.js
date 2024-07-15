@@ -34,13 +34,26 @@ async function createDummyData() {
   }
 }
 
-// Run the function to create dummy data
-createDummyData()
-  .then(() => {
-    console.log('Dummy data created successfully');
-    process.exit();
-  })
-  .catch(error => {
-    console.error('Error creating dummy data:', error);
-    process.exit(1);
-  });
+// // Run the function to create dummy data
+// createDummyData()
+//   .then(() => {
+//     console.log('Dummy data created successfully');
+//     process.exit();
+//   })
+//   .catch(error => {
+//     console.error('Error creating dummy data:', error);
+//     process.exit(1);
+//   });
+
+async function createInitialNotificationData(userId) {
+  const notificationData = {
+    discounts: false,
+    newStuff: false,
+    outfitIdeas: false,
+    stock: false,
+  };
+
+  await db.collection('notifications').doc(userId).set(notificationData);
+}
+
+createInitialNotificationData('g2dSrwwtM3Skic6AsidY57pPmk52');

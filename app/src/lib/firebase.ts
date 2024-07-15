@@ -3,7 +3,7 @@ import '@react-native-firebase/app';
 import auth, {type FirebaseAuthTypes} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
-import type {IUserData, ProgressCallback} from '../@types';
+import type {IUserData, IUserNotifications, ProgressCallback} from '../@types';
 import {Image} from 'react-native-compressor';
 
 export interface URLItem {
@@ -153,7 +153,14 @@ class FirebaseHelpers {
         await firestore().collection('users').doc(currentUser?.uid).get()
       ).data();
 
-      return user as IUserData;
+      const userNotifications = (
+        await firestore()
+          .collection('notifications')
+          .doc(currentUser?.uid)
+          .get()
+      ).data();
+
+      return {...user, ...userNotifications} as IUserData & IUserNotifications;
     } catch (error) {
       console.error('Failed to get user', error);
       return null;
@@ -277,7 +284,6 @@ class FirebaseHelpers {
 
       return result;
     } catch (error) {
-      console.error('Failed to upload user avatar', error);
       throw error;
     }
   }
@@ -292,8 +298,28 @@ class FirebaseHelpers {
         ...data,
       });
     } catch (error) {
-      console.error('Failed to update user', error);
       throw error;
+    }
+  }
+
+  static async updateUserNotification(key: string, value: boolean) {
+    const currentUser = await FirebaseHelpers.getCurrentAuthUser();
+
+    try {
+      await firestore()
+        .collection('notifications')
+        .doc(currentUser?.uid)
+        .update({[key]: value});
+
+      return {
+        success: true,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error,
+      };
     }
   }
 }

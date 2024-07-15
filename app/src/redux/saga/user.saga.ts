@@ -21,6 +21,8 @@ import {
   type IUploadUserAvatarRequested,
   type IFetchMeRequested,
   LOGIN_COMPLETED,
+  UPDATE_USER_NOTIFICATION_REQUESTED,
+  IUserNotificationsUpdateRequested,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -104,7 +106,9 @@ function* fetchMeRequestedSaga(action: IFetchMeRequested) {
       if (action.payload.onlySession) {
         const photoURL = sessionUser?.photoURL;
 
-        yield put(loginCompleted({photoURL}));
+        if (photoURL) {
+          yield put(loginCompleted({photoURL}));
+        }
       } else {
         const currentUser: IUserData = yield FirebaseHelpers.getCurrentUser();
 
@@ -114,7 +118,10 @@ function* fetchMeRequestedSaga(action: IFetchMeRequested) {
           yield put(fetchOutfitsRequested());
 
           yield put(
-            loginCompleted({...currentUser, photoURL: sessionUser.photoURL}),
+            loginCompleted({
+              ...currentUser,
+              photoURL: sessionUser.photoURL as string,
+            }),
           );
 
           // setTimeout(() => {
@@ -265,6 +272,24 @@ function* uploadUserAvatarRequestedSaga(action: IUploadUserAvatarRequested) {
   }
 }
 
+function* updateUserNotificationsRequestedSaga(
+  action: IUserNotificationsUpdateRequested,
+) {
+  const {key, value} = action.payload;
+
+  try {
+    const currentUser = FirebaseHelpers.getCurrentAuthUser();
+    if (currentUser) {
+      const result: {success: boolean; error: null | string} =
+        yield FirebaseHelpers.updateUserNotification(key, value);
+
+      if (result.success) {
+        store.dispatch(fetchMeRequested({onlySession: false}));
+      }
+    }
+  } catch (e) {}
+}
+
 export default function* rootUserSaga() {
   yield all([
     takeLatest(SIGNUP_REQUESTED, signupRequestedSaga),
@@ -275,5 +300,9 @@ export default function* rootUserSaga() {
     takeLatest(FETCH_OUTFITS_REQUESTED, fetchOutfitsRequestedSaga),
     takeLatest(UPDATE_USER_REQUESTED, updateUserRequestedSaga),
     takeLatest(UPLOAD_USER_AVATAR_REQUESTED, uploadUserAvatarRequestedSaga),
+    takeLatest(
+      UPDATE_USER_NOTIFICATION_REQUESTED,
+      updateUserNotificationsRequestedSaga,
+    ),
   ]);
 }

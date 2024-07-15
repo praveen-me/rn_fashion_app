@@ -30,7 +30,10 @@ export default function userReducer(
       return {
         ...state,
         isAuthenticated: true,
-        currentUser: {...state.currentUser, ...user},
+        currentUser: {
+          ...state.currentUser,
+          ...user,
+        } as IUserState['currentUser'],
       };
     }
 

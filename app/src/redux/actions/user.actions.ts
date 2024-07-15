@@ -1,8 +1,6 @@
-import type {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
-import type {IUserData} from '../../@types';
+import type {IUserData, IUserNotifications} from '../../@types';
 import {ISignupState} from '../../containers/Authentication/SignUp';
 import type {URLItem} from '../../lib/firebase';
-import type {FirebaseAuthTypes} from '@react-native-firebase/auth';
 
 export type SignupPayload = Omit<ISignupState, 'passwordConfirmation'>;
 
@@ -19,6 +17,8 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED';
 
 export const UPLOAD_USER_AVATAR_REQUESTED = 'UPLOAD_USER_AVATAR_REQUESTED';
+export const UPDATE_USER_NOTIFICATION_REQUESTED =
+  'UPDATE_USER_NOTIFICATION_REQUESTED';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -32,7 +32,7 @@ export interface ILoginRequested {
 
 export interface ILoginCompleted {
   type: typeof LOGIN_COMPLETED;
-  payload: Partial<IUserData>;
+  payload: Partial<IUserData & IUserNotifications>;
 }
 
 export interface IFetchMeRequested {
@@ -76,6 +76,13 @@ export interface IUploadUserAvatarRequested {
     avatar: string;
   };
 }
+export interface IUserNotificationsUpdateRequested {
+  type: typeof UPDATE_USER_NOTIFICATION_REQUESTED;
+  payload: {
+    key: keyof IUserNotifications;
+    value: boolean;
+  };
+}
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
   const {email, password} = data;
@@ -101,7 +108,9 @@ export function loginRequested(data: SignupPayload): ILoginRequested {
   };
 }
 
-export function loginCompleted(user: Partial<IUserData>): ILoginCompleted {
+export function loginCompleted(
+  user: Partial<IUserData & IUserNotifications>,
+): ILoginCompleted {
   return {
     type: LOGIN_COMPLETED,
     payload: user,
@@ -176,6 +185,22 @@ export function uploadUserAvatarRequested({
     type: UPLOAD_USER_AVATAR_REQUESTED,
     payload: {
       avatar,
+    },
+  };
+}
+
+export function updateUserNotificationsRequested({
+  key,
+  value,
+}: {
+  key: keyof IUserNotifications;
+  value: boolean;
+}): IUserNotificationsUpdateRequested {
+  return {
+    type: UPDATE_USER_NOTIFICATION_REQUESTED,
+    payload: {
+      key,
+      value,
     },
   };
 }

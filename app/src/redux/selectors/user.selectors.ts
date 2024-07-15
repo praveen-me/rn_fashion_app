@@ -15,3 +15,13 @@ export const getUser = createSelector(
   (state: IAppState) => state.user,
   user => user.currentUser,
 );
+
+export const getUserNotifications = createSelector(
+  (state: IAppState) => state.user,
+  user => ({
+    discounts: Boolean(user.currentUser?.discounts),
+    newStuff: Boolean(user.currentUser?.newStuff),
+    outfitIdeas: Boolean(user.currentUser?.outfitIdeas),
+    stock: Boolean(user.currentUser?.stock),
+  }),
+);

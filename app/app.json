@@ -1,0 +1,11 @@
+{
+  "name": "rn_fashion_app",
+  "displayName": "rn_fashion_app",
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "5c6ca6e6-2fee-45e6-82b2-c367db5ea790"
+      }
+    }
+  }
+}

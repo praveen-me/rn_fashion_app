@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "383620677539",
+    "firebase_url": "https://rn-fashion-app.firebaseio.com",
+    "project_id": "rn-fashion-app",
+    "storage_bucket": "rn-fashion-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383620677539:android:0ffc23c1aba8ac20fba416",
+        "android_client_info": {
+          "package_name": "com.rn_fashion_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383620677539-o6ns5c6nmtrio3flh8g6m6mi4totkpgi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABpQ1I_J2FTG7d3ziPh9t6bX1ympUqQ7k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383620677539-o6ns5c6nmtrio3flh8g6m6mi4totkpgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

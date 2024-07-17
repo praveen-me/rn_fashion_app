@@ -10,7 +10,7 @@ iOS: https://apps.apple.com/app/rn-fashion/id123456789
 
 # Demo
 
-![](./samples/demo.gif)
+![](./app/samples/demo.gif)
 
 # How to run the project
 

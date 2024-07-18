@@ -23,6 +23,8 @@ import {
   LOGIN_COMPLETED,
   UPDATE_USER_NOTIFICATION_REQUESTED,
   IUserNotificationsUpdateRequested,
+  updateUserRequested,
+  updateUserNotificationsCompleted,
 } from '../actions/user.actions';
 
 import {navigationRef} from '../../lib/navigation/rootNavigation';
@@ -33,7 +35,11 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import type {ISession} from '../@types';
 import FirebaseHelpers, {type StorageItemsResult} from '../../lib/firebase';
 
-import type {IUserData, ProgressCallbackPayload} from '../../@types';
+import type {
+  IUserData,
+  IUserNotifications,
+  ProgressCallbackPayload,
+} from '../../@types';
 import {getConstantsRequested, toggleAppLoader} from '../actions/misc.actions';
 
 import store from '../../lib/store';
@@ -279,12 +285,18 @@ function* updateUserNotificationsRequestedSaga(
 
   try {
     const currentUser = FirebaseHelpers.getCurrentAuthUser();
+
     if (currentUser) {
+      yield put(updateUserNotificationsCompleted({[key]: value}));
+
       const result: {success: boolean; error: null | string} =
         yield FirebaseHelpers.updateUserNotification(key, value);
 
       if (result.success) {
-        store.dispatch(fetchMeRequested({onlySession: false}));
+        const updatedNotifications: IUserNotifications =
+          yield FirebaseHelpers.getUserNotifications();
+
+        yield put(updateUserNotificationsCompleted({...updatedNotifications}));
       }
     }
   } catch (e) {}

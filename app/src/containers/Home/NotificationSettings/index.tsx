@@ -4,8 +4,9 @@ import Header from '../../../components/Header';
 import theme, {Box} from '../../../contants/theme';
 import {HomeNavigationProps} from '../../../lib/navigation/rootNavigation';
 import Notification from './Notification';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getUserNotifications} from '../../../redux/selectors/user.selectors';
+import {updateUserNotificationsRequested} from '../../../redux/actions/user.actions';
 
 const {width: wWidth} = Dimensions.get('screen');
 export const DRAWER_WIDTH = wWidth;
@@ -36,18 +37,24 @@ const notificationOptions = [
 export default function NotificationSettings({
   navigation,
 }: HomeNavigationProps<'NotificationSettings'>) {
+  const dispatch = useDispatch();
   const notifications = useSelector(getUserNotifications);
 
   const openDrawer = useCallback(() => {
     navigation.openDrawer();
   }, []);
 
-  const handleUserNotificationUpdate = useCallback(
-    (notificationKey: string, value: boolean) => {
-      console.log({notificationKey, value});
-    },
-    [],
-  );
+  const handleUserNotificationUpdate = (
+    notificationKey: keyof typeof notifications,
+    value: boolean,
+  ) => {
+    dispatch(
+      updateUserNotificationsRequested({
+        key: notificationKey,
+        value,
+      }),
+    );
+  };
 
   return (
     <Box flex={1} backgroundColor="white">

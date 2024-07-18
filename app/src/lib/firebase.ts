@@ -8,7 +8,7 @@ import {Image} from 'react-native-compressor';
 
 export interface URLItem {
   id: string;
-  url: string | null;
+  url: string;
   error?: boolean;
 }
 
@@ -153,14 +153,9 @@ class FirebaseHelpers {
         await firestore().collection('users').doc(currentUser?.uid).get()
       ).data();
 
-      const userNotifications = (
-        await firestore()
-          .collection('notifications')
-          .doc(currentUser?.uid)
-          .get()
-      ).data();
+      const notifications = await this.getUserNotifications();
 
-      return {...user, ...userNotifications} as IUserData & IUserNotifications;
+      return {...user, ...notifications} as IUserData & IUserNotifications;
     } catch (error) {
       console.error('Failed to get user', error);
       return null;
@@ -321,6 +316,21 @@ class FirebaseHelpers {
         error,
       };
     }
+  }
+
+  static async getUserNotifications() {
+    try {
+      const currentUser = FirebaseHelpers.getCurrentAuthUser();
+
+      const userNotifications = (
+        await firestore()
+          .collection('notifications')
+          .doc(currentUser?.uid)
+          .get()
+      ).data();
+
+      return userNotifications;
+    } catch (e) {}
   }
 }
 

@@ -2,13 +2,14 @@ import React, {useCallback} from 'react';
 import {Switch} from 'react-native';
 import AppText from '../../../components/Text';
 import {Box, useTheme} from '../../../contants/theme';
+import {IUserNotifications} from '../../../@types';
 
 interface NotificationProps {
   title: string;
   description: string;
   value: boolean;
-  onChange: (notificationKey: string, value: boolean) => void;
-  notificationKey: string;
+  onChange: (notificationKey: keyof IUserNotifications, value: boolean) => void;
+  notificationKey: keyof IUserNotifications;
 }
 
 export default function Notification({
@@ -22,7 +23,7 @@ export default function Notification({
 
   const handleOnChange = useCallback(() => {
     onChange(notificationKey, !value);
-  }, []);
+  }, [value]);
 
   return (
     <Box

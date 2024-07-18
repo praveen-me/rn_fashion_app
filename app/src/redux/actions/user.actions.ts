@@ -19,6 +19,8 @@ export const UPDATE_USER_REQUESTED = 'UPDATE_USER_REQUESTED';
 export const UPLOAD_USER_AVATAR_REQUESTED = 'UPLOAD_USER_AVATAR_REQUESTED';
 export const UPDATE_USER_NOTIFICATION_REQUESTED =
   'UPDATE_USER_NOTIFICATION_REQUESTED';
+export const UPDATE_USER_NOTIFICATION_COMPLETED =
+  'UPDATE_USER_NOTIFICATION_COMPLETED';
 
 export interface ISignupRequested {
   type: typeof SIGNUP_REQUESTED;
@@ -67,7 +69,7 @@ export interface ISetCurrentUser {
 
 export interface IUpdateUserRequested {
   type: typeof UPDATE_USER_REQUESTED;
-  payload: Partial<IUserData>;
+  payload: Partial<IUserData & IUserNotifications>;
 }
 
 export interface IUploadUserAvatarRequested {
@@ -82,6 +84,11 @@ export interface IUserNotificationsUpdateRequested {
     key: keyof IUserNotifications;
     value: boolean;
   };
+}
+
+export interface IUserNotificationsUpdateCompleted {
+  type: typeof UPDATE_USER_NOTIFICATION_COMPLETED;
+  payload: Partial<IUserNotifications>;
 }
 
 export function signupRequested(data: SignupPayload): ISignupRequested {
@@ -168,7 +175,7 @@ export function setCurrentUser(user: IUserData): ISetCurrentUser {
 }
 
 export function updateUserRequested(
-  data: Partial<IUserData>,
+  data: Partial<IUserData & IUserNotifications>,
 ): IUpdateUserRequested {
   return {
     type: UPDATE_USER_REQUESTED,
@@ -202,5 +209,14 @@ export function updateUserNotificationsRequested({
       key,
       value,
     },
+  };
+}
+
+export function updateUserNotificationsCompleted(
+  data: Partial<IUserNotifications>,
+): IUserNotificationsUpdateCompleted {
+  return {
+    type: UPDATE_USER_NOTIFICATION_COMPLETED,
+    payload: data,
   };
 }

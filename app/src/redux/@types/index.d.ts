@@ -16,7 +16,7 @@ export interface ISession {
 export interface IUserState {
   isAuthenticated: boolean;
   currentUser: (IUserData & IUserNotifications) | null;
-  outfits: {id: number; url: string}[];
+  outfits: {id: string; url: string}[];
 }
 
 export interface IMiscState {

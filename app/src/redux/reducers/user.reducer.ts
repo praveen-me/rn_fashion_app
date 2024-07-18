@@ -5,6 +5,8 @@ import {
   ILogoutUserCompleted,
   FETCH_OUTFITS_COMPLETED,
   type IFetchOutfitsCompleted,
+  IUserNotificationsUpdateCompleted,
+  UPDATE_USER_NOTIFICATION_COMPLETED,
 } from '../actions/user.actions';
 import type {IUserState} from '../@types';
 
@@ -17,7 +19,8 @@ const initState: IUserState = {
 type RootAction =
   | ILoginCompleted
   | ILogoutUserCompleted
-  | IFetchOutfitsCompleted;
+  | IFetchOutfitsCompleted
+  | IUserNotificationsUpdateCompleted;
 
 export default function userReducer(
   state = initState,
@@ -49,6 +52,16 @@ export default function userReducer(
       return {
         ...state,
         outfits: action.payload,
+      };
+    }
+
+    case UPDATE_USER_NOTIFICATION_COMPLETED: {
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          ...action.payload,
+        } as IUserState['currentUser'],
       };
     }
 

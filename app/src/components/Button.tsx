@@ -1,6 +1,6 @@
 import {useTheme} from '@shopify/restyle';
 import React, {ReactNode} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, type ViewStyle} from 'react-native';
 import {RectButton} from 'react-native-gesture-handler';
 import {Theme} from '../contants/theme';
 
@@ -48,7 +48,7 @@ const Button = ({
     height: textBtn ? 'auto' : 50,
     width: textBtn ? 'auto' : 245,
     borderRadius: textBtn ? 0 : 25,
-  };
+  } as ViewStyle;
 
   return (
     <RectButton

@@ -41,6 +41,7 @@
     "react-native-dotenv": "^3.4.11",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-gesture-handler": "~2.16.1",
+    "react-native-image-crop-tools": "^1.6.4",
     "react-native-image-picker": "^7.1.2",
     "react-native-inappbrowser-reborn": "^3.6.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.2",

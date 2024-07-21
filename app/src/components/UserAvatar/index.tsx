@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Dimensions, Modal, StyleSheet, TouchableOpacity} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Animated, {
   Easing,
@@ -9,20 +9,19 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {CropView} from 'react-native-image-crop-tools';
 import {Image} from 'expo-image';
 
-import theme, {Box} from '../contants/theme';
-
-import useBackHandler from '../hooks/useBackHandler';
-import {permissionEnabled} from '../helpers/common';
+import useBackHandler from '../../hooks/useBackHandler';
+import {permissionEnabled} from '../../helpers/common';
 import {PERMISSIONS} from 'react-native-permissions';
-import RenderOptionsWithIcons from './RenderOptionsWithIcons';
+import RenderOptionsWithIcons from '../RenderOptionsWithIcons';
 import {useDispatch, useSelector} from 'react-redux';
-import {uploadUserAvatarRequested} from '../redux/actions/user.actions';
-import {getUser} from '../redux/selectors/user.selectors';
-import Button from './Button';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {uploadUserAvatarRequested} from '../../redux/actions/user.actions';
+import {getUser} from '../../redux/selectors/user.selectors';
+
+import DeviceCamera, {type IDeviceCameraRef} from './DeviceCamera';
+import theme, {Box} from '../../contants/theme';
+import CropImageModal, {CropImageModalRef} from './CropImageModal';
 
 declare type CropResponse = {
   uri: string;
@@ -40,8 +39,6 @@ interface IUserAvatarProps {
 
 export default function UserAvatar(props: IUserAvatarProps) {
   const user = useSelector(getUser);
-
-  const cropViewRef = React.useRef<CropView>(null);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -118,8 +115,8 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
   const dispatch = useDispatch();
 
   const [userAvatar, setUserAvatar] = useState('');
-  const cropViewRef = React.useRef<CropView>(null);
-  const [showCropModal, setShowCropModal] = useState(false);
+  const cropViewModalRef = React.useRef<CropImageModalRef>(null);
+  const deviceCameraRef = React.useRef<IDeviceCameraRef>(null);
 
   useBackHandler(() => {
     setShowModal(false);
@@ -163,11 +160,7 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
     );
   }
 
-  useEffect(() => {
-    // dispatch(uploadUserAvatarRequested({avatar: userAvatar}));
-  }, [userAvatar]);
-
-  const handleCameraPress = useCallback(async () => {
+  const handleGalleryPress = useCallback(async () => {
     const isPermissionsEnabled = await permissionEnabled([
       {name: PERMISSIONS.ANDROID.CAMERA, optional: false},
     ]);
@@ -177,31 +170,33 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
         mediaType: 'photo',
       });
 
-      if (
+      const asset =
         Array.isArray(result.assets) &&
-        result.assets.length > 0 &&
-        result.assets[0].uri
-      ) {
-        setUserAvatar(result.assets[0].uri);
-        setShowCropModal(true);
+        result.assets.length &&
+        result.assets[0].uri;
+
+      if (asset) {
+        setUserAvatar(asset);
       }
     }
   }, []);
 
   const options = useMemo(
     () => [
-      // {
-      //   label: 'Upload from Camera',
-      //   handler: () => {
-      //     handleCameraPress();
-      //     handleModalClose();
-      //   },
-      //   iconName: 'camera',
-      // },
+      {
+        label: 'Upload from Camera',
+        handler: () => {
+          if (deviceCameraRef.current) {
+            deviceCameraRef.current.openCamera();
+            handleModalClose();
+          }
+        },
+        iconName: 'camera',
+      },
       {
         label: 'Upload from Gallery',
         handler: () => {
-          handleCameraPress();
+          handleGalleryPress();
           handleModalClose();
         },
         iconName: 'image',
@@ -210,62 +205,30 @@ function RenderModal({showModal, setShowModal}: IRenderModalProps) {
     [],
   );
 
-  const handleCropImage = useCallback(() => {
-    if (cropViewRef.current) {
-      cropViewRef.current.saveImage();
+  const onCropImage = useCallback((response: CropResponse) => {
+    if (cropViewModalRef.current) {
+      cropViewModalRef.current.toggleCropModal();
+
+      dispatch(uploadUserAvatarRequested({avatar: response.uri}));
     }
   }, []);
 
-  const onCropImage = useCallback((response: CropResponse) => {
-    setShowCropModal(false);
-    dispatch(uploadUserAvatarRequested({avatar: response.uri}));
+  const handleTakePhotoPress = useCallback(async (userAvatar: string) => {
+    setUserAvatar(`file://${userAvatar}`);
   }, []);
-
-  const toggleCropModal = useCallback(() => {
-    setShowCropModal(!showCropModal);
-  }, [showCropModal]);
 
   return (
     <>
-      <Modal
-        animationType="fade"
-        transparent
-        visible={showCropModal}
-        onRequestClose={toggleCropModal}>
-        <GestureHandlerRootView style={{flex: 1}}>
-          <Box flex={1} backgroundColor="darkGrey">
-            <Box
-              flexDirection={'row'}
-              justifyContent="space-between"
-              alignItems="center"
-              margin="m">
-              <Button
-                label="Close"
-                textBtn
-                onPress={() => setShowCropModal(false)}
-                variant="transparent"
-              />
-              <Button
-                label="Done"
-                onPress={handleCropImage}
-                variant="primary"
-              />
-            </Box>
+      <CropImageModal
+        onCropImage={onCropImage}
+        ref={cropViewModalRef}
+        userAvatar={userAvatar}
+      />
 
-            <CropView
-              sourceUrl={userAvatar}
-              style={{
-                flex: 1,
-                margin: 10,
-              }}
-              ref={cropViewRef}
-              onImageCrop={onCropImage}
-              keepAspectRatio
-              aspectRatio={{width: 20, height: 20}}
-            />
-          </Box>
-        </GestureHandlerRootView>
-      </Modal>
+      <DeviceCamera
+        onTakePicture={handleTakePhotoPress}
+        ref={deviceCameraRef}
+      />
 
       <Modal
         visible={showModal}

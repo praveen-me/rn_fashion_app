@@ -1,7 +1,13 @@
-import {StyleSheet, Modal, Dimensions, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Modal,
+  Dimensions,
+  TouchableOpacity as RNTouchableOpacity,
+} from 'react-native';
 import React, {
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -15,11 +21,17 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {
+  GestureHandlerRootView,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import * as Haptics from 'expo-haptics';
 
 const screenHeight = Dimensions.get('screen').height;
 
 const AnimatedTouchableOpacity =
-  Animated.createAnimatedComponent(TouchableOpacity);
+  Animated.createAnimatedComponent(RNTouchableOpacity);
 
 interface IDeviceCameraProps {
   onTakePicture: (userAvatar: string) => void;
@@ -33,6 +45,8 @@ export default forwardRef(function DeviceCamera(
   props: IDeviceCameraProps,
   ref: React.Ref<IDeviceCameraRef>,
 ) {
+  const [isTakingPicture, setIsTakingPicture] = useState(false);
+
   useImperativeHandle(ref, () => ({
     openCamera: () => setShowModal(true),
   }));
@@ -44,64 +58,78 @@ export default forwardRef(function DeviceCamera(
 
   const scaleCamera = useSharedValue(1);
 
-  const takePicture = useCallback(async () => {
+  const handleTakePhoto = useCallback(async () => {
+    console.log('here');
     if (!camera.current) return;
 
     const currentCamera = camera.current;
 
     const takePhoto = async () => {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      setIsTakingPicture(true);
+
       const data = await currentCamera.takePhoto();
+      console.log({data});
 
-      const sendPhoto = () => {
-        setShowModal(false);
-        props.onTakePicture(data.path);
-      };
+      props.onTakePicture(data.path);
 
-      scaleCamera.value = withTiming(1, {duration: 200}, () => {
-        runOnJS(sendPhoto)();
-      });
+      setIsTakingPicture(false);
+      setShowModal(false);
     };
 
-    scaleCamera.value = withTiming(0.8, {duration: 200}, () => {
-      runOnJS(takePhoto)();
-    });
+    takePhoto();
+  }, [props.onTakePicture, isTakingPicture]);
+
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
   }, []);
 
   const animatedTakePhotoStyles = useAnimatedStyle(() => {
+    console.log({isTakingPicture});
     return {
-      transform: [{scale: scaleCamera.value}],
+      transform: [
+        {
+          scale: isTakingPicture
+            ? withTiming(0.8, {duration: 200})
+            : withTiming(1, {duration: 200}),
+        },
+      ],
     };
-  }, []);
+  }, [isTakingPicture]);
 
   if (!device) return null;
 
   return (
-    <Modal visible={showModal}>
-      <Box flex={1}>
-        <Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={true}
-          ref={camera}
-          photo={true}
-        />
-        <Box
-          height={screenHeight * 0.15}
-          width={'100%'}
-          backgroundColor={'overlay'}
-          position="absolute"
-          bottom={0}
-          alignItems="center"
-          flexDirection="row"
-          justifyContent="center">
-          <Box height={60} width={60} style={styles.takePicBtnWrapper}>
-            <AnimatedTouchableOpacity
-              style={[styles.takePicBtn, animatedTakePhotoStyles]}
-              activeOpacity={1}
-              onPress={takePicture}></AnimatedTouchableOpacity>
+    <Modal visible={showModal} onRequestClose={() => setShowModal(false)}>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <Box flex={1}>
+          <Camera
+            style={StyleSheet.absoluteFill}
+            device={device}
+            isActive={true}
+            ref={camera}
+            photo={true}
+            outputOrientation="preview"
+            isMirrored={false}
+          />
+          <Box
+            height={screenHeight * 0.15}
+            width={'100%'}
+            backgroundColor={'overlay'}
+            position="absolute"
+            bottom={0}
+            alignItems="center"
+            flexDirection="row"
+            justifyContent="center">
+            <Box height={60} width={60} style={styles.takePicBtnWrapper}>
+              <AnimatedTouchableOpacity
+                style={[styles.takePicBtn, animatedTakePhotoStyles]}
+                activeOpacity={1}
+                onPress={handleTakePhoto}></AnimatedTouchableOpacity>
+            </Box>
           </Box>
         </Box>
-      </Box>
+      </GestureHandlerRootView>
     </Modal>
   );
 });
